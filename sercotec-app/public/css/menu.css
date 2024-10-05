@@ -7,7 +7,6 @@
 .main {
     display: flex;
     flex-direction: row;
-    border: 1px red solid;
     height: 100vh;
 }
 
@@ -15,10 +14,10 @@
     width: 300px;
     display: flex;
     flex-direction: column;
-    border: 1px blue solid;
-    align-items: center;
-    justify-content: center;
+    align-items: center  ;
+    justify-content: start;
     font-size: 50px;
+    background-color: #7ba2f833;
 }
 
 .box-rigth {
@@ -30,7 +29,6 @@
 .buscador {
     height: 80px;
     width: 100%; /* Ocupa todo el ancho disponible */
-    border: 1px blue solid;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,4 +38,33 @@
 .contenido {
     flex-grow: 1; /* El contenido de abajo ocupará el resto del espacio vertical */
     background-color: #79797933;
+}
+.menu{
+    margin-top: 150px;
+}
+
+.opciones{
+    margin: 10px;
+}
+
+.opciones a{
+    text-decoration: none;
+    color: black;
+    font-size: 25px;
+}
+.logo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+.logo img{
+    width: 80%;
+}
+
+.opciones{
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #f83f3f33;
 }
