@@ -17,7 +17,7 @@ jobs:
       run: cd sercotec-app
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: '8.2'
     - name: Update composer
       working-directory : sercotec-app
       run: composer update
