@@ -31,7 +31,7 @@
                     <a href="/empresa"><i class="bi bi-building"></i>Empresa</a>
                 </div>
                 <div class="opciones">
-                    <a href="/empleados"><i class="bi bi-person"></i>Empleados</a>
+                    <a href="/empleado"><i class="bi bi-person"></i>Empleados</a>
                 </div>
             </div>
         </div>
