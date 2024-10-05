@@ -18,9 +18,13 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.0'
+    - name: Update composer
+      working-directory : sercotec-app
+      run: composer update
     - name: Copy .env
       working-directory: sercotec-app
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      
     - name: Install Dependencies
       working-directory: sercotec-app
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
