@@ -30,14 +30,7 @@
         @foreach(range(1, 7) as $index)
             <div class="alert alert-light">
                 <div class="row align-items-center text-center">
-                    <div class="col-md-2">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="avatar">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <span>Duoc</span>
-                        </div>
-                    </div>
+                <div class="col-md-2">Duoc</div>
                     <div class="col-md-2">duoc@duoc.cl</div>
                     <div class="col-md-2">73054777760</div>
                     <div class="col-md-2">12.123.456-7</div>
