@@ -1,0 +1,47 @@
+name: Laravel
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set working directory to sercotec-app
+      run: cd sercotec-app
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+    - name: Update composer
+      working-directory : sercotec-app
+      run: composer update
+    - name: Copy .env
+      working-directory: sercotec-app
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      
+    - name: Install Dependencies
+      working-directory: sercotec-app
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Generate key
+      working-directory: sercotec-app
+      run: php artisan key:generate
+    - name: Directory Permissions
+      working-directory: sercotec-app
+      run: chmod -R 777 storage bootstrap/cache
+    - name: Create Database
+      working-directory: sercotec-app
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+      working-directory: sercotec-app
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test

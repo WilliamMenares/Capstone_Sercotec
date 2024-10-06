@@ -23,6 +23,7 @@
             <h2>Iniciar Sesion</h2>
             <p>Ingresa tus credenciales para tener acceso</p>
         </div>
+        <a href="/welcome">Ingresa al software</a>
         <form class="form">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
