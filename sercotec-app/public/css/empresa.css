@@ -53,3 +53,7 @@
 .action-icons .bi-trash {
     color: #dc3545;
 }
+
+.bg-trans{
+    border:none !important;
+}
