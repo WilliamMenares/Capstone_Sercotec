@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,7 @@ Route::view('welcome', 'welcome')->name('welcome');
 
 
 //ruta para mostrar empleado
-Route::get("empleado",[CrudController::class, "index"])->name("crud.index");
+Route::get("empleado",[EmpleadoController::class, "index"])->name("crud.index");
 
 //ruta para mostrar empresa
 Route::get('empresa', [EmpresaController::class, "index"])->name("empresa.index");
