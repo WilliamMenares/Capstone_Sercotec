@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrudController;
 use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +10,12 @@ Route::get('/', function () {
 
 Route::view('login', 'login')->name('login');
 Route::view('welcome', 'welcome')->name('welcome');
-Route::view('empleado', 'empleado')->name('empleado');
+
+
+//ruta para mostrar empleado
+Route::get("empleado",[CrudController::class, "index"])->name("crud.index");
+
+//ruta para mostrar empresa
 Route::get('empresa', [EmpresaController::class, "index"])->name("empresa.index");
 //ruta para agregar empresa
 Route::post('empresa', [EmpresaController::class, 'store'])->name('empresa.store');
