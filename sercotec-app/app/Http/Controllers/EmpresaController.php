@@ -58,7 +58,7 @@ class EmpresaController extends Controller
         $empresa->save();
 
         // Redirigir o devolver respuesta
-        return redirect()->route('empresa.index')->with('success', 'Empresa actualizada correctamente.');
+        return redirect()->route('empresa.index')->with('status', 'Empresa actualizada correctamente.');
     }
 
 
@@ -67,7 +67,7 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::findOrFail($id);
         $empresa->delete();
-        return redirect()->route('empresa.index')->with('succes', 'Empresa eliminada con éxito');
+        return redirect()->route('empresa.index')->with('status', 'Empresa eliminada con éxito');
     }
 
     
