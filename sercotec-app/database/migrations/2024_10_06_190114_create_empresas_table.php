@@ -14,11 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empresas', function (Blueprint $table) {
-            $table->increments('rut_empresa'); // PK autoincrementable
-            $table->string('nombre_empresa');
-            $table->string('email_empresa');
-            $table->string('telefono_empresa');
-            $table->timestamp('fecha_creacion_empresa')->default(DB::raw('CURRENT_TIMESTAMP')); // fecha de creación
+            $table->increments('id'); // Definir el campo como string
+            $table->string('rut'); // Definir el campo como string
+            $table->string('nombre');
+            $table->string('email');
+            $table->string('telefono');
+            $table->timestamps(); // Esto crea created_at y updated_at
         });
     }
 
@@ -28,5 +29,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('empresas');
+        Schema::table('empresas', function (Blueprint $table) {
+            $table->dropTimestamps();  // Eliminar los campos en caso de rollback
+        });
     }
 };
