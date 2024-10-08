@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CrudController extends Controller
+class EmpleadoController extends Controller
 {
     public function index(){
         $datos = DB::select("select * from empleados");
