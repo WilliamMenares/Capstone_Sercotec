@@ -33,6 +33,15 @@
                 <div class="opciones">
                     <a href="/empleado"><i class="bi bi-person"></i>Empleados</a>
                 </div>
+                <div class="opciones">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-person"></i>Cerrar Sesion
+                    </a>
+
+                    <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
             </div>
         </div>
 
