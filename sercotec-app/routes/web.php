@@ -10,7 +10,7 @@ Route::get('/', function () {
 });
 
 Route::view('login', 'login')->name('login');
-Route::view('welcome', 'welcome')->name('welcome')->middleware('auth');
+Route::view('welcome', 'welcome')->name('welcome');//->middleware('auth');
 
 
 

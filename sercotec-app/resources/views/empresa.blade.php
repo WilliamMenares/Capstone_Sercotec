@@ -6,14 +6,11 @@
 
 @section('buscador', 'empresa')
 
-
 @section('content')
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="card-title mb-0">Lista de Empresas</h5>
-
-
 
                 <!-- Botón para abrir el modal -->
                 <button data-bs-toggle="modal" data-bs-target="#modalAgregar" class="btn btn-primary">
@@ -61,12 +58,9 @@
                     </div>
                 </div>
 
-
-
             </div>
             <div class="alert alert-light bg-transparent bg-trans">
-                <div class="row align-items-center text-center">
-                    <!--<div class="col-md-2">Id</div>-->
+                <div class="row align-items-center text-center" style="display: flex; flex-wrap: wrap;">
                     <div class="col-md-2">Nombre</div>
                     <div class="col-md-2">Email</div>
                     <div class="col-md-2">Teléfono</div>
@@ -77,8 +71,7 @@
             </div>
             @foreach ($datos_empresa as $empresa)
                 <div class="alert alert-light">
-                    <div class="row align-items-center text-center">
-                        <!--<div class="col-md-2">{{ $empresa->id }}</div>-->
+                    <div class="row align-items-center text-center" style="display: flex; flex-wrap: nowrap;">
                         <div class="col-md-2">{{ $empresa->nombre }}</div>
                         <div class="col-md-2">{{ $empresa->email }}</div>
                         <div class="col-md-2">{{ $empresa->telefono }}</div>
@@ -88,7 +81,7 @@
                         @else
                             <div class="col-md-2">Fecha no disponible</div>
                         @endif
-                        <div class="col-md-2  action-icons">
+                        <div class="col-md-2 action-icons">
                             <a href="" data-bs-toggle="modal" data-bs-target="#modalEditar{{ $empresa->id }}"
                                 class="btn btn-primary btn-sm" aria-label="Editar usuario"><i class="bi bi-pencil"
                                     style="color: #ffffff;"></i></a>
@@ -112,12 +105,6 @@
                                 <div class="modal-body">
                                     <form action="{{ route('empresa.update', $empresa->id) }}" method="post">
                                         @csrf
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Id de la empresa</label>
-                                            <input type="text" class="form-control" id="exampleInputEmail1"
-                                                aria-describedby="emailHelp" name="id"
-                                                value="{{ old('id', $empresa->id) }}" readonly>
-                                        </div>
                                         <div class="mb-3">
                                             <label for="nombre" class="form-label">Nombre de la empresa</label>
                                             <input type="text" class="form-control" id="nombre" name="nombre"
@@ -178,9 +165,13 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             @endforeach
+                <div class="d-flex justify-content-center mt-1">
+                    {{ $datos_empresa->links('pagination::tailwind') }}
+                </div>
+            </div>
+              
         </div>
     </div>
 @endsection

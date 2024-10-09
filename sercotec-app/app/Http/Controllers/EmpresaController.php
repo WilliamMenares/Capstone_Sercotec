@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 class EmpresaController extends Controller
 {
     public function index()
-    {
-        $datos_empresa = Empresa::orderBy('id', 'desc')->get();;
-        return view("empresa")->with("datos_empresa", $datos_empresa);
-    }
+{
+    // Paginar con 10 registros por página
+    $datos_empresa = Empresa::orderBy('id', 'desc')->paginate(7);
+    
+    return view("empresa")->with("datos_empresa", $datos_empresa);
+}
 
 
     // Función para agregar una empresa
