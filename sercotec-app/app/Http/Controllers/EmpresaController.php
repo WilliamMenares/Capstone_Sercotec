@@ -8,22 +8,35 @@ use Illuminate\Http\Request;
 class EmpresaController extends Controller
 {
     public function index()
-{
-    // Paginar con 10 registros por página
-    $datos_empresa = Empresa::orderBy('id', 'desc')->paginate(7);
-    
-    return view("empresa")->with("datos_empresa", $datos_empresa);
-}
+    {
+        // Paginar con 6 registros por página
+        $datos_empresa = Empresa::orderBy('id', 'desc')->paginate(6);
 
+        return view("empresa")->with("datos_empresa", $datos_empresa);
+    }
 
     // Función para agregar una empresa
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'rut' => 'required|string|max:255',
+            'rut' => [
+                'required',
+                'regex:/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]{1}$/',  // Formato para RUT
+            ],
             'nombre' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'telefono' => 'required|string|max:12',
+            'email' => 'required|email|max:255', // Validar formato de correo
+            'telefono' => [
+                'required',
+                'regex:/^\+569\d{8}$/',  // Formato para teléfono chileno
+            ],
+        ], [
+            'rut.required' => 'El campo "Rut de la empresa" no puede estar vacío',
+            'rut.regex' => 'El RUT debe contener punto y guión (XX.XXX.XXX-X)',
+            'nombre.required' => 'El campo "Nombre de la empresa" no puede estar vacío',
+            'email.required' => 'El campo "Email de la empresa" no puede estar vacío',
+            'email.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
+            'telefono.required' => 'El campo "Telefono de la empresa" no puede estar vacío',
+            'telefono.regex' => 'El formato del telefono debe ser: +569XXXXXXXX',
         ]);
 
         Empresa::create($validatedData);
@@ -34,36 +47,34 @@ class EmpresaController extends Controller
         );
     }
 
-
-
     // Función para actualizar una empresa
     public function update(Request $request, $id)
     {
         // Validar los datos entrantes
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'telefono' => 'required|string|max:20', 
-            'rut' => 'required|string|max:12', 
+        $validatedData = $request->validate([
+            'nombre' => 'string|max:255',
+            'email' => 'email|max:255', // Validar formato de correo
+            'telefono' => [
+                'regex:/^\+569\d{8}$/',  // Formato para teléfono chileno
+            ],
+            'rut' => [
+                'regex:/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]{1}$/',  // Formato para RUT
+            ],
+        ], [
+            'rut.regex' => 'El RUT debe contener punto y guión (XX.XXX.XXX-X)',
+            'email.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
+            'telefono.regex' => 'El formato del telefono debe ser: +569XXXXXXXX',
         ]);
 
         // Encontrar la empresa por ID
         $empresa = Empresa::findOrFail($id);
 
         // Actualizar la información de la empresa
-        $empresa->nombre = $request->input('nombre');
-        $empresa->email = $request->input('email');
-        $empresa->telefono = $request->input('telefono');
-        $empresa->rut = $request->input('rut');
-
-        // Guardar los cambios
-        $empresa->save();
+        $empresa->update($validatedData);
 
         // Redirigir o devolver respuesta
         return redirect()->route('empresa.index')->with('status', 'Empresa actualizada correctamente.');
     }
-
-
 
     public function destroy($id)
     {
@@ -71,6 +82,4 @@ class EmpresaController extends Controller
         $empresa->delete();
         return redirect()->route('empresa.index')->with('status', 'Empresa eliminada con éxito');
     }
-
-    
 }
