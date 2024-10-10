@@ -18,6 +18,7 @@
                     Nueva empresa
                 </button>
 
+
                 <!-- Modal para agregar nueva empresa -->
                 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
@@ -29,23 +30,40 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('empresa.store') }}" method="post">
+                                <!-- Formulario para agregar empresa -->
+                                <form id="formAgregarEmpresa" action="{{ route('empresa.store') }}" method="post">
                                     @csrf
                                     <div class="mb-3">
                                         <label for="rut" class="form-label">RUT de la empresa</label>
-                                        <input type="text" class="form-control" id="rut" name="rut" required>
+                                        <input type="text" class="form-control @error('rut') is-invalid @enderror"
+                                            id="rut" name="rut-agregar" value="{{ old('rut') }}">
+                                        @error('rut')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre de la empresa</label>
-                                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                        <input type="text" class="form-control @error('nombre') is-invalid @enderror"
+                                            id="nombre" name="nombre-agregar" value="{{ old('nombre') }}">
+                                        @error('nombre')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email de la empresa</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
+                                        <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                            id="email" name="email-agregar" value="{{ old('email') }}">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label for="telefono" class="form-label">Teléfono de la empresa</label>
-                                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                        <input type="text" class="form-control @error('telefono') is-invalid @enderror"
+                                            id="telefono" name="telefono-agregar" value="{{ old('telefono') }}">
+                                        @error('telefono')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -57,6 +75,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
             </div>
             <div class="alert alert-light bg-transparent bg-trans">
@@ -107,23 +127,23 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="nombre" class="form-label">Nombre de la empresa</label>
-                                            <input type="text" class="form-control" id="nombre" name="nombre"
-                                                value="{{ old('nombre', $empresa->nombre) }}" required>
+                                            <input type="text" class="form-control" id="nombre"
+                                                name="nombre-editar" value="{{ old('nombre', $empresa->nombre) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email de la empresa</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                value="{{ old('email', $empresa->email) }}" required>
+                                            <input type="text" class="form-control" id="email"
+                                                name="email-editar" value="{{ old('email', $empresa->email) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="telefono" class="form-label">Teléfono de la empresa</label>
-                                            <input type="text" class="form-control" id="telefono" name="telefono"
-                                                value="{{ old('telefono', $empresa->telefono) }}" required>
+                                            <input type="text" class="form-control" id="telefono"
+                                                name="telefono-editar" value="{{ old('telefono', $empresa->telefono) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="rut" class="form-label">RUT de la empresa</label>
-                                            <input type="text" class="form-control" id="rut" name="rut"
-                                                value="{{ old('rut', $empresa->rut) }}" required>
+                                            <input type="text" class="form-control" id="rut" name="rut-editar"
+                                                value="{{ old('rut', $empresa->rut) }}">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -167,11 +187,37 @@
                     </div>
                 </div>
             @endforeach
-                <div class="d-flex justify-content-center mt-1">
-                    {{ $datos_empresa->links('pagination::tailwind') }}
-                </div>
+            <div class="d-flex justify-content-center mt-4 pagination-container">
+                {{ $datos_empresa->links('pagination::tailwind') }}
             </div>
-              
         </div>
     </div>
+
+
+
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mostrar el modal automáticamente si hay errores
+        @if ($errors->any())
+            var modalAgregar = new bootstrap.Modal(document.getElementById('modalAgregar'));
+            modalAgregar.show();
+        @endif
+
+        // Limpiar el formulario y errores al cerrar el modal
+        document.getElementById('modalAgregar').addEventListener('hidden.bs.modal', function() {
+            // Limpiar campos del formulario
+            document.getElementById('formAgregarEmpresa').reset();
+
+            // Remover clases de error
+            document.querySelectorAll('.is-invalid').forEach(function(element) {
+                element.classList.remove('is-invalid');
+            });
+
+            // Remover mensajes de error
+            document.querySelectorAll('.invalid-feedback').forEach(function(element) {
+                element.remove();
+            });
+        });
+    });
+</script>

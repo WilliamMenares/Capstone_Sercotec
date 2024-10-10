@@ -5,6 +5,7 @@
 
 .card {
     height: 100% !important;
+    position: relative; /* Necesario para que el contenedor hijo se posicione en relación a este */
 }
 
 .table {
@@ -57,3 +58,14 @@
 .bg-trans{
     border:none !important;
 }
+
+.pagination-container {
+    position: absolute; /* Fija la paginación dentro del card */
+    bottom: 35px; /* Espacio desde la parte inferior del card */
+    left: 50%; /* Centra horizontalmente */
+    transform: translateX(-50%); /* Ajusta el centro */
+    z-index: 1; /* Asegúrate de que esté por encima de otros elementos */
+    padding: 10px; /* Espacio alrededor de la paginación */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
