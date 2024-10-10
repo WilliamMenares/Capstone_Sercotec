@@ -36,7 +36,7 @@
                                     <div class="mb-3">
                                         <label for="rut" class="form-label">RUT de la empresa</label>
                                         <input type="text" class="form-control @error('rut') is-invalid @enderror"
-                                            id="rut" name="rut" value="{{ old('rut') }}">
+                                            id="rut" name="rut-agregar" value="{{ old('rut') }}">
                                         @error('rut')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -44,7 +44,7 @@
                                     <div class="mb-3">
                                         <label for="nombre" class="form-label">Nombre de la empresa</label>
                                         <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                            id="nombre" name="nombre" value="{{ old('nombre') }}">
+                                            id="nombre" name="nombre-agregar" value="{{ old('nombre') }}">
                                         @error('nombre')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -52,7 +52,7 @@
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email de la empresa</label>
                                         <input type="text" class="form-control @error('email') is-invalid @enderror"
-                                            id="email" name="email" value="{{ old('email') }}">
+                                            id="email" name="email-agregar" value="{{ old('email') }}">
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -60,7 +60,7 @@
                                     <div class="mb-3">
                                         <label for="telefono" class="form-label">Teléfono de la empresa</label>
                                         <input type="text" class="form-control @error('telefono') is-invalid @enderror"
-                                            id="telefono" name="telefono" value="{{ old('telefono') }}">
+                                            id="telefono" name="telefono-agregar" value="{{ old('telefono') }}">
                                         @error('telefono')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -127,22 +127,22 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="nombre" class="form-label">Nombre de la empresa</label>
-                                            <input type="text" class="form-control" id="nombre" name="nombre"
-                                                value="{{ old('nombre', $empresa->nombre) }}">
+                                            <input type="text" class="form-control" id="nombre"
+                                                name="nombre-editar" value="{{ old('nombre', $empresa->nombre) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email de la empresa</label>
-                                            <input type="text" class="form-control" id="email" name="email"
-                                                value="{{ old('email', $empresa->email) }}">
+                                            <input type="text" class="form-control" id="email"
+                                                name="email-editar" value="{{ old('email', $empresa->email) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="telefono" class="form-label">Teléfono de la empresa</label>
-                                            <input type="text" class="form-control" id="telefono" name="telefono"
-                                                value="{{ old('telefono', $empresa->telefono) }}">
+                                            <input type="text" class="form-control" id="telefono"
+                                                name="telefono-editar" value="{{ old('telefono', $empresa->telefono) }}">
                                         </div>
                                         <div class="mb-3">
                                             <label for="rut" class="form-label">RUT de la empresa</label>
-                                            <input type="text" class="form-control" id="rut" name="rut"
+                                            <input type="text" class="form-control" id="rut" name="rut-editar"
                                                 value="{{ old('rut', $empresa->rut) }}">
                                         </div>
                                         <div class="modal-footer">
