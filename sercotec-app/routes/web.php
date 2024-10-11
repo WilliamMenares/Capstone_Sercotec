@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +19,22 @@ Route::post('login', [LoginController::class,'login']);
 Route::post('logout', [LoginController::class,'logout'])->middleware('auth');
 
 
-//ruta para mostrar empleado
-Route::get("empleado",[EmpleadoController::class, "index"])->name("crud.index");
+// Ruta para mostrar empleados
+// Rutas para usuarios
+Route::get('user', [UserController::class, 'index'])->name('user.index');
+
+
+// Ruta para agregar empleado
+Route::post('/user', [UserController::class, 'store'])->name('user.store');
+
+
+// Ruta para modificar empleado
+Route::post('user/{id}', [UserController::class, 'update'])->name('user.update');
+
+// Ruta para eliminar empleado
+Route::delete('user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
 
 //ruta para mostrar empresa
 Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa.index');
