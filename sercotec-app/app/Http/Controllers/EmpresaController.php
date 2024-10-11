@@ -26,18 +26,14 @@ class EmpresaController extends Controller
             ],
             'nombre_agregar' => 'required|string|max:255',
             'email_agregar' => 'required|email|max:255', // Validar formato de correo
-            'telefono_agregar' => [
-                'required',
-                'regex:/^\+569\d{8}$/',  // Formato para teléfono chileno
-            ],
+            'telefono_agregar' => 'required',
         ], [
             'rut_agregar.required' => 'El campo "Rut de la empresa" no puede estar vacío',
-            'rut_agregar.regex' => 'El RUT debe contener punto y guión (XX.XXX.XXX-X)',
+            'rut_agregar.regex' => 'El RUT debe contener punto y guión el formato es: 11.111.111-1',
             'nombre_agregar.required' => 'El campo "Nombre de la empresa" no puede estar vacío',
             'email_agregar.required' => 'El campo "Email de la empresa" no puede estar vacío',
             'email_agregar.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
             'telefono_agregar.required' => 'El campo "Telefono de la empresa" no puede estar vacío',
-            'telefono_agregar.regex' => 'El formato del telefono debe ser: +569XXXXXXXX',
         ]);
 
 
@@ -62,22 +58,14 @@ class EmpresaController extends Controller
         $validatedData = $request->validate([
             'nombre_editar' => 'nullable|string|max:255',
             'email_editar' => 'nullable|email|max:255', // Validar formato de correo
-            'telefono_editar' => [
-                'nullable',
-                'regex:/^\+569\d{8}$/',  // Formato para teléfono chileno
-            ],
+            'telefono_editar' => 'required',
             'rut_editar' => [
                 'nullable',
                 'regex:/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]{1}$/',  // Formato para RUT
             ],
         ], [
-            'rut_editar.required' => 'El campo "Rut de la empresa" no puede estar vacío',
-            'rut_editar.regex' => 'El RUT debe contener punto y guión (XX.XXX.XXX-X)',
-            'nombre_editar.required' => 'El campo "Nombre de la empresa" no puede estar vacío',
-            'email_editar.required' => 'El campo "Email de la empresa" no puede estar vacío',
+            'rut_editar.regex' => 'El RUT debe contener punto y guión el formato es: 11.111.111-1',
             'email_editar.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
-            'telefono_editar.required' => 'El campo "Telefono de la empresa" no puede estar vacío',
-            'telefono_editar.regex' => 'El formato del telefono debe ser: +569XXXXXXXX',
         ]);
 
         // Encontrar la empresa por ID
@@ -102,4 +90,8 @@ class EmpresaController extends Controller
         $empresa->delete();
         return redirect()->route('empresa.index')->with('status', 'Empresa eliminada con éxito');
     }
+
+
+
 }
+

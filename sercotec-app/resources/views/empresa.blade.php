@@ -3,6 +3,8 @@
 @section('title', 'Empresa')
 
 <link rel="stylesheet" href="{{ asset('css/empresa.css') }}">
+<script src="{{ asset('js/empresa.js') }}"></script>
+
 
 @section('buscador', 'empresa')
 
@@ -218,21 +220,6 @@
             var modalAgregar = new bootstrap.Modal(document.getElementById('modalAgregar'));
             modalAgregar.show();
         @endif
-
-        // Limpiar el formulario y errores al cerrar el modal
-        document.getElementById('modalAgregar').addEventListener('hidden.bs.modal', function () {
-            // Limpiar campos del formulario
-            document.getElementById('formAgregarEmpresa').reset();
-
-            // Remover clases de error
-            document.querySelectorAll('.is-invalid').forEach(function (element) {
-                element.classList.remove('is-invalid');
-            });
-
-            // Remover mensajes de error
-            document.querySelectorAll('.invalid-feedback').forEach(function (element) {
-                element.remove();
-            });
-        });
     });
+
 </script>
