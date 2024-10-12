@@ -159,7 +159,7 @@
                                         <label for="telefono" class="form-label">Teléfono de la empresa</label>
                                         <input type="text" class="form-control" id="telefono_editar" name="telefono_editar"
                                             value="{{ old('telefono_editar', $empresa->telefono) }}" required>
-                                        @error('rut_agregar')
+                                        @error('telefono_editar')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -210,9 +210,8 @@
     </div>
 </div>
 
-
-
 @endsection
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Mostrar el modal automáticamente si hay errores
@@ -221,5 +220,4 @@
             modalAgregar.show();
         @endif
     });
-
 </script>

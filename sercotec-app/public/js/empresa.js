@@ -65,40 +65,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Función para validar y agregar automáticamente +56 al número de teléfono
-    function formatTelefono(telefono) {
-        // Eliminar cualquier carácter no numérico
-        telefono = telefono.replace(/\D/g, "");
+    const telefonoAgregar = document.getElementById('telefono_agregar');
+    const telefonoEditar = document.querySelectorAll('input[name="telefono_editar"]');
 
-        // Si el número no empieza con +56, agregarlo
-        if (!telefono.startsWith("56")) {
-            telefono = "56" + telefono;
+        // Función que valida y formatea el número de teléfono
+        function formatearTelefono(input) {
+            input.addEventListener('input', function () {
+                let valor = input.value;
+    
+                // Si el número no empieza con "+56", lo agregamos
+                if (!valor.startsWith('+56')) {
+                    valor = '+56' + valor.replace(/^\+56/, '');
+                }
+    
+                // Limitar la longitud a 9 dígitos después del "+56"
+                let soloNumeros = valor.replace(/\D/g, ''); // Elimina cualquier cosa que no sea un número
+                if (soloNumeros.length > 11) { // +56 (2 dígitos) + 9 dígitos del número
+                    soloNumeros = soloNumeros.substring(0, 11);
+                }
+    
+                // Formatear de nuevo el número
+                input.value = '+' + soloNumeros;
+            });
         }
-
-        // Formatear el número para que sea +56 9 XXX XXXX
-        if (telefono.length > 4) {
-            return `+${telefono.slice(0, 2)} ${telefono.slice(
-                2,
-                3
-            )} ${telefono.slice(3, 7)} ${telefono.slice(7, 11)}`;
-        }
-
-        return `+${telefono}`; // Si aún no tiene suficientes dígitos
-    }
-
-    // Validación y formateo automático para el teléfono agregar
-    const telefonoAgregarInput = document.getElementById("telefono_agregar");
-    if (telefonoAgregarInput) {
-        telefonoAgregarInput.addEventListener("input", function (e) {
-            e.target.value = formatTelefono(e.target.value);
+    
+        // Aplicar la función al campo de agregar
+        formatearTelefono(telefonoAgregar);
+    
+        // Aplicar la función a todos los campos de edición
+        telefonoEditar.forEach(function (input) {
+            formatearTelefono(input);
         });
-    }
-
-    // Validación y formateo automático para el teléfono editar
-    const telefonoEditarInput = document.getElementById("telefono_editar");
-    if (telefonoEditarInput) {
-        telefonoEditarInput.addEventListener("input", function (e) {
-            e.target.value = formatTelefono(e.target.value);
-        });
-    }
 });

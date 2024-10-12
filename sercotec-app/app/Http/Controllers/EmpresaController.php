@@ -26,7 +26,10 @@ class EmpresaController extends Controller
             ],
             'nombre_agregar' => 'required|string|max:255',
             'email_agregar' => 'required|email|max:255', // Validar formato de correo
-            'telefono_agregar' => 'required',
+            'telefono_agregar' => [
+                'required',
+                'regex:/^\+56\d{9}$/', // Formato requerido: +56 seguido de 9 dígitos
+            ],
         ], [
             'rut_agregar.required' => 'El campo "Rut de la empresa" no puede estar vacío',
             'rut_agregar.regex' => 'El RUT debe contener punto y guión el formato es: 11.111.111-1',
@@ -34,6 +37,7 @@ class EmpresaController extends Controller
             'email_agregar.required' => 'El campo "Email de la empresa" no puede estar vacío',
             'email_agregar.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
             'telefono_agregar.required' => 'El campo "Telefono de la empresa" no puede estar vacío',
+            'telefono_agregar.regex' => 'El número de teléfono debe estar en el formato +56XXXXXXXXX, con 9 dígitos después del +56.',
         ]);
 
 
@@ -58,7 +62,10 @@ class EmpresaController extends Controller
         $validatedData = $request->validate([
             'nombre_editar' => 'nullable|string|max:255',
             'email_editar' => 'nullable|email|max:255', // Validar formato de correo
-            'telefono_editar' => 'required',
+            'telefono_editar' => [
+                'nullable',
+                'regex:/^\+56\d{9}$/', // Formato requerido: +56 seguido de 9 dígitos
+            ],
             'rut_editar' => [
                 'nullable',
                 'regex:/^\d{1,2}\.\d{3}\.\d{3}-[\dkK]{1}$/',  // Formato para RUT
@@ -66,6 +73,7 @@ class EmpresaController extends Controller
         ], [
             'rut_editar.regex' => 'El RUT debe contener punto y guión el formato es: 11.111.111-1',
             'email_editar.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
+            'telefono_editar.regex' => 'El número de teléfono debe estar en el formato +56XXXXXXXXX, con 9 dígitos después del +56.'
         ]);
 
         // Encontrar la empresa por ID
@@ -90,8 +98,4 @@ class EmpresaController extends Controller
         $empresa->delete();
         return redirect()->route('empresa.index')->with('status', 'Empresa eliminada con éxito');
     }
-
-
-
 }
-
