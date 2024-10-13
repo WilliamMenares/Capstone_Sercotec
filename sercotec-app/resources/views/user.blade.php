@@ -4,6 +4,8 @@
 
 <link rel="stylesheet" href="{{ asset('css/user.css') }}">
 
+<script src="{{ asset('js/user.js') }}"></script>
+
 @section('buscador', 'usuarios')
 
 @section('content')
@@ -82,31 +84,8 @@
                 </div>
             </div>
 
-            <!-- Agregar la validación con JavaScript -->
-            <script>
-                function validatePasswords() {
-                    const password = document.getElementById('password').value;
-                    const passwordConfirmation = document.getElementById('password_confirmation').value;
-                    const passwordError = document.getElementById('passwordError');
 
-                    // Limpiar mensaje de error previo
-                    passwordError.style.display = 'none';
 
-                    // Validar que las contraseñas tengan al menos 8 caracteres
-                    if (password.length < 8) {
-                        alert('La contraseña debe tener un mínimo de 8 caracteres.');
-                        return false;
-                    }
-
-                    // Validar que las contraseñas coincidan
-                    if (password !== passwordConfirmation) {
-                        passwordError.style.display = 'block';
-                        return false;
-                    }
-
-                    return true; // Todo es válido, el formulario se enviará
-                }
-            </script>
 
             <!-- Mensajes de éxito o error -->
             @if (session('success'))
@@ -189,7 +168,8 @@
                                             <label for="password" class="form-label">Nueva Contraseña (opcional)</label>
                                             <input type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
-                                                id="password" name="password" minlength="8" autocomplete="new-password">
+                                                id="password" name="password" minlength="8"
+                                                autocomplete="new-password">
                                             @error('password')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

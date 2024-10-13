@@ -13,7 +13,7 @@ class UserController extends Controller
         // Paginar con 7 registros por página
         $datos_user = User::orderBy('id', 'desc')->paginate(7);
 
-        return view("user")->with("datos_user", $datos_user); // Cambiar vista a "user"
+        return view("user")->with("datos_user", $datos_user); 
     }
 
     // Función para agregar un usuario
@@ -44,8 +44,6 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    // Función para actualizar un usuario
-    // Función para actualizar un usuario
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -66,7 +64,7 @@ class UserController extends Controller
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
 
-        $mensaje = 'Usuario actualizado correctamente.'; // Mensaje por defecto
+        $mensaje = 'Usuario actualizado correctamente.'; 
 
         // Actualizar la contraseña solo si se proporciona
         if ($request->filled('password')) {
@@ -81,7 +79,6 @@ class UserController extends Controller
     }
 
 
-
     // Función para eliminar un usuario
     public function destroy($id)
     {
@@ -89,4 +86,8 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('user.index')->with('success', 'Usuario eliminado con éxito.');
     }
+    
 }
+
+
+
