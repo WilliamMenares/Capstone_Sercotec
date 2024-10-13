@@ -1,11 +1,10 @@
-body, html {
-    height: 100%;
+body,
+html {
+    height: 100% !important;
     background-color: white;
-
 }
 
-
-.card-body{
+.card-body {
     background-color: #f8f8f8;
     padding: 30px !important;
 }
@@ -13,7 +12,6 @@ body, html {
 .card {
     height: 100% !important;
     position: relative;
-    
 }
 
 .table {
@@ -63,6 +61,6 @@ body, html {
     color: #dc3545;
 }
 
-.bg-trans{
-    border:none !important;
+.bg-trans {
+    border: none !important;
 }
