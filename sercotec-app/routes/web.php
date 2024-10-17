@@ -9,6 +9,7 @@ Route::get('/', function () {
     return view('login');
 });
 Route::view('login', 'login')->name('login');
+Route::view('olvide', 'olvide')->name('olvide');
 Route::view('welcome', 'welcome')->name('welcome');//->middleware('auth');
 //ruta para ingresar al sistema
 Route::post('login', [LoginController::class,'login']);
@@ -34,5 +35,23 @@ Route::delete('empresa/{id}', [EmpresaController::class, 'destroy'])->name('empr
 
 
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+
+Route::get('/olvide', [PasswordResetLinkController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('/olvide', [PasswordResetLinkController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/recuperar/{token}', [NewPasswordController::class, 'create'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/recuperar', [NewPasswordController::class, 'store'])
+    ->middleware('guest')
+    ->name('password.update');
 
 
