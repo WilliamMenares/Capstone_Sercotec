@@ -20,30 +20,18 @@
             <h1>Sercotec</h1>
         </div>
         <div class="encabezado">
-            <h2>Iniciar Sesion</h2>
-            <p>Ingresa tus credenciales para tener acceso</p>
+            <h2>Recuperar Contraseña</h2>
+            <p>Ingresa tu correo para recuperar acceso</p>
         </div>
-        <form class="form" method="POST" action="/login">
+        <form class="form" method="POST" action="{{ route('password.email') }}">
             @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required autofocus value="{{old('email')}}">
-                @error('email') {{$message}} @enderror
+                @error('email')@enderror
             </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
-                @error('password'){{$message}} @enderror
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" name="remember">
-                <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Inciar Sesion</button>
+            <button type="submit" class="btn btn-primary">Enviar correo</button>
         </form>
-        <div class="remember">
-            <a href="/olvide">¿Olvidaste tu contraseña?</a>
-        </div>
     </div>
 </body>
 
