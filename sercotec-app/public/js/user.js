@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var errorAlert = document.querySelector(".alert-danger");
 
     // Duración de la alerta en milisegundos (por ejemplo, 5000 ms = 5 segundos)
-    var alertDuration = 2000;
+    var alertDuration = 10000;
 
     if (successAlert) {
         setTimeout(function () {
