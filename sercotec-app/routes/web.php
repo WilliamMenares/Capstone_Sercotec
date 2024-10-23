@@ -11,6 +11,7 @@ Route::get('/', function () {
 Route::view('login', 'login')->name('login');
 Route::view('olvide', 'olvide')->name('olvide');
 Route::view('welcome', 'welcome')->name('welcome');//->middleware('auth');
+Route::get('welcome', [EmpresaController::class, 'welcome']);
 //ruta para ingresar al sistema
 Route::post('login', [LoginController::class,'login']);
 Route::post('logout', [LoginController::class,'logout'])->middleware('auth');

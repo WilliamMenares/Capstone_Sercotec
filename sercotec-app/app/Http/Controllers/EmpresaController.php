@@ -10,10 +10,17 @@ class EmpresaController extends Controller
 {
     public function index()
     {
-        // Paginar con 6 registros por página
-        $datos_empresa = Empresa::orderBy('id', 'desc')->paginate(6);
+        // Contar la cantidad de empresas
+    $cantidadEmpresas = Empresa::count(); // Contar todas las empresas
 
-        return view("empresa")->with("datos_empresa", $datos_empresa);
+    // Paginar con 6 registros por página
+    $datos_empresa = Empresa::orderBy('id', 'desc')->paginate(6);
+
+    // Pasar la cantidad de empresas y los datos paginados a la vista
+    return view("empresa")->with([
+        "datos_empresa" => $datos_empresa,
+        "cantidadEmpresas" => $cantidadEmpresas // Pasar la cantidad a la vista
+    ]);
     }
 
     // Función para agregar una empresa
