@@ -31,6 +31,9 @@
                     <a href="/welcome"><i class="bi bi-house"></i>Inicio</a>
                 </div>
                 <div class="opciones">
+                    <a href="/asesorias">Asesorias</a>
+                </div>
+                <div class="opciones">
                     <a href="/empresa"><i class="bi bi-building"></i>Empresa</a>
                 </div>
                 <div class="opciones">

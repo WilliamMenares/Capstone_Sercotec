@@ -1,0 +1,42 @@
+.card-body{
+    background-color: #f8f8f8;
+    padding: 30px !important;
+}
+
+.card {
+    height: 100% !important;
+    position: relative; /* Necesario para que el contenedor hijo se posicione en relación a este */
+}
+
+.table {
+    margin-bottom: 0;
+}
+.table th {
+    border-top: none;
+    font-weight: 500;
+    color: #6c757d;
+    font-size: 0.875rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+.table td {
+    vertical-align: middle;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+.avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+}
+
+.bg-trans{
+    border:none !important;
+}
+
+
