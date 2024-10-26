@@ -1,8 +1,10 @@
 @extends('layout.menu')
 
-@section('title','Inicio')
+@section('title','Dashboard')
 
+<link rel="stylesheet" href="{{asset('css/crud.css')}}">
 <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+
 
 @section('buscador', 'welcome')
 
