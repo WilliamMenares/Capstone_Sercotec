@@ -1,18 +1,19 @@
 @extends('layout.menu')
 
-@section('title','Inicio')
+@section('title','Dashboard')
 
-<link rel="stylesheet" href="{{asset('css/welcome.css')}}">
+<link rel="stylesheet" href="{{asset('css/crud.css')}}">
 
-@section('buscador', 'welcome')
 
 
 @section('content')
 
-<div class="empleados">
+<div class="crud">
     <div class="titulo">
         <h1>Dashboard</h1>
     </div>
+
+    <div id="myGrid" class="ag-theme-material-dark tablita"></div>
 </div>
 
 @endsection
