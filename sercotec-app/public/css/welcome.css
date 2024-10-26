@@ -1,8 +1,0 @@
-.empleados{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.titulo{
-    font-size: 30px;
-}

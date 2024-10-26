@@ -1,0 +1,27 @@
+.crud{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    
+}
+.tablita{
+    width: 90%;
+    padding-top: 50px;
+}
+.create-nuevo{
+    width: 100%;
+    padding: 20px;
+    padding-right: 80px;
+    display: flex;
+    justify-content: end;
+}
+.titulo{
+    margin-top: 20px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+

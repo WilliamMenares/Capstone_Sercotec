@@ -1,120 +1,145 @@
+// Tabla grid
+const empleadosData = window.usuarios.map((em) => ({
+    id: em.id,
+    rut: em.rut,
+    nombre: em.name,
+    telefono: em.telefono,
+    email: em.email
+}));
+
+const columnDefs = [
+    { headerName: "Rut", field: "rut",width: 250 },
+    {
+        headerName: "Nombre",
+        field: "nombre",
+        filter: true,
+        floatingFilter: true
+    },
+    {
+        headerName: "Telefono",
+        field: "telefono",
+        filter: true,
+        floatingFilter: true
+    },
+    {
+        headerName: "Email",
+        field: "email",
+        filter: true,
+        floatingFilter: true
+    },
+    {
+        headerName: "Acciones",
+        width: 250,
+        cellRenderer: function (params) {
+            return `
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal-${params.data.id}">Editar</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-${params.data.id}">Eliminar</button>
+                `;
+        },
+    }
+];
+
+const gridOptions = {
+    columnDefs: columnDefs,
+    rowData: empleadosData,
+    pagination: true,
+    paginationPageSize: 20,
+    domLayout: "autoHeight",
+    onFirstDataRendered: (params) => {
+        params.api.sizeColumnsToFit();
+    }
+};
+
+// Inicializar grid
+let gridApi;
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Modal de "Agregar Usuario"
-    var modalAgregar = document.getElementById("modalAgregar");
-    modalAgregar.addEventListener("hidden.bs.modal", function () {
-        // Restablecer el formulario de agregar cuando se cierra el modal
-        document.getElementById("userForm").reset();
-        document.getElementById("passwordError").style.display = "none"; // Ocultar el mensaje de error
+    const gridDiv = document.querySelector("#myGrid");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    
+    
+    empleadosData.forEach(empleado => {
+        createDeleteModal(empleado);
+        editModal(empleado); 
     });
-
-    // Modal de "Editar Usuario" - para cada usuario
-    document
-        .querySelectorAll('[id^="modalEditar"]')
-        .forEach(function (modalEditar) {
-            // Guardar valores originales cuando se abre el modal
-            modalEditar.addEventListener("shown.bs.modal", function () {
-                var form = modalEditar.querySelector("form");
-                form.dataset.originalName = form.name.value;
-                form.dataset.originalEmail = form.email.value;
-                form.dataset.originalPassword = ""; // Contraseña no debe persistir
-            });
-
-            // Restaurar los valores originales cuando se cierra el modal
-            modalEditar.addEventListener("hidden.bs.modal", function () {
-                var form = modalEditar.querySelector("form");
-                form.name.value = form.dataset.originalName;
-                form.email.value = form.dataset.originalEmail;
-                form.password.value = ""; // Mantener el campo vacío
-            });
-        });
-
-    // Validación de correo electrónico al agregar usuario
-    const emailAgregarInput = document.getElementById("email");
-    if (emailAgregarInput) {
-        emailAgregarInput.addEventListener("input", function () {
-            if (!validateEmail(emailAgregarInput.value)) {
-                emailAgregarInput.setCustomValidity(
-                    "Por favor, ingrese un correo válido."
-                );
-            } else {
-                emailAgregarInput.setCustomValidity("");
-            }
-        });
-    }
-
-    // Validación de correo electrónico al editar usuario
-    document
-        .querySelectorAll('[id^="modalEditar"] input[name="email"]')
-        .forEach(function (emailEditarInput) {
-            emailEditarInput.addEventListener("input", function () {
-                if (!validateEmail(emailEditarInput.value)) {
-                    emailEditarInput.setCustomValidity(
-                        "Por favor, ingrese un correo válido."
-                    );
-                } else {
-                    emailEditarInput.setCustomValidity("");
-                }
-            });
-        });
-
-    // Función de validación del formato del correo
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
-    }
-
-    // Validación de contraseñas coincidentes en el formulario de agregar usuario
-    window.validatePasswords = function () {
-        const password = document.getElementById("password").value;
-        const passwordConfirmation = document.getElementById("password_confirmation").value;
-        const passwordError = document.getElementById("passwordError");
-
-        // Limpiar mensaje de error previo
-        passwordError.style.display = "none";
-
-        // Validar que las contraseñas tengan al menos 8 caracteres
-        if (password.length < 8) {
-            alert("La contraseña debe tener un mínimo de 8 caracteres.");
-            return false; // Detener el envío del formulario
-        }
-
-        // Validar que las contraseñas coincidan
-        if (password !== passwordConfirmation) {
-            passwordError.style.display = "block"; // Mostrar el mensaje de error
-            return false; // Detener el envío del formulario
-        }
-
-        return true; // Todo es válido, el formulario se enviará
-    };
-
-    // Manejo del evento submit para el formulario de agregar usuario
-    document
-        .getElementById("userForm")
-        .addEventListener("submit", function (event) {
-            if (!validatePasswords()) {
-                event.preventDefault(); // Detener el envío del formulario si las contraseñas no son válidas
-            }
-        });
-
-    // Código para gestionar las alertas de éxito o error
-    var successAlert = document.querySelector(".alert-success");
-    var errorAlert = document.querySelector(".alert-danger");
-
-    // Duración de la alerta en milisegundos (por ejemplo, 5000 ms = 5 segundos)
-    var alertDuration = 10000;
-
-    if (successAlert) {
-        setTimeout(function () {
-            successAlert.classList.add("fade");
-            successAlert.classList.remove("show");
-        }, alertDuration);
-    }
-
-    if (errorAlert) {
-        setTimeout(function () {
-            errorAlert.classList.add("fade");
-            errorAlert.classList.remove("show");
-        }, alertDuration);
-    }
 });
 
+// Crear un modal para eliminar producto
+function createDeleteModal(empleado) {
+    const modalHtml = `
+        <div class="modal fade" id="deleteModal-${empleado.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar Empleado</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar este empleado?</p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <form id="delete-form-${empleado.id}" action="/user/${empleado.id}" method="POST">
+                                <input type="hidden" name="_token" value="${document.querySelector("meta[name='csrf-token']").getAttribute("content")}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">
+                                    Eliminar
+                                </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml); // Añadir el modal al final del body
+}
+
+function editModal(empleado){
+    const modalHtml = `<div class="modal fade" id="editModal-${empleado.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content bg-dark text-light"> <!-- Modo oscuro -->
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editModalLabel">Editar Empleado</h1>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button> <!-- Botón de cierre -->
+                                </div>
+                                <div class="modal-body">
+                                    <form id="edit-form-${empleado.id}" action="${updateRoute.replace(':id', empleado.id)}" method="POST">
+                                        <input type="hidden" name="_token" value="${document.querySelector("meta[name='csrf-token']").getAttribute("content")}">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control bg-dark text-light" name="name"  placeholder="Nombre del Empleado" value="${empleado.nombre}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control bg-dark text-light" name="email"  placeholder="Email del Empleado" value="${empleado.email}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="telefono" class="form-label">telefono</label>
+                                    <input type="text" class="form-control bg-dark text-light" name="telefono"  placeholder="+56912345678" value="${empleado.telefono}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rut" class="form-label">Rut</label>
+                                    <input type="text" class="form-control bg-dark text-light" name="rut"  placeholder="12345678-9" value="${empleado.rut}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control bg-dark text-light" name="password"   >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirme Contraseña</label>
+                                    <input type="password" class="form-control bg-dark text-light" name="password_confirmation"   >
+                                </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml); // Añadir el modal al final del body
+
+}

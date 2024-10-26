@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -11,80 +13,73 @@ class UserController extends Controller
     public function index()
     {
         // Paginar con 7 registros por página
-        $datos_user = User::orderBy('id', 'desc')->paginate(7);
+        $usuarios = User::orderBy('id', 'desc')->get();
 
-        return view("user")->with("datos_user", $datos_user); 
+        return view("user")->with("usuarios", $usuarios); 
     }
 
     // Función para agregar un usuario
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ], [
-            'name.required' => 'El campo "Nombre" es obligatorio.',
-            'email.required' => 'El campo "Email" es obligatorio.',
-            'email.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
-            'email.unique' => 'Este email ya está en uso.',
-            'password.required' => 'El campo "Contraseña" es obligatorio.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'telefono' => 'required|string|max:12',
+                'rut' => 'required|string|max:10|unique:users',
+            ]);
 
-        // Crea el usuario
-        User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-        ]);
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'telefono' => $request->telefono,
+                'rut' => $request->rut,
+                'password' => Hash::make($request->password),
+            ]);
 
-        // Redirigir con mensaje de éxito
-        return redirect()->route('user.index')->with('success', 'Usuario creado exitosamente.');
+            return redirect()->route('user.index')->with(
+                'success',
+                'Asesor registrado exitosamente'
+            );
+        } catch (\Exception $e) {
+            // Depuración de errores
+            return redirect()->back()->with('error', 'Error al registrar Asesor: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $empleado = User::findOrFail($id);
+
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8', // La contraseña es opcional
-        ], [
-            'name.required' => 'El campo "Nombre" es obligatorio.',
-            'email.required' => 'El campo "Email" es obligatorio.',
-            'email.email' => 'El formato del correo debe ser válido: ejemplo@correo.com',
-            'email.unique' => 'Este email ya está en uso.',
-            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'telefono' => 'required|string|max:255',
+            'rut' => 'required|string|max:255',
+            'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
 
-        $user = User::findOrFail($id); // Obtener el usuario
+        $empleado->name = $request->name;
+        $empleado->email = $request->email;
+        $empleado->telefono = $request->telefono;
+        $empleado->rut = $request->rut;
 
-        // Actualizar solo los campos proporcionados
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-
-        $mensaje = 'Usuario actualizado correctamente.'; 
-
-        // Actualizar la contraseña solo si se proporciona
         if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password')); // Actualiza la contraseña si se provee
-            $mensaje .= ' Contraseña editada correctamente.'; // Añadir mensaje de éxito solo si se cambió la contraseña
+            $empleado->password = Hash::make($request->password);
         }
 
-        $user->save();
+        $empleado->save();
 
-        // Enviar solo un mensaje con el método with
-        return redirect()->route('user.index')->with('success', $mensaje);
+        return redirect()->route('user.index')->with('success', 'Asesor actualizado con éxito');
     }
-
 
     // Función para eliminar un usuario
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('user.index')->with('success', 'Usuario eliminado con éxito.');
+        return redirect()->route('user.index')->with('success', 'Asesor eliminado con éxito.');
     }
     
 }
