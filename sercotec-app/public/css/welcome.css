@@ -1,0 +1,168 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #2e2e2e; 
+    color: white; 
+}
+
+.titulo {
+    margin-top: 20px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+/* Contenedor principal */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "empresas formularios usuario"
+        "barras barras torta";
+    gap: 20px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%; 
+    background-color: #3a3a3a; 
+}
+
+/* Estilo de cada cuadro */
+.cuadro {
+    background-color: #1e1e1e !important; 
+    color: white !important; 
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cuadro:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para la clase .card en cuadros */
+.card {
+    background-color: #1e1e1e !important; 
+    color: white !important; 
+    border: none;
+}
+
+.card-body {
+    color: white; /* Asegura letras blancas en el cuerpo */
+}
+
+/* Específicos para la ubicación de cada cuadro */
+.cuadro-empresas {
+    grid-area: empresas;
+    height: 100%; 
+}
+
+.cuadro-formularios {
+    grid-area: formularios;
+}
+
+.cuadro-grafico-torta {
+    grid-area: torta;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333333; 
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    height: 100%; 
+}
+
+.cuadro-grafico-barras {
+    grid-area: barras;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333333; 
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    height: 100%; 
+}
+
+/* Asegura que el gráfico ocupe todo el espacio disponible */
+.grafico {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100%; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    width: 100% !important; 
+    height: 100% !important; 
+}
+
+.cuadro-empresas-recientes {
+    background-color: #333333; 
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.lista-empresas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-empresas li {
+    margin: 10px 0;
+    font-size: 1em;
+    color: #dddddd;
+}
+
+/* Títulos y textos */
+.card-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #ffffff !important; 
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 1em;
+    color: #cccccc !important; 
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "usuario"
+            "empresas"
+            "formularios"
+            "barras"
+            "torta";
+    }
+    .cuadro {
+        padding: 15px;
+    }
+    .card-title {
+        font-size: 1.2em;
+    }
+    .card-text {
+        font-size: 0.9em;
+    }
+}

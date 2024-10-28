@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +34,7 @@ Route::post('empresa', [EmpresaController::class, 'store'])->name('empresa.store
 Route::post('empresa/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
 //ruta para eliminar empresa
 Route::delete('empresa/{id}', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
+Route::get('welcome', [WelcomeController::class, 'index']);
 
 
 
