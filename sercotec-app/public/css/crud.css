@@ -24,4 +24,37 @@
     font-weight: bold;
 }
 
+.multitabla{
+    border: 1px red solid;
+    margin-top: 30px;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
+.tblmulti{
+    width: 48%;
+}
+
+.tblmulti button{
+    margin-bottom: 15px;
+}
+
+.tt-menu {
+    width: 100%;
+    background-color: #7e7e7e;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.tt-suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.tt-suggestion:hover {
+    background-color: #000000;
+}
+.tt-suggestion.tt-cursor {
+    background-color: #c5c5c5;
+}
