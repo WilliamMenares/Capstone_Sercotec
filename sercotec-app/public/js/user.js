@@ -50,6 +50,11 @@ const gridOptions = {
     }
 };
 
+empleadosData.forEach(empleado => {
+    createDeleteModal(empleado);
+    editModal(empleado); 
+});
+
 // Inicializar grid
 let gridApi;
 
@@ -58,10 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gridApi = agGrid.createGrid(gridDiv, gridOptions);
     
     
-    empleadosData.forEach(empleado => {
-        createDeleteModal(empleado);
-        editModal(empleado); 
-    });
+    
 });
 
 // Crear un modal para eliminar producto
@@ -116,11 +118,11 @@ function editModal(empleado){
                                 </div>
                                 <div class="mb-3">
                                     <label for="telefono" class="form-label">telefono</label>
-                                    <input type="text" class="form-control bg-dark text-light" name="telefono"  placeholder="+56912345678" value="${empleado.telefono}" required>
+                                    <input type="text" class="form-control bg-dark text-light phone-vali" name="telefono"  placeholder="+56912345678" value="${empleado.telefono}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="rut" class="form-label">Rut</label>
-                                    <input type="text" class="form-control bg-dark text-light" name="rut"  placeholder="12345678-9" value="${empleado.rut}" required>
+                                    <input type="text" class="form-control bg-dark text-light rut-vali" name="rut"  placeholder="12345678-9" value="${empleado.rut}" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Contraseña</label>
