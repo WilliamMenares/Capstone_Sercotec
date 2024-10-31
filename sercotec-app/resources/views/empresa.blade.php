@@ -9,6 +9,10 @@
     const updateRoute = "{{ route('empresa.update', ':id') }}";
 </script>
 <script src="{{ asset('js/empresa.js') }}"></script>
+
+
+
+
 @section('content')
 
 <div class="crud">

@@ -50,20 +50,22 @@ const gridOptions = {
     }
 };
 
-empleadosData.forEach(empleado => {
-    createDeleteModal(empleado);
-    editModal(empleado); 
-});
+
 
 // Inicializar grid
 let gridApi;
 
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
+    empleadosData.forEach(empleado => {
+        createDeleteModal(empleado);
+        editModal(empleado); 
+    });
     const gridDiv = document.querySelector("#myGrid");
     gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    
-    
-    
 });
 
 // Crear un modal para eliminar producto
