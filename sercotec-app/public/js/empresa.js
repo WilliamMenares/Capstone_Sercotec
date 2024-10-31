@@ -57,17 +57,25 @@ const gridOptions = {
     }
 };
 
+
+
 // Inicializar grid
 let gridApi;
 
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
-    const gridDiv = document.querySelector("#myGrid");
-    gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    // Generar modales dinámicamente
+
     EmpresasData.forEach(empresa => {
         createDeleteModal(empresa);
         editModal(empresa); // Crear el modal de edición
     });
+
+    const gridDiv = document.querySelector("#myGrid");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    // Generar modales dinámicamente
+   
 });
 
 // Crear un modal para eliminar producto

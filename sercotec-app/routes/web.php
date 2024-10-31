@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AmbitoController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\FormulariosController;
+use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\WelcomeController;
@@ -17,7 +21,8 @@ Route::get('welcome', [EmpresaController::class, 'welcome']);
 //ruta para ingresar al sistema
 Route::post('login', [LoginController::class,'login']);
 Route::post('logout', [LoginController::class,'logout'])->middleware('auth');
-// Ruta para mostrar empleados
+
+
 // Rutas para usuarios
 Route::get('user', [UserController::class, 'index'])->name('user.index');
 // Ruta para agregar empleado
@@ -26,6 +31,8 @@ Route::post('/user', [UserController::class, 'store'])->name('user.store');
 Route::post('user/{id}', [UserController::class, 'update'])->name('user.update');
 // Ruta para eliminar empleado
 Route::delete('user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
 //ruta para mostrar empresa
 Route::get('empresa', [EmpresaController::class, 'index'])->name('empresa.index');
 //ruta para agregar empresa
@@ -37,6 +44,23 @@ Route::delete('empresa/{id}', [EmpresaController::class, 'destroy'])->name('empr
 Route::get('welcome', [WelcomeController::class, 'index']);
 
 
+// Ruta para mostrar empresas
+Route::get('forms', [AmbitoController::class, 'index'])->name('forms.index');
+
+// Rutas para Ambitos
+Route::post('forms/ambito', [AmbitoController::class, 'store'])->name('forms.storeAmbito');
+Route::post('forms/ambito/{id}', [AmbitoController::class, 'update'])->name('forms.updateAmbito');
+Route::delete('forms/ambito/{id}', [AmbitoController::class, 'destroy'])->name('forms.destroyAmbito');
+
+// Rutas para Preguntas
+Route::post('forms/pregunta', [PreguntasController::class, 'store'])->name('forms.storePregunta');
+Route::post('forms/pregunta/{id}', [PreguntasController::class, 'update'])->name('forms.updatePregunta');
+Route::delete('forms/pregunta/{id}', [PreguntasController::class, 'destroy'])->name('forms.destroyPregunta');
+
+// Rutas para Formularios
+Route::post('forms/formu', [FormulariosController::class, 'store'])->name('forms.storeFormulario');
+Route::post('forms/formu/{id}', [FormulariosController::class, 'update'])->name('forms.updateFormulario');
+Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
