@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ambitos;
+use App\Models\Formularios;
 use App\Models\Preguntas;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,8 @@ class AmbitoController extends Controller
     {
         $ambitos = Ambitos::orderBy('id', 'desc')->get();
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
-
-        return view("forms", compact('preguntas', 'ambitos'));
+        $formularios = Formularios::with('ambitos')->get();
+        return view("forms", compact('preguntas', 'ambitos','formularios'));
     }
 
     // Función para agregar un usuario

@@ -11,6 +11,12 @@ const preguntasData = window.preguntas.map((pro) => ({
     id_am : pro.ambito.id
 }));
 
+const formulariosData = window.formularios.map((pro) => ({
+    id: pro.id,
+    nombre: pro.nombre,
+    responsable : pro.responsable
+}));
+
 const columnDefs = [
     {
         headerName: "Nombre",
@@ -57,6 +63,31 @@ const columnDefs2 = [
     },
 ];
 
+const columnDefs3 = [
+    {
+        headerName: "Nombre",
+        field: "nombre",
+        filter: true,
+        floatingFilter: true
+    },
+    {
+        headerName: "Responsable",
+        field: "responsable",
+        filter: true,
+        floatingFilter: true
+    },
+    {
+        headerName: "Acciones",
+        field: "id",
+        width: 250,
+        cellRenderer: function (params) {
+            return `
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal3-${params.data.id}">Eliminar</button>
+                `;
+        },
+    },
+];
+
 const gridOptions = {
     columnDefs: columnDefs,
     rowData: AmbitosData,
@@ -79,15 +110,22 @@ const gridOptions2 = {
     }
 };
 
+const gridOptions3 = {
+    columnDefs: columnDefs3,
+    rowData: formulariosData,
+    pagination: true,
+    paginationPageSize: 20,
+    domLayout: "autoHeight",
+    onFirstDataRendered: (params) => {
+        params.api.sizeColumnsToFit();
+    }
+};
+
 // Inicializar grid
 let gridApi;
 
 document.addEventListener("DOMContentLoaded", function () {
-    const gridDiv = document.querySelector("#myGrid");
-    const gridDiv2 = document.querySelector("#myGrid2");
-    gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    gridApi = agGrid.createGrid(gridDiv2, gridOptions2);
-    // Generar modales dinámicamente
+    
     AmbitosData.forEach(ambito => {
         createDeleteModalA(ambito);
         editModalA(ambito); // Crear el modal de edición
@@ -97,6 +135,20 @@ document.addEventListener("DOMContentLoaded", function () {
         createDeleteModalP(pregunta);
         editModalP(pregunta); // Crear el modal de edición
     });
+    
+    formulariosData.forEach(formulario =>{
+        createDeleteModalF(formulario);
+    });
+    
+    
+    const gridDiv = document.querySelector("#myGrid");
+    const gridDiv2 = document.querySelector("#myGrid2");
+    const gridDiv3 = document.querySelector("#myGrid3");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    gridApi = agGrid.createGrid(gridDiv2, gridOptions2);
+    gridApi = agGrid.createGrid(gridDiv3, gridOptions3);
+    // Generar modales dinámicamente
+    
 
     function initializeTypeahead(selector, engine, displayKey) {
         const input = document.querySelector(selector);
@@ -291,4 +343,34 @@ function initializeTypeahead2(selector, engine, displayKey, id_pregunta) {
                 document.getElementById(`id_ambito_${id_pregunta}`).value = suggestion.id;
             });
     }
+}
+
+function createDeleteModalF(formulario) {
+    const modalHtml = `
+        <div class="modal fade" id="deleteModal3-${formulario.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-light">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar formulario</h1>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas eliminar este formulario?</p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <form id="delete-form-${formulario.id}" action="${deleteRouteF.replace(':id', formulario.id)}" method="POST">
+                                <input type="hidden" name="_token" value="${document.querySelector("meta[name='csrf-token']").getAttribute("content")}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">
+                                    Eliminar
+                                </button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml); // Añadir el modal al final del body
 }

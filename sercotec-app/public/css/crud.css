@@ -25,13 +25,23 @@
 }
 
 .multitabla{
-    border: 1px red solid;
     margin-top: 30px;
     width: 90%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
+
+.formulario{
+    margin-top: 30px;
+    width: 90%;
+}
+.formulario button{
+    margin-bottom: 15px;
+}
+
+
+
 
 .tblmulti{
     width: 48%;

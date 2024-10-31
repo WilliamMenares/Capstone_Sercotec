@@ -3,6 +3,7 @@
 use App\Http\Controllers\AmbitoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
@@ -52,7 +53,10 @@ Route::post('forms/pregunta', [PreguntasController::class, 'store'])->name('form
 Route::post('forms/pregunta/{id}', [PreguntasController::class, 'update'])->name('forms.updatePregunta');
 Route::delete('forms/pregunta/{id}', [PreguntasController::class, 'destroy'])->name('forms.destroyPregunta');
 
-
+// Rutas para Formularios
+Route::post('forms/formu', [FormulariosController::class, 'store'])->name('forms.storeFormulario');
+Route::post('forms/formu/{id}', [FormulariosController::class, 'update'])->name('forms.updateFormulario');
+Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;

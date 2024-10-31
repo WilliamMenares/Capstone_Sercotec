@@ -18,4 +18,10 @@ class Ambitos extends Model
     {
         return $this->hasMany(Preguntas::class, 'id_ambito'); // 'id_ambito' es la clave foránea en Preguntas
     }
+
+    // Relación muchos a muchos con Formularios
+    public function formularios()
+    {
+        return $this->belongsToMany(Formularios::class, 'ambito_formulario');
+    }
 }
