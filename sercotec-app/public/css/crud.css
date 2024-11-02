@@ -1,0 +1,70 @@
+.crud{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    
+}
+.tablita{
+    width: 90%;
+    padding-top: 50px;
+}
+.create-nuevo{
+    width: 100%;
+    padding: 20px;
+    padding-right: 80px;
+    display: flex;
+    justify-content: end;
+}
+.titulo{
+    margin-top: 20px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.multitabla{
+    margin-top: 30px;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.formulario{
+    margin-top: 30px;
+    width: 90%;
+}
+.formulario button{
+    margin-bottom: 15px;
+}
+
+
+
+
+.tblmulti{
+    width: 48%;
+}
+
+.tblmulti button{
+    margin-bottom: 15px;
+}
+
+.tt-menu {
+    width: 100%;
+    background-color: #7e7e7e;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.tt-suggestion {
+    padding: 10px;
+    cursor: pointer;
+}
+.tt-suggestion:hover {
+    background-color: #000000;
+}
+.tt-suggestion.tt-cursor {
+    background-color: #c5c5c5;
+}
