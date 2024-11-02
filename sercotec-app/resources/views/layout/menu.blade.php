@@ -37,7 +37,7 @@
                         <a class="nav-link" href="/user">Asesores</a>
                     </li>
                     <li class="nav-item mb-3">
-                        <a class="nav-link" href="/user">Asesorias</a>
+                        <a class="nav-link" href="/asesorias">Asesorías</a>
                     </li>
                     <li class="nav-item mb-3">
                         <a class="nav-link" href="/forms">Formulario</a>
