@@ -7,11 +7,7 @@ use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
-<<<<<<< HEAD
-use App\Http\Controllers\InformesController;
-=======
 use App\Http\Controllers\AsesoriasController;
->>>>>>> a467c172a4fa836bc5a759ab77b1b18854e754ca
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {

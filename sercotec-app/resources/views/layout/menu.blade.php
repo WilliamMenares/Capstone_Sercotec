@@ -26,26 +26,6 @@
         <div class="box-left">
             <ul class="menu">
                 <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="">
-<<<<<<< HEAD
-            </div>
-            <div class="menu">
-                <div class="opciones">
-                    <a href="/welcome"><i class="bi bi-house"></i>Inicio</a>
-                </div>
-                <div class="opciones">
-                    <a href="/asesorias">Asesorias</a>
-                </div>
-                <div class="opciones">
-                    <a href="/empresa"><i class="bi bi-building"></i>Empresa</a>
-                </div>
-                <div class="opciones">
-                    <a href="/user"><i class="bi bi-person"></i>Empleados</a>
-                </div>
-                <div class="opciones">
-                    <a href="#"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bi bi-person"></i>Cerrar Sesion
-=======
                 <ul class="nav flex-column d-flex align-items-center">
                     <li class="nav-item mb-3">
                         <a class="nav-link" aria-current="page" href="/welcome">Inicio</a>
@@ -66,7 +46,6 @@
                 <li class="cerrar">
                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         Cerrar Sesion
->>>>>>> 3cf308e077c6690996b2e505206eb6b149cc6dd5
                     </a>
                     <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
                         @csrf
