@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AsesoriasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -61,6 +62,10 @@ Route::delete('forms/pregunta/{id}', [PreguntasController::class, 'destroy'])->n
 Route::post('forms/formu', [FormulariosController::class, 'store'])->name('forms.storeFormulario');
 Route::post('forms/formu/{id}', [FormulariosController::class, 'update'])->name('forms.updateFormulario');
 Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
+
+//ruta para mostrar Asesorias
+Route::get('asesorias', [AsesoriasController::class, 'index'])->name('asesorias.index');
+
 
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
