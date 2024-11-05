@@ -45,6 +45,7 @@ Route::delete('empresa/{id}', [EmpresaController::class, 'destroy'])->name('empr
 Route::get('welcome', [WelcomeController::class, 'index']);
 
 
+
 // Ruta para mostrar empresas
 Route::get('forms', [AmbitoController::class, 'index'])->name('forms.index');
 

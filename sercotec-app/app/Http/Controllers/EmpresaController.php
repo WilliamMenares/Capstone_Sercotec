@@ -15,13 +15,6 @@ class EmpresaController extends Controller
 
         return view("empresa")->with("empresas", $empresas);
     }
-    public function count()
-    {
-        $cantidadEmpresas = Empresa::count(); 
-        return view("empresa")->with([
-            "cantidadEmpresas" => $cantidadEmpresas 
-        ]);
-    }
 
 
     // Función para agregar una empresa
