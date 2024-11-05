@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Convertir las claves a nombres de meses
     var labels = Object.keys(empresasPorMes).map(function(key) {
-        var date = new Date(key + '-01');
+        var [year, month] = key.split('-');
+        var date = new Date(year, month - 1); // Restar 1 al mes porque los meses en JavaScript son 0-indexados
         return date.toLocaleString('default', { month: 'long' });
     });
     var data = Object.values(empresasPorMes);
@@ -26,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1 
+                        stepSize: 1 // Asegurar que los números del eje Y sean enteros
                     }
                 }
             }
