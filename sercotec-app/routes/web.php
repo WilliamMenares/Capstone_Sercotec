@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AmbitoController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\PreguntasController;
@@ -62,7 +63,10 @@ Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->na
 //ruta para mostrar Asesorias
 Route::get('asesorias', [AsesoriasController::class, 'index'])->name('asesorias.index');
 
-
+// En routes/web.php
+Route::get('/importar-excel', [ExcelController::class, 'index'])->name('excel.index');
+Route::post('/import', [ExcelController::class, 'import'])->name('excel.import');
+Route::get('/import/progress', [ExcelController::class, 'getProgress'])->name('excel.progress');
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
