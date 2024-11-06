@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('empresas', function (Blueprint $table) {
-            $table->increments('id'); // Definir el campo como string
-            $table->string('rut'); // Definir el campo como string
+            $table->increments('id');
+            $table->string('codigo'); 
             $table->string('nombre');
             $table->string('email');
             $table->string('telefono');
