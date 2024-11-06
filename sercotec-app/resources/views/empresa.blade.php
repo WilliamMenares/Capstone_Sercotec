@@ -20,10 +20,92 @@
         <h1>Empresas</h1>
     </div>
 
-    <div class="create-nuevo">
+    <!-- <div class="create-nuevo">
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Crear un
             empresa</button>
-    </div>
+    </div> -->
+
+    <form id="import-form" enctype="multipart/form-data" class="d-flex align-items-center gap-3">
+        @csrf
+        <div class="space-y-2">
+            <label for="excel-file" class="block text-sm font-medium text-white">
+            </label>
+            <input type="file" id="excel-file" name="file" accept=".xlsx,.xls" class="btn btn-primary">
+        </div>
+
+        <button type="button" onclick="startImport()" class="btn btn-secondary">
+            Importar Excel
+        </button>
+    </form>
+
+    <script>
+        function startImport() {
+            const fileInput = document.getElementById('excel-file');
+            if (!fileInput.files[0]) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Por favor selecciona un archivo Excel'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Importando...',
+                html: `
+            <div class="space-y-4">
+                <p>Por favor espera, los registros se están importando.</p>
+            </div>
+        `,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const formData = new FormData(document.getElementById('import-form'));
+
+            $.ajax({
+                url: '/import',
+                method: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: `Importación completada. ${response.insertedRows} registros procesados.`
+                    });
+
+                    // Recargar la página después de 5 segundos
+                    setTimeout(function () {
+                        location.reload();  // Recarga la página
+                    }, 5000);
+                },
+                error: function (xhr) {
+                    let errorMessage = 'Error al procesar el archivo.';
+
+                    if (xhr.responseJSON) {
+                        errorMessage = xhr.responseJSON.message;
+
+                        // Si hay errores específicos, mostrarlos
+                        if (xhr.responseJSON.errors) {
+                            errorMessage += '\n\n' + xhr.responseJSON.errors;
+                        }
+                    }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        html: errorMessage.replace(/\n/g, '<br>')
+                    });
+                }
+            });
+        }
+    </script>
 
     <div id="myGrid" class="ag-theme-material-dark tablita"></div>
 </div>
@@ -51,8 +133,8 @@
                             required>
                     </div>
                     <div class="mb-3">
-                        <label for="rut" class="form-label">Rut</label>
-                        <input type="text" class="form-control bg-dark text-light rut-vali " name="rut"
+                        <label for="rut" class="form-label">Codigo</label>
+                        <input type="text" class="form-control bg-dark text-light rut-vali " name="codigo"
                             placeholder="12123321-1" required>
                     </div>
                     <div class="mb-3">
