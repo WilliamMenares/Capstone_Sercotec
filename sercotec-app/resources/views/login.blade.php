@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script> window.success = @json(session('success'));</script>
+    <script> window.error = @json(session('error'));</script>
 </head>
 
 <body>
@@ -39,7 +41,7 @@
                 <input type="checkbox" class="form-check-input" name="remember">
                 <label class="form-check-label" for="exampleCheck1">Recuerdame</label>
             </div>
-            <button type="submit" class="btn btn-primary">Inciar Sesion</button>
+            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
         </form>
         <div class="remember">
             <a href="/olvide">¿Olvidaste tu contraseña?</a>
