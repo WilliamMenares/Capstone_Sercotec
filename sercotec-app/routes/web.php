@@ -62,7 +62,8 @@ Route::post('forms/formu/{id}', [FormulariosController::class, 'update'])->name(
 Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
 //ruta para mostrar Asesorias
-Route::get('asesorias', [AsesoriasController::class, 'index'])->name('asesorias.index');
+Route::get('/asesorias', [AsesoriasController::class, 'mostrarAsesorias'])->name('asesorias');
+Route::get('/usuarios/pdf', [AsesoriasController::class, 'descargarUsuariosPDF'])->name('usuarios.pdf');
 
 // En routes/web.php
 Route::get('/importar-excel', [ExcelController::class, 'index'])->name('excel.index');
