@@ -40,7 +40,7 @@
                         <a class="nav-link" href="/asesorias">Asesorías</a>
                     </li>
                     <li class="nav-item mb-3">
-                        <a class="nav-link" href="/forms">Formulario</a>
+                        <a class="nav-link" href="/forms">Ambitos y Preguntas</a>
                     </li>
                 </ul>
                 <li class="cerrar">
