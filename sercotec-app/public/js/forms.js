@@ -82,8 +82,9 @@ const columnDefs3 = [
         width: 250,
         cellRenderer: function (params) {
             return `
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal3-${params.data.id}">Editar</button>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal3-${params.data.id}">Eliminar</button>
-                `;
+                    `;
         },
     },
 ];
@@ -92,7 +93,8 @@ const gridOptions = {
     columnDefs: columnDefs,
     rowData: AmbitosData,
     pagination: true,
-    paginationPageSize: 20,
+    paginationPageSizeSelector: [10, 20, 50, 100],
+    paginationPageSize: 10,
     domLayout: "autoHeight",
     onFirstDataRendered: (params) => {
         params.api.sizeColumnsToFit();
@@ -103,7 +105,8 @@ const gridOptions2 = {
     columnDefs: columnDefs2,
     rowData: preguntasData,
     pagination: true,
-    paginationPageSize: 20,
+    paginationPageSizeSelector: [10, 20, 50, 100],
+    paginationPageSize: 10,
     domLayout: "autoHeight",
     onFirstDataRendered: (params) => {
         params.api.sizeColumnsToFit();
@@ -114,7 +117,8 @@ const gridOptions3 = {
     columnDefs: columnDefs3,
     rowData: formulariosData,
     pagination: true,
-    paginationPageSize: 20,
+    paginationPageSizeSelector: [10, 20, 50, 100],
+    paginationPageSize: 10,
     domLayout: "autoHeight",
     onFirstDataRendered: (params) => {
         params.api.sizeColumnsToFit();
@@ -138,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     formulariosData.forEach(formulario =>{
         createDeleteModalF(formulario);
+        editModalF(formulario);
     });
     
     
@@ -168,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                 ).bind("typeahead:select", function (ev, suggestion) {
                     // Rellenar el párrafo con el precio del producto seleccionado
-                    if (selector === "#search-ambito") {
+                    if (selector === ".search-ambito") {
                         const id = suggestion.id;
                         document.getElementById("id_ambito").value = id;
                     }
@@ -182,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
         local: window.ambitos,
     });
 
-    initializeTypeahead("#search-ambito", AmbitoEngine, "title");
+    initializeTypeahead(".search-ambito", AmbitoEngine, "title");
 
 
 
@@ -373,4 +378,52 @@ function createDeleteModalF(formulario) {
             </div>
         </div>`;
     document.body.insertAdjacentHTML('beforeend', modalHtml); // Añadir el modal al final del body
+}
+
+function editModalF(formulario){
+
+    const ambitosOptions = window.ambitos.map(ambito => 
+        `<option value="${ambito.id}">${ambito.title}</option>`
+    ).join('');
+
+
+    const modalHtml = `<div class="modal fade" id="editModal3-${formulario.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="editModal3Label" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content bg-dark text-light">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editModal3Label">Crear un Formulario</h1>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="create-form" action="/forms.storeFormulario" method="POST">
+                                            <input type="hidden" name="_token" value="${document.querySelector("meta[name='csrf-token']").getAttribute("content")}">
+                                            <div class="mb-3">
+                                                <label for="nombre" class="form-label">Formulario:</label>
+                                                <input type="text" class="form-control bg-dark text-light" name="nombre" placeholder="Nombre" value="${formulario.nombre}"
+                                                    required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="responsable" class="form-label">Responsable:</label>
+                                                <input type="text" class="form-control bg-dark text-light" name="responsable"
+                                                    placeholder="Responsable" value="${formulario.responsable}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ambitos" class="form-label">Ámbitos:</label>
+                                                <select name="ambitos[]" id="chosen-example" class="select-ambito"
+                                                    multiple="multiple" required>
+                                                    ${ambitosOptions}
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
 }

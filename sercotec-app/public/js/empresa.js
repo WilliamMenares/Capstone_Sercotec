@@ -49,10 +49,11 @@ const columnDefs = [
 const gridOptions = {
     // allows the user to select the page size from a predefined list of page sizes
     paginationPageSizeSelector: [10, 20, 50, 100],
+    paginationPageSize: 10,
     columnDefs: columnDefs,
     rowData: EmpresasData,
     pagination: true,
-    paginationPageSize: 10,
+    
     domLayout: "autoHeight",
     onFirstDataRendered: (params) => {
         params.api.sizeColumnsToFit();

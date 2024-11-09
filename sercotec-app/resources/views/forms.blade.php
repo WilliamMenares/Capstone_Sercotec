@@ -110,7 +110,7 @@
                         <label for="ambito" class="form-label">Ambito:</label>
                         <input type="text" class="form-control bg-dark text-light search-ambito" name="ambito"
                             placeholder="Nombre" required>
-                        <input type="hidden" class="input-id-ambito" name="id_ambito">
+                        <input type="hidden" class="input-id-ambito" id="id_ambito" name="id_ambito">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
