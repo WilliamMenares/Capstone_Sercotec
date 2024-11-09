@@ -11,6 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="{{ asset('js/utils.js') }}"></script>
     <script> window.success = @json(session('success'));</script>
     <script> window.error = @json(session('error'));</script>
 </head>
@@ -29,12 +32,14 @@
             @csrf
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Correo Electronico</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required autofocus value="{{old('email')}}">
+                <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" required autofocus autocomplete="email" value="{{old('email')}}">
                 @error('email') {{$message}} @enderror
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                    autocomplete="current-password" required>
                 @error('password'){{$message}} @enderror
             </div>
             <div class="mb-3 form-check">

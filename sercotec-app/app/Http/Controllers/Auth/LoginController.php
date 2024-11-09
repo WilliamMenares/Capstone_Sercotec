@@ -26,7 +26,7 @@ class LoginController extends Controller
 
             return redirect()
                 ->intended('welcome')
-                ->with('status', 'Estas Logeado');
+                ->with('success', 'Estas Logeado');
         }
 
         throw ValidationException::withMessages([
@@ -44,7 +44,7 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return $redirector->to('/login')->with('status','Has Cerrado Sesion');
+        return $redirector->to('/login')->with('success','Has Cerrado Sesion');
 
     }
 }

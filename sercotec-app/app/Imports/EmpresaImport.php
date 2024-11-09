@@ -52,7 +52,6 @@ class SecondSheetImport implements ToModel, WithStartRow, SkipsOnError, SkipsOnF
 
         // Verificar si el código ya existe en la base de datos
         if (Empresa::where('codigo', trim($row[0]))->exists()) {
-            Log::info("El código {$row[0]} ya existe en la base de datos.");
             return null;  // No insertar si el código ya existe
         }
 

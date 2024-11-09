@@ -8,7 +8,7 @@ class AsesoriasController extends Controller
 {
     public function index()
     {
-        // Lógica para el método index
+        
     }
 }
 
