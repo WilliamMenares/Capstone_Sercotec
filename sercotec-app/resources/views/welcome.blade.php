@@ -11,11 +11,44 @@
 @section('content')
     <div class="titulo-pagina">Dashboard</div>
     <div class="container">
-        <div class="cuadro cuadro-grafico-torta">
+        <div class="cuadro cuadro-kpi1">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Empresas</h5>
                     <p class="card-text">Cantidad de empresas: {{ $cantidadEmpresas }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="cuadro cuadro-kpi2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">KPI 2</h5>
+                    <p class="card-text">Valor KPI 2</p>
+                </div>
+            </div>
+        </div>
+        <div class="cuadro cuadro-kpi3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">KPI 3</h5>
+                    <p class="card-text">Valor KPI 3</p>
+                </div>
+            </div>
+        </div>
+        <div class="cuadro cuadro-kpi4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">KPI 4</h5>
+                    <p class="card-text">Valor KPI 4</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cuadro cuadro-grafico-torta">
+            <h5 class="card-title">UltimasEmpresas</h5>
+            <div class="card">
+                <div class="card-body">
+                    
                     <div class="grafico">
                         <ul>
                             @foreach ($ultimasEmpresas as $empresa)
