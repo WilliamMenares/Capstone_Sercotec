@@ -15,7 +15,7 @@ class AmbitoController extends Controller
         $ambitos = Ambitos::orderBy('id', 'desc')->get();
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
         $formularios = Formularios::with('ambitos')->get();
-        return view("forms", compact('preguntas', 'ambitos','formularios'));
+        return view("forms", compact('preguntas', 'ambitos', 'formularios'));
     }
 
     // Función para agregar un usuario
@@ -59,9 +59,17 @@ class AmbitoController extends Controller
     public function destroy($id)
     {
         $ambito = Ambitos::findOrFail($id);
+
+        // Verificar si el ámbito tiene preguntas asociadas
+        if ($ambito->preguntas()->count() > 0) {
+            return redirect()->route('forms.index')
+                ->with('error', 'No se puede eliminar el ámbito porque tiene preguntas enlazadas.');
+        }
+
         $ambito->delete();
-        return redirect()->route('forms.index')->with('success', 'Ambito eliminado con éxito.');
+        return redirect()->route('forms.index')->with('success', 'Ámbito eliminado con éxito.');
     }
+
 
 }
 
