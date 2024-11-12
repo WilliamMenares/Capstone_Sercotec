@@ -10,6 +10,11 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
+    public function showLoginForm()
+    {
+        return view('login');
+    }
+
     public function login(Request $request)
     {
         $credenciales = $request->validate([
@@ -35,7 +40,7 @@ class LoginController extends Controller
         ]);
 
     }
-    public function logout(Request $request, Redirector $redirector)
+    public function logout(Request $request)
     {
 
         Auth::logout();
@@ -44,7 +49,8 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return $redirector->to('/login')->with('success','Has Cerrado Sesion');
+        return redirect()->route('login')
+        ->with('success', 'Has Cerrado Sesion');
 
     }
 }

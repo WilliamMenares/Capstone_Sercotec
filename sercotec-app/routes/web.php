@@ -7,7 +7,6 @@ use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;
-use App\Http\Controllers\AsesoriasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -19,6 +18,7 @@ Route::get('/', function () {
 //Ruta Inicial
 Route::post('login', [LoginController::class, 'login']);
 
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 
 //Vistas Protegidas
 Route::middleware(['auth'])->group(function () {
@@ -26,6 +26,9 @@ Route::middleware(['auth'])->group(function () {
     //Rutas para Apis
     Route::get('/api/emp', [EmpresaController::class, 'getemps']);
     Route::get('/api/user', [UserController::class, 'getusers']);
+    Route::get('/api/ambi', [AmbitoController::class, 'getambis']);
+    Route::get('/api/pregu', [PreguntasController::class, 'getpregu']);
+    Route::get('/api/formu', [FormulariosController::class, 'getformu']);
 
     // Rutas para usuarios
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -34,30 +37,31 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
     //Rutas Individuales
-    Route::post('logout', [LoginController::class, 'logout']);
-    Route::view('welcome', 'welcome');
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    Route::view('welcome', 'welcome')->name('welcome');
+    Route::view('empresa', 'empresa')->name('empresa');
 
     //Rutas para Importar datos Excel
     Route::get('/importar-excel', [ExcelController::class, 'index'])->name('excel.index');
     Route::post('/import', [ExcelController::class, 'import'])->name('excel.import');
     Route::get('/import/progress', [ExcelController::class, 'getProgress'])->name('excel.progress');
 
-    // Ruta para mostrar empresas
+    // Ruta para mostrar formularios
     Route::get('forms', [AmbitoController::class, 'index'])->name('forms.index');
 
     // Rutas para Ambitos
     Route::post('forms/ambito', [AmbitoController::class, 'store'])->name('forms.storeAmbito');
-    Route::post('forms/ambito/{id}', [AmbitoController::class, 'update'])->name('forms.updateAmbito');
+    Route::put('forms/ambito/{id}', [AmbitoController::class, 'update'])->name('forms.updateAmbito');
     Route::delete('forms/ambito/{id}', [AmbitoController::class, 'destroy'])->name('forms.destroyAmbito');
 
     // Rutas para Preguntas
     Route::post('forms/pregunta', [PreguntasController::class, 'store'])->name('forms.storePregunta');
-    Route::post('forms/pregunta/{id}', [PreguntasController::class, 'update'])->name('forms.updatePregunta');
+    Route::put('forms/pregunta/{id}', [PreguntasController::class, 'update'])->name('forms.updatePregunta');
     Route::delete('forms/pregunta/{id}', [PreguntasController::class, 'destroy'])->name('forms.destroyPregunta');
 
     // Rutas para Formularios
     Route::post('forms/formu', [FormulariosController::class, 'store'])->name('forms.storeFormulario');
-    Route::post('forms/formu/{id}', [FormulariosController::class, 'update'])->name('forms.updateFormulario');
+    Route::put('forms/formu/{id}', [FormulariosController::class, 'update'])->name('forms.updateFormulario');
     Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
     //ruta para mostrar Asesorias
