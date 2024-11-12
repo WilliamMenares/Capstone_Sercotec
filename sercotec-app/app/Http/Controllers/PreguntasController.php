@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 class PreguntasController extends Controller
 {
-
+    public function getpregu()
+    {
+        $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get(); 
+        return response()->json($preguntas);
+    }
 
     // Función para agregar un usuario
     public function store(Request $request)
