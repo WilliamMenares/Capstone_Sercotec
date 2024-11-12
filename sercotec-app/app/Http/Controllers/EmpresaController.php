@@ -17,6 +17,7 @@ class EmpresaController extends Controller
     }
 
     public function getemps()
+
     {
         $empresas = Empresa::all(); // O el modelo que uses
         return response()->json($empresas);
