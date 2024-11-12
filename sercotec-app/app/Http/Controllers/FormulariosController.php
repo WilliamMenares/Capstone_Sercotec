@@ -7,26 +7,42 @@ use Illuminate\Http\Request;
 
 class FormulariosController extends Controller
 {
+
+    public function getformu()
+    {
+        $formularios = Formularios::with('ambitos')->get();// O el modelo que uses
+        return response()->json($formularios);
+    }
+
     // Guardar un nuevo formulario en la base de datos
     public function store(Request $request)
     {
-        $request->validate([
+
+
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'responsable' => 'required|string|max:255',
-            'ambitos' => 'required|array', // Validar que se seleccionen ámbitos
-            'ambitos.*' => 'integer|exists:ambitos,id' // Validar cada ID de ámbito
+            'ambitos' => 'required|array|min:1',
+            'ambitos.*' => 'exists:ambitos,id'
         ]);
 
-        // Crear el formulario
-        $formulario = Formularios::create([
-            'nombre' => $request->nombre,
-            'responsable' => $request->responsable,
-        ]);
+        try {
+            // Crear el formulario
+            $formulario = Formularios::create([
+                'nombre' => $validated['nombre'],
+                'responsable' => $validated['responsable'],
+            ]);
 
-        // Asociar los ámbitos seleccionados
-        $formulario->ambitos()->attach($request->ambitos);
+            // Asociar los ámbitos seleccionados
+            $formulario->ambitos()->attach($validated['ambitos']);
 
-        return redirect()->route('forms.index')->with('success', 'Formulario creado correctamente.');
+            return redirect()->route('forms.index')
+                ->with('success', 'Formulario creado correctamente.');
+        } catch (\Exception $e) {
+            \Log::error('Error al crear formulario: ' . $e->getMessage());
+            return back()->with('error', 'Error al crear el formulario.')
+                ->withInput();
+        }
     }
 
 

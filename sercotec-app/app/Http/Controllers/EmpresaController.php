@@ -16,63 +16,10 @@ class EmpresaController extends Controller
         return view("empresa")->with("empresas", $empresas);
     }
 
-    // Función para agregar una empresa
-    public function store(Request $request)
+    public function getemps()
     {
-        $validatedData = $request->validate([
-            'rut' => 'required|string|max:255',  // Formato para RUT
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|max:255', // Validar formato de correo
-            'telefono' => 'required|string|max:255', // Formato requerido: +56 seguido de 9 dígitos
-            
-        ]);
-
-
-        Empresa::create([
-            'rut' => $validatedData['rut'],
-            'email' => $validatedData['email'],
-            'telefono' => $validatedData['telefono'],
-            'nombre' => $validatedData['nombre'],
-        ]);
-
-
-        return redirect()->route('empresa.index')->with(
-            'status',
-            'Empresa creada exitosamente'
-        );
+        $empresas = Empresa::all(); // O el modelo que uses
+        return response()->json($empresas);
     }
 
-    // Función para actualizar una empresa
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'rut' => 'required|string|max:255',  // Formato para RUT
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|max:255', // Validar formato de correo
-            'telefono' => 'required|string|max:255', // Formato requerido: +56 seguido de 9 dígitos
-            
-        ]);
-
-        // Encontrar la empresa por ID
-        $empresa = Empresa::findOrFail($id);
-
-        // Actualizar solo los campos proporcionados
-        $empresa->update(array_filter([
-            'rut' => $validatedData['rut'] ?? $empresa->rut,
-            'email' => $validatedData['email'] ?? $empresa->email,
-            'telefono' => $validatedData['telefono'] ?? $empresa->telefono,
-            'nombre' => $validatedData['nombre'] ?? $empresa->nombre,
-        ]));
-
-        // Redirigir o devolver respuesta
-        return redirect()->route('empresa.index')->with('status', 'Empresa actualizada correctamente.');
-    }
-
-
-    public function destroy($id)
-    {
-        $empresa = Empresa::findOrFail($id);
-        $empresa->delete();
-        return redirect()->route('empresa.index')->with('status', 'Empresa eliminada con éxito');
-    }
 }

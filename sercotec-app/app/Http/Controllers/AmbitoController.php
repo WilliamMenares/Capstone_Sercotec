@@ -18,6 +18,12 @@ class AmbitoController extends Controller
         return view("forms", compact('preguntas', 'ambitos', 'formularios'));
     }
 
+    public function getambis()
+    {
+        $ambitos = Ambitos::all(); // O el modelo que uses
+        return response()->json($ambitos);
+    }
+
     // Función para agregar un usuario
     public function store(Request $request)
     {
@@ -64,6 +70,12 @@ class AmbitoController extends Controller
         if ($ambito->preguntas()->count() > 0) {
             return redirect()->route('forms.index')
                 ->with('error', 'No se puede eliminar el ámbito porque tiene preguntas enlazadas.');
+        }
+
+        // Verificar si el ámbito tiene formularios asociados
+        if ($ambito->formularios()->count() > 0) {
+            return redirect()->route('forms.index')
+                ->with('error', 'No se puede eliminar el ámbito porque tiene formularios enlazados.');
         }
 
         $ambito->delete();

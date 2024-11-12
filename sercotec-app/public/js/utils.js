@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function validarTelefono(telefono) {
-        const telefonoRegex = /^\+56\d{9}$/; // Valida +56 seguido de 9 dígitos (sin espacio)
-        return telefonoRegex.test(telefono);
+        // Modificada para exigir exactamente 12 caracteres (incluido el +56)
+        const telefonoRegex = /^\+56\d{9}$/;
+        return telefonoRegex.test(telefono) && telefono.length === 12;
     }
 
     function validarInputRut(input) {
@@ -48,8 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!telefono.startsWith("56")) {
             telefono = "56" + telefono;
         }
-        // Guardar el valor sin espacio
-        input.value = "+56" + telefono.slice(2); // Asignar valor formateado sin espacio
+        // Guardar el valor sin espacio y asegurar que tenga 9 dígitos después del +56
+        input.value = "+56" + telefono.slice(2);
+
+        // Validar la longitud después de formatear
+        if (input.value.length < 12) {
+            input.classList.remove("valid");
+            input.classList.add("invalid");
+        }
     }
 
     inputsPhone.forEach(function (input) {
@@ -85,10 +92,10 @@ document.addEventListener("DOMContentLoaded", function () {
     forms.forEach(function (form) {
         form.addEventListener("submit", function (event) {
             let formIsValid = true;
-    
+
             const inputsRutInForm = form.querySelectorAll(".rut-vali");
             const inputsPhoneInForm = form.querySelectorAll(".phone-vali");
-    
+
             // Validar RUTs dentro del formulario específico
             inputsRutInForm.forEach(function (input) {
                 validarInputRut(input);
@@ -96,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     formIsValid = false;
                 }
             });
-    
+
             // Validar teléfonos dentro del formulario específico
             inputsPhoneInForm.forEach(function (input) {
                 validarInputTelefono(input);
@@ -104,20 +111,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     formIsValid = false;
                 }
             });
-    
+
             // Mostrar alerta si el formulario no es válido
             if (!formIsValid) {
                 event.preventDefault();
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Algo anda mal!",
+                    text: "Por favor, verifica que el RUT y el teléfono estén correctamente ingresados",
+                    color: "#ffffff",
                 });
             }
         });
     });
 });
-
 
 // alerta
 window.addEventListener("load", function () {
@@ -144,6 +151,15 @@ window.addEventListener("load", function () {
         Toast.fire({
             icon: "error",
             title: window.error,
+        });
+    }
+
+    if (window.messages) {
+        window.messages.forEach(function (message) {
+            Toast.fire({
+                icon: "warning",
+                title: message,
+            });
         });
     }
 });
