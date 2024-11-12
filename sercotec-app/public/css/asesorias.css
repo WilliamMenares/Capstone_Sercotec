@@ -1,0 +1,90 @@
+.encuesta{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.twitter-typeahead{
+    width: 100% !important;
+}
+.contenebus{
+    width: 50%;
+}
+.encuinpu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+    height: 50%;
+}
+.enviarencu{
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    
+
+}
+.ambitos-container{
+    border: 1px red solid;
+    width: 60%;
+}
+.buscador{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    border: 1px red solid;
+    flex-direction: column;
+    padding: 20px;
+}
+.ambito{
+    width: 100%;
+    padding: 10px;
+}
+
+.pre1{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 60%;
+    align-items: center;
+}
+.encabepre{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+.pre3{
+    margin-left: 10px;
+    background-color: rgb(104, 115, 180);
+    text-align: center;
+    width: 100%;
+    padding: 8px;
+    font-size: 25px;
+}
+
+.pre-enca{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.pre-item{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+.pre2{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    width: 40%;
+
+}
+.r1,.r2,.r3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 33%;
+    text-align: center;
+}

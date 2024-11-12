@@ -18,7 +18,7 @@ class PreguntasController extends Controller
     {
         try {
             $request->validate([
-                'title' => 'required|string|max:255',
+                'title' => 'required|string',
                 'id_ambito' => 'required|integer',
             ]);
 
@@ -43,7 +43,7 @@ class PreguntasController extends Controller
             $pregunta = Preguntas::findOrFail($id);
 
             $request->validate([
-                'nombrep' => 'required|string|max:255',
+                'nombrep' => 'required|string',
                 'id_ambito' => 'required|integer'
             ]);
 
