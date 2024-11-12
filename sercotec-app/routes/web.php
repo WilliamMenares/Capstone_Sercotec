@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbitoController;
+use App\Http\Controllers\AsesoriasController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FormulariosController;
@@ -66,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
     //ruta para mostrar Asesorias
     Route::view('/asesorias', 'asesorias' );
+    Route::get('/asesorias', [AsesoriasController::class, 'index'])->name('asesoria.index');
 
 });
 

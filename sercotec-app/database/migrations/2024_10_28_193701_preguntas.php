@@ -14,7 +14,7 @@ return new class extends Migration
         {
             Schema::create('preguntas', function (Blueprint $table) {
                 $table->id();
-                $table->string('title');
+                $table->text('title');
                 $table->integer('id_ambito');
                 $table->timestamps();
             });
