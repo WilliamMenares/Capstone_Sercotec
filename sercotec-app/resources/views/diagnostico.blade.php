@@ -6,13 +6,13 @@
 
 <link rel="stylesheet" href="{{ asset('css/diagnostico.css') }}">
 
-<script src="{{ asset('js/asesoria.js') }}"></script>
+<script src="{{ asset('js/diagnostico.js') }}"></script>
 
 @section('content')
 
 <div class="crud">
     <div class="titulo">
-        <h1>Crear Asesoria</h1>
+        <h1>Crear Diagnostico</h1>
     </div>
 
     <div class="encuesta">

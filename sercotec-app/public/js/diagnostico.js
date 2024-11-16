@@ -64,62 +64,38 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error general:", error);
         });
 
-    const formularioSelect = document.getElementById("formulario");
-    let currentAmbitoIndex = 0;
-    let currentAmbitos = [];
+    const ambitos = document.querySelectorAll('.ambito');
+    const prevButton = document.querySelector('#prev-btn');
+    const nextButton = document.querySelector('#next-btn');
 
-    function updateNavigationButtons() {
-        document.getElementById("prev-btn").disabled = currentAmbitoIndex === 0;
-        document.getElementById("next-btn").disabled =
-            currentAmbitoIndex === currentAmbitos.length - 1;
-    }
+    let currentIndex = 0;
 
-    function showAmbito(index) {
-        currentAmbitos.forEach((ambito, i) => {
-            ambito.style.display = i === index ? "block" : "none";
+    function updatePagination() {
+        ambitos.forEach((ambito, index) => {
+            ambito.style.display = index === currentIndex ? 'block' : 'none';
         });
-        updateNavigationButtons();
+
+        // Actualizar estado de los botones (asegúrate de que currentIndex esté dentro de los límites)
+        prevButton.disabled = currentIndex === 0;
+        nextButton.disabled = currentIndex === ambitos.length - 1;
     }
 
-    function loadAmbitosForFormulario(formularioId) {
-        const allAmbitos = document.querySelectorAll(".ambito");
-        currentAmbitos = Array.from(allAmbitos).filter(
-            (ambito) => ambito.getAttribute("data-formulario") === formularioId
-        );
-        currentAmbitoIndex = 0;
-        showAmbito(currentAmbitoIndex);
-    }
-
-    formularioSelect.addEventListener("change", function () {
-        const formularioId = formularioSelect.value;
-
-        if (formularioId) {
-            loadAmbitosForFormulario(formularioId);
-        } else {
-            // Si no hay formulario seleccionado, oculta todos los ámbitos
-            document
-                .querySelectorAll(".ambito")
-                .forEach((ambito) => (ambito.style.display = "none"));
-            currentAmbitos = [];
+    // Manejadores de eventos
+    prevButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updatePagination();
         }
     });
 
-    document.getElementById("next-btn").addEventListener("click", function () {
-        if (currentAmbitoIndex < currentAmbitos.length - 1) {
-            currentAmbitoIndex++;
-            showAmbito(currentAmbitoIndex);
+    nextButton.addEventListener('click', () => {
+        if (currentIndex < ambitos.length - 1) {
+            currentIndex++;
+            updatePagination();
         }
     });
 
-    document.getElementById("prev-btn").addEventListener("click", function () {
-        if (currentAmbitoIndex > 0) {
-            currentAmbitoIndex--;
-            showAmbito(currentAmbitoIndex);
-        }
-    });
-
-    // Inicialmente oculta todos los ámbitos hasta que se seleccione un formulario
-    document
-        .querySelectorAll(".ambito")
-        .forEach((ambito) => (ambito.style.display = "none"));
+    // Inicialización
+    updatePagination();
 });
+
