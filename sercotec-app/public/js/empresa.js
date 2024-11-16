@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 field: "codigo",
                 filter: true,
                 floatingFilter: true,
+            },{
+                headerName: "Rut",
+                field: "rut",
+                filter: true,
+                floatingFilter: true,
             },
             {
                 headerName: "Nombre",
@@ -34,8 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 floatingFilter: true,
             },
             {
-                headerName: "Telefono",
-                field: "telefono",
+                headerName: "Contacto primario",
+                field: "contacto",
                 filter: true,
                 floatingFilter: true,
             },
