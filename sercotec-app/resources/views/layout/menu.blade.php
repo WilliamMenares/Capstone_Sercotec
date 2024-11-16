@@ -16,9 +16,6 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
-
-    
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <script src="{{ asset('js/utils.js') }}"></script>
 </head>
@@ -40,7 +37,7 @@
                         <a class="nav-link" href="/user">Asesores</a>
                     </li>
                     <li class="nav-item mb-3">
-                        <a class="nav-link" href="/asesorias">Asesorías</a>
+                        <a class="nav-link" href="/diagnostico">Diagnostico</a>
                     </li>
                     <li class="nav-item mb-3">
                         <a class="nav-link" href="/forms">Ambitos y Preguntas</a>
@@ -73,9 +70,9 @@
     <!-- Luego carga Select2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     <script src="{{ asset('js/chosen.jquery.js') }}"></script>
-    <script> window.success = @json(session('success'));</script>
-    <script> window.error = @json(session('error'));</script>
-    <script> window.messages = @json($errors->all());</script>
+    <script> window.success = @json(session('success')); </script>
+    <script> window.error = @json(session('error')); </script>
+    <script> window.messages = @json($errors->all()); </script>
     @yield('scripts')
 </body>
 

@@ -1,10 +1,10 @@
 @extends('layout.menu')
 
-@section('title', 'Asesorias')
+@section('title', 'Diagnostico')
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
 
-<link rel="stylesheet" href="{{ asset('css/asesorias.css') }}">
+<link rel="stylesheet" href="{{ asset('css/diagnostico.css') }}">
 
 <script src="{{ asset('js/asesoria.js') }}"></script>
 

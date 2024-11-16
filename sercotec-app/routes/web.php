@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbitoController;
-use App\Http\Controllers\AsesoriasController;
+use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FormulariosController;
@@ -66,8 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
     //ruta para mostrar Asesorias
-    Route::view('/asesorias', 'asesorias' );
-    Route::get('/asesorias', [AsesoriasController::class, 'index'])->name('asesoria.index');
+    Route::view('/diagnostico', 'diagnostico' );
+    Route::get('/diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
 
 });
 
