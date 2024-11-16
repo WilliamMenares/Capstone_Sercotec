@@ -11,5 +11,5 @@ class Empresa extends Model
 
     protected $table = 'empresas';
 
-    protected $fillable = ['codigo', 'nombre', 'email', 'telefono'];
+    protected $fillable = ['codigo','rut', 'nombre', 'email', 'contacto'];
 }

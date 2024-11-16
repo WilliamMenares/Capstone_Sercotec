@@ -19,7 +19,7 @@ class EmpresaImport implements WithMultipleSheets
     public function sheets(): array
     {
         return [
-            1 => new SecondSheetImport() // Específicamente la segunda hoja (índice 1)
+            0 => new SecondSheetImport() // Específicamente la segunda hoja (índice 1)
         ];
     }
 }
@@ -47,8 +47,7 @@ class SecondSheetImport implements ToModel, WithStartRow, SkipsOnError, SkipsOnF
         $this->rows++;
         Session::put('import_progress', $this->rows);
 
-        // Limpiar los datos antes de insertarlos
-        $telefono = !empty($row[11]) ? '+56' . substr(preg_replace('/\D/', '', $row[11]), -9) : null;
+   
 
         // Verificar si el código ya existe en la base de datos
         if (Empresa::where('codigo', trim($row[0]))->exists()) {
@@ -57,9 +56,10 @@ class SecondSheetImport implements ToModel, WithStartRow, SkipsOnError, SkipsOnF
 
         return new Empresa([
             'codigo' => trim($row[0]),
-            'nombre' => trim($row[1]),
-            'email' => !empty($row[10]) ? trim($row[10]) : null,
-            'telefono' => $telefono,
+            'rut' => trim($row[1]),
+            'nombre' => trim($row[2]),
+            'contacto' =>trim($row[3]),
+            'email' => !empty($row[4]) ? trim($row[4]) : null
         ]);
     }
 
