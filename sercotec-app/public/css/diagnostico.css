@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
+    height: 100dvh;
 }
 .twitter-typeahead{
     width: 100% !important;
@@ -26,14 +27,14 @@
 
 }
 .ambitos-container{
-    border: 1px red solid;
+
     width: 60%;
 }
 .buscador{
     width: 40%;
     display: flex;
     align-items: center;
-    border: 1px red solid;
+
     flex-direction: column;
     padding: 20px;
 }

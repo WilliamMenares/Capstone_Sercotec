@@ -64,62 +64,54 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error general:", error);
         });
 
+        
+});
+
+document.addEventListener("DOMContentLoaded", function () {
     const formularioSelect = document.getElementById("formulario");
-    let currentAmbitoIndex = 0;
-    let currentAmbitos = [];
+    const ambitos = document.querySelectorAll(".ambito");
+    let currentAmbitoIndex = -1; // Índice actual del ámbito visible
 
-    function updateNavigationButtons() {
-        document.getElementById("prev-btn").disabled = currentAmbitoIndex === 0;
-        document.getElementById("next-btn").disabled =
-            currentAmbitoIndex === currentAmbitos.length - 1;
-    }
-
-    function showAmbito(index) {
-        currentAmbitos.forEach((ambito, i) => {
-            ambito.style.display = i === index ? "block" : "none";
-        });
-        updateNavigationButtons();
-    }
-
-    function loadAmbitosForFormulario(formularioId) {
-        const allAmbitos = document.querySelectorAll(".ambito");
-        currentAmbitos = Array.from(allAmbitos).filter(
-            (ambito) => ambito.getAttribute("data-formulario") === formularioId
-        );
-        currentAmbitoIndex = 0;
-        showAmbito(currentAmbitoIndex);
-    }
-
+    // Cambiar visibilidad según formulario seleccionado
     formularioSelect.addEventListener("change", function () {
-        const formularioId = formularioSelect.value;
+        const selectedFormulario = this.value;
+        currentAmbitoIndex = 0; // Reinicia al primer ámbito
 
-        if (formularioId) {
-            loadAmbitosForFormulario(formularioId);
-        } else {
-            // Si no hay formulario seleccionado, oculta todos los ámbitos
-            document
-                .querySelectorAll(".ambito")
-                .forEach((ambito) => (ambito.style.display = "none"));
-            currentAmbitos = [];
+        // Oculta todos los ámbitos
+        ambitos.forEach(ambito => ambito.style.display = "none");
+
+        // Muestra el primer ámbito del formulario seleccionado
+        const filteredAmbitos = Array.from(ambitos).filter(
+            ambito => ambito.getAttribute("data-formulario") === selectedFormulario
+        );
+
+        if (filteredAmbitos.length > 0) {
+            filteredAmbitos[currentAmbitoIndex].style.display = "block";
         }
     });
 
-    document.getElementById("next-btn").addEventListener("click", function () {
-        if (currentAmbitoIndex < currentAmbitos.length - 1) {
-            currentAmbitoIndex++;
-            showAmbito(currentAmbitoIndex);
+    // Botones de navegación
+    document.addEventListener("click", function (event) {
+        if (event.target.id === "next-btn" || event.target.id === "prev-btn") {
+            const selectedFormulario = formularioSelect.value;
+            if (!selectedFormulario) return; // Si no hay formulario seleccionado, no hace nada
+
+            const filteredAmbitos = Array.from(ambitos).filter(
+                ambito => ambito.getAttribute("data-formulario") === selectedFormulario
+            );
+
+            // Oculta el ámbito actual
+            filteredAmbitos[currentAmbitoIndex].style.display = "none";
+
+            // Cambia el índice según el botón
+            if (event.target.id === "next-btn" && currentAmbitoIndex < filteredAmbitos.length - 1) {
+                currentAmbitoIndex++;
+            } else if (event.target.id === "prev-btn" && currentAmbitoIndex > 0) {
+                currentAmbitoIndex--;
+            }
+
+            // Muestra el nuevo ámbito
+            filteredAmbitos[currentAmbitoIndex].style.display = "block";
         }
     });
-
-    document.getElementById("prev-btn").addEventListener("click", function () {
-        if (currentAmbitoIndex > 0) {
-            currentAmbitoIndex--;
-            showAmbito(currentAmbitoIndex);
-        }
-    });
-
-    // Inicialmente oculta todos los ámbitos hasta que se seleccione un formulario
-    document
-        .querySelectorAll(".ambito")
-        .forEach((ambito) => (ambito.style.display = "none"));
 });

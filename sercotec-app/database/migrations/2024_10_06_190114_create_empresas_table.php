@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('codigo'); 
+            $table->string('codigo');
+            $table->string('rut');
             $table->string('nombre');
             $table->string('email');
-            $table->string('telefono');
+            $table->string('contacto');
             $table->timestamps(); // Esto crea created_at y updated_at
         });
     }
