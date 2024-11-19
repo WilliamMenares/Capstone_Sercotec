@@ -7,16 +7,17 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Http\\Controllers\\AmbitoController' => $baseDir . '/app/Http/Controllers/AmbitoController.php',
-    'App\\Http\\Controllers\\AsesoriasController' => $baseDir . '/app/Http/Controllers/AsesoriasController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\NewPasswordController' => $baseDir . '/app/Http/Controllers/Auth/NewPasswordController.php',
     'App\\Http\\Controllers\\Auth\\PasswordResetLinkController' => $baseDir . '/app/Http/Controllers/Auth/PasswordResetLinkController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\DiagnosticoController' => $baseDir . '/app/Http/Controllers/DiagnosticoController.php',
     'App\\Http\\Controllers\\EmpresaController' => $baseDir . '/app/Http/Controllers/EmpresaController.php',
     'App\\Http\\Controllers\\ExcelController' => $baseDir . '/app/Http/Controllers/ExcelController.php',
     'App\\Http\\Controllers\\FormulariosController' => $baseDir . '/app/Http/Controllers/FormulariosController.php',
     'App\\Http\\Controllers\\PreguntasController' => $baseDir . '/app/Http/Controllers/PreguntasController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
+    'App\\Http\\Controllers\\WelcomeController' => $baseDir . '/app/Http/Controllers/WelcomeController.php',
     'App\\Imports\\EmpresaImport' => $baseDir . '/app/Imports/EmpresaImport.php',
     'App\\Models\\Ambitos' => $baseDir . '/app/Models/Ambitos.php',
     'App\\Models\\Empresa' => $baseDir . '/app/Models/Empresa.php',

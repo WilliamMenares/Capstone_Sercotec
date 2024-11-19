@@ -549,16 +549,17 @@ class ComposerStaticInited9cdcb7df49cd5090fa675539d5726c
 
     public static $classMap = array (
         'App\\Http\\Controllers\\AmbitoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AmbitoController.php',
-        'App\\Http\\Controllers\\AsesoriasController' => __DIR__ . '/../..' . '/app/Http/Controllers/AsesoriasController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\NewPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/NewPasswordController.php',
         'App\\Http\\Controllers\\Auth\\PasswordResetLinkController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordResetLinkController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DiagnosticoController' => __DIR__ . '/../..' . '/app/Http/Controllers/DiagnosticoController.php',
         'App\\Http\\Controllers\\EmpresaController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmpresaController.php',
         'App\\Http\\Controllers\\ExcelController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExcelController.php',
         'App\\Http\\Controllers\\FormulariosController' => __DIR__ . '/../..' . '/app/Http/Controllers/FormulariosController.php',
         'App\\Http\\Controllers\\PreguntasController' => __DIR__ . '/../..' . '/app/Http/Controllers/PreguntasController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
+        'App\\Http\\Controllers\\WelcomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/WelcomeController.php',
         'App\\Imports\\EmpresaImport' => __DIR__ . '/../..' . '/app/Imports/EmpresaImport.php',
         'App\\Models\\Ambitos' => __DIR__ . '/../..' . '/app/Models/Ambitos.php',
         'App\\Models\\Empresa' => __DIR__ . '/../..' . '/app/Models/Empresa.php',
