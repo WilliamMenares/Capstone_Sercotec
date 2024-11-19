@@ -11,6 +11,7 @@ use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
     return view('login');
@@ -46,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/importar-excel', [ExcelController::class, 'index'])->name('excel.index');
     Route::post('/import', [ExcelController::class, 'import'])->name('excel.import');
     Route::get('/import/progress', [ExcelController::class, 'getProgress'])->name('excel.progress');
+
+    // Ruta para Welcome
+    Route::get('/welcome', [welcomeController::class, 'index'])->name('dashboard');
 
     // Ruta para mostrar formularios
     Route::get('forms', [AmbitoController::class, 'index'])->name('forms.index');
