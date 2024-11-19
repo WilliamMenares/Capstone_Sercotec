@@ -68,6 +68,10 @@ Route::middleware(['auth'])->group(function () {
     //ruta para mostrar Asesorias
     Route::view('/diagnostico', 'diagnostico' );
     Route::get('/diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
+    Route::post('/diagnostico', [DiagnosticoController::class, 'store'])->name('diagnostico.store');
+
+    //Ruta para diagnostico
+
 
 });
 
