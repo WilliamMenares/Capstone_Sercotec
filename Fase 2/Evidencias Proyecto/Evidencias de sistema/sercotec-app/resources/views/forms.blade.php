@@ -144,6 +144,11 @@
                                 value="{{$pregu->title}}" placeholder="Nombre" required>
                         </div>
                         <div class="mb-3">
+                            <label for="puntaje" class="form-label">Puntaje:</label>
+                            <input type="number" class="form-control bg-dark text-light" name="puntaje"
+                                value="{{$pregu->puntaje}}" placeholder="Nombre" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="ambito" class="form-label">Ambito:</label>
                             <input type="text" class="form-control bg-dark text-light search-ambito" name="ambito"
                                 value="{{$pregu->ambito->title}}" placeholder="Ambito" required>
@@ -281,6 +286,11 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Pregunta:</label>
                         <input type="text" class="form-control bg-dark text-light" name="title" placeholder="Nombre"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="puntaje" class="form-label">Puntaje:</label>
+                        <input type="number" class="form-control bg-dark text-light" name="puntaje" placeholder="Nombre"
                             required>
                     </div>
                     <div class="mb-3">

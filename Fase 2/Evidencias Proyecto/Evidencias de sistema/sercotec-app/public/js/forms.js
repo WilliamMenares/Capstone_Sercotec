@@ -67,8 +67,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Columnas para preguntas
     const preguntasColumnDefs = [
         {
-            headerName: "Nombre",
+            headerName: "Pregunta",
             field: "title",
+            filter: true,
+            floatingFilter: true,
+        },
+        {
+            headerName: "Puntaje",
+            field: "puntaje",
             filter: true,
             floatingFilter: true,
         },

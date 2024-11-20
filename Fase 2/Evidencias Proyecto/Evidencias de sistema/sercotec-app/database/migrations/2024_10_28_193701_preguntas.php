@@ -15,6 +15,7 @@ return new class extends Migration
             Schema::create('preguntas', function (Blueprint $table) {
                 $table->id();
                 $table->text('title');
+                $table->integer('puntaje');
                 $table->integer('id_ambito');
                 $table->timestamps();
             });

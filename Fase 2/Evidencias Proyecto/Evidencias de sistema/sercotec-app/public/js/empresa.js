@@ -32,6 +32,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             filter: true,
             floatingFilter: true,
         },
+        {
+            headerName: "Acciones",
+            width: 250,
+            cellRenderer: (params) => `
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${params.data.id}">Editar</button>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal${params.data.id}">Eliminar</button>
+        `,
+        },
     ];
 
     // Inicializar grids primero con arrays vacíos

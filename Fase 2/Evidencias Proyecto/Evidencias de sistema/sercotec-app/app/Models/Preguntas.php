@@ -11,7 +11,7 @@ class Preguntas extends Model
 
     protected $table = 'preguntas';
 
-    protected $fillable = ['title', 'id_ambito'];
+    protected $fillable = ['title', 'id_ambito', 'puntaje'];
 
     // Definimos la relación con Ambitos
     public function ambito()

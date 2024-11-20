@@ -42,8 +42,13 @@ Route::middleware(['auth'])->group(function () {
 
     //Rutas Individuales
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-    Route::view('welcome', 'welcome')->name('welcome');
-    Route::view('empresa', 'empresa')->name('empresa');
+
+
+    //Rutas Empresas
+    Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresa.index');
+    Route::put('/empresa/{id}', [EmpresaController::class, 'update'])->name('empresa.update');
+    Route::post('/empresa', [EmpresaController::class, 'store'])->name('empresa.store');
+    Route::delete('/empresa/{id}', [EmpresaController::class, 'destroy'])->name('empresa.destroy');
 
     //Rutas para Importar datos Excel
     Route::get('/importar-excel', [ExcelController::class, 'index'])->name('excel.index');
