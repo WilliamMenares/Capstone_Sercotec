@@ -5,33 +5,32 @@
 }
 
 .main {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
+    display: flex; /* Mantiene el diseño de dos columnas */
+    flex-direction: row; /* Coloca el menú a la izquierda en escritorio */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
 }
 
 .box-left {
-    width: 300px;
+    width: 250px; /* Ancho fijo del menú en pantallas grandes */
+    min-width: 200px; /* Ancho mínimo en pantallas pequeñas */
+    flex-shrink: 0; /* Evita que el menú se reduzca al achicar la pantalla */
     display: flex;
     flex-direction: column;
-    align-items: center  ;
-    justify-content: start;
-    font-size: 50px;
-    background-color: #1953d133;
+    align-items: center;
+    background-color: #D1DCF6;
+    padding: 20px;
+    box-sizing: border-box; /* Incluye el padding dentro del ancho */
 }
 
 .box-rigth {
-    flex-grow: 1; /* El contenido de la derecha ocupa todo el espacio restante */
-    display: flex;
-    flex-direction: column;
-}
-
-
-
-.contenido {
-    flex-grow: 1; /* El contenido de abajo ocupará el resto del espacio vertical */
+    flex-grow: 1; /* Permite que el contenido use el espacio restante */
     background-color: #333;
+    overflow-y: auto; /* Agrega scroll si el contenido es largo */
+    padding: 20px;
+    box-sizing: border-box;
 }
+
+
 
 .menu{
     display: flex;
@@ -42,7 +41,7 @@
 }
 
 .menu img{
-    width: 250px;
+    width: 200px;
 }
 
 .nav-link{
@@ -71,4 +70,187 @@ ol ,ul{
 }
 .nav-link:hover {
     color: white !important; /* Cambiar a un color amarillo al pasar el mouse */
+}
+
+
+
+/* Add a class for when the menu is open */
+.menu-open .box-left {
+    transform: translateX(0);
+}
+
+/* Tablet and mobile styles */
+@media screen and (max-width: 768px) {
+
+    .box-left {
+        position: fixed;
+        left: -300px; /* Empieza fuera de la pantalla */
+        top: 0;
+        height: 100vh;
+        width: 250px;
+        transition: left 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .menu-open .box-left {
+        left: 0; /* Mueve el menú a la vista cuando está abierto */
+    }
+
+    .main {
+        position: relative;
+    }
+
+    .box-rigth {
+        width: 100%;
+        margin-top: 120px;
+    }
+
+    /* Make the menu items slightly smaller on mobile */
+    .nav-link {
+        font-size: 1.2rem !important;
+    }
+
+    .menu img {
+        width: 150px; /* Smaller logo for mobile */
+    }
+}
+
+/* Smaller phones */
+@media screen and (max-width: 480px) {
+    .box-left {
+        width: 200px; /* Even smaller for phones */
+    }
+
+    .menu img {
+        width: 120px;
+    }
+
+    .nav-link {
+        font-size: 1rem !important;
+    }
+    .header-logo {
+        height: 30px;
+    }
+
+    .welcome-message {
+        font-size: 10px;
+        max-width: 100px;
+    }
+
+    .menu-logo {
+        width: 120px;
+    }
+}
+
+/* Styles for the new mobile header */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background-color: #D1DCF6;
+    z-index: 999;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.3s ease-in-out; /* Añade una transición suave */
+}
+
+
+@media screen and (max-width: 768px) {
+    .mobile-header {
+        display: flex;
+    }
+}
+
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0; /* Ajustado para cubrir todo */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.menu-open .overlay {
+    display: block; /* Se asegura que aparezca */
+    opacity: 1;
+}
+
+/* Ajusta el z-index del menú para que esté por encima del overlay */
+@media screen and (max-width: 768px) {
+    .box-left {
+        z-index: 1000;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+    .box-left {
+        padding-top: 20px;
+    }
+
+    .desktop-welcome {
+        display: none;
+    }
+
+    .menu-logo {
+        width: 150px;
+    }
+
+    .welcome-message {
+        font-size: 12px;
+        max-width: 120px;
+    }
+}
+
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.header-logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.welcome-message {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.desktop-welcome {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.menu-logo {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+
+/* Añade un nuevo estilo para el header cuando el menú está abierto */
+.menu-open .mobile-header {
+    background-color: #6f7686;
+}
+
+.menu-toggle {
+    z-index: 1001;
+    color: #333;
 }
