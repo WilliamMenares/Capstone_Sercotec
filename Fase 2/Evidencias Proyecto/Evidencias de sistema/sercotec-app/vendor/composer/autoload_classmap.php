@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Http\\Controllers\\AmbitoController' => $baseDir . '/app/Http/Controllers/AmbitoController.php',
+    'App\\Http\\Controllers\\AsesoriaController' => $baseDir . '/app/Http/Controllers/AsesoriaController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\NewPasswordController' => $baseDir . '/app/Http/Controllers/Auth/NewPasswordController.php',
     'App\\Http\\Controllers\\Auth\\PasswordResetLinkController' => $baseDir . '/app/Http/Controllers/Auth/PasswordResetLinkController.php',
@@ -21,8 +22,11 @@ return array(
     'App\\Imports\\EmpresaImport' => $baseDir . '/app/Imports/EmpresaImport.php',
     'App\\Models\\Ambitos' => $baseDir . '/app/Models/Ambitos.php',
     'App\\Models\\Empresa' => $baseDir . '/app/Models/Empresa.php',
+    'App\\Models\\Encuesta' => $baseDir . '/app/Models/Encuesta.php',
     'App\\Models\\Formularios' => $baseDir . '/app/Models/Formularios.php',
     'App\\Models\\Preguntas' => $baseDir . '/app/Models/Preguntas.php',
+    'App\\Models\\Respuestas' => $baseDir . '/app/Models/Respuestas.php',
+    'App\\Models\\RespuestasTipo' => $baseDir . '/app/Models/RespuestasTipo.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
