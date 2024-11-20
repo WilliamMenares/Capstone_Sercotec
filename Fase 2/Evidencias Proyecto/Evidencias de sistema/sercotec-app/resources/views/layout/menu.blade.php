@@ -25,10 +25,10 @@
     <div class="main">
     <div class="mobile-header">
         <button class="hamburger-btn btn btn-transparent" id="toggle-sidebar">
-            <i class="bi bi-list"></i>
+            <i class="bi bi-list fs-1"></i>
         </button>
         <div class="header-content">
-            <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="Logo" class="header-logo">
+            <img src="{{ asset('img/Logo_Sercotec_Mobil.png') }}" alt="Logo" class="header-logo">
             @auth
                 <span class="welcome-message">{{ Auth::user()->name }}</span>
             @endauth

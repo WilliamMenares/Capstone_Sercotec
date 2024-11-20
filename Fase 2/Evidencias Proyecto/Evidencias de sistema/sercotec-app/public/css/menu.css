@@ -14,7 +14,6 @@
 }
 
 .box-left {
-    width: 250px; /* Ancho fijo del menú en pantallas grandes */
     min-width: 200px; /* Ancho mínimo en pantallas pequeñas */
     flex-shrink: 0; /* Evita que el menú se reduzca al achicar la pantalla */
     display: flex;
@@ -120,9 +119,6 @@ ol ,ul{
 
 /* Smaller phones */
 @media screen and (max-width: 480px) {
-    .box-left {
-        width: 200px; /* Even smaller for phones */
-    }
 
     .menu img {
         width: 120px;

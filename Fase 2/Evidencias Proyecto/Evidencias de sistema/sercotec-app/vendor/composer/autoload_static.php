@@ -549,6 +549,7 @@ class ComposerStaticInited9cdcb7df49cd5090fa675539d5726c
 
     public static $classMap = array (
         'App\\Http\\Controllers\\AmbitoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AmbitoController.php',
+        'App\\Http\\Controllers\\AsesoriaController' => __DIR__ . '/../..' . '/app/Http/Controllers/AsesoriaController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\NewPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/NewPasswordController.php',
         'App\\Http\\Controllers\\Auth\\PasswordResetLinkController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/PasswordResetLinkController.php',
@@ -563,8 +564,11 @@ class ComposerStaticInited9cdcb7df49cd5090fa675539d5726c
         'App\\Imports\\EmpresaImport' => __DIR__ . '/../..' . '/app/Imports/EmpresaImport.php',
         'App\\Models\\Ambitos' => __DIR__ . '/../..' . '/app/Models/Ambitos.php',
         'App\\Models\\Empresa' => __DIR__ . '/../..' . '/app/Models/Empresa.php',
+        'App\\Models\\Encuesta' => __DIR__ . '/../..' . '/app/Models/Encuesta.php',
         'App\\Models\\Formularios' => __DIR__ . '/../..' . '/app/Models/Formularios.php',
         'App\\Models\\Preguntas' => __DIR__ . '/../..' . '/app/Models/Preguntas.php',
+        'App\\Models\\Respuestas' => __DIR__ . '/../..' . '/app/Models/Respuestas.php',
+        'App\\Models\\RespuestasTipo' => __DIR__ . '/../..' . '/app/Models/RespuestasTipo.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
