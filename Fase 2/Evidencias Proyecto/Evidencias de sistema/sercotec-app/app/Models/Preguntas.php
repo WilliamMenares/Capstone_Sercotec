@@ -11,11 +11,15 @@ class Preguntas extends Model
 
     protected $table = 'preguntas';
 
-    protected $fillable = ['title','id_ambito'];
+    protected $fillable = ['title', 'id_ambito'];
 
     // Definimos la relación con Ambitos
     public function ambito()
     {
         return $this->belongsTo(Ambitos::class, 'id_ambito');
+    }
+    public function respuestas()
+    {
+        return $this->hasMany(Respuestas::class, 'id_pregunta');
     }
 }

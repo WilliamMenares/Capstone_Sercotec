@@ -30,7 +30,7 @@
         <div class="header-content">
             <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="Logo" class="header-logo">
             @auth
-                <span class="welcome-message">Bienvenido/a: {{ Auth::user()->name }}</span>
+                <span class="welcome-message">{{ Auth::user()->name }}</span>
             @endauth
 
         </div>
@@ -72,7 +72,7 @@
         <ul class="menu">
             <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="Logo" class="menu-logo">
             @auth
-                <span class="welcome-message">Bienvenido/a: {{ Auth::user()->name }}</span>
+                <span class="welcome-message">{{ Auth::user()->name }}</span>
             @endauth
 
             <ul class="nav flex-column d-flex align-items-center">
@@ -84,6 +84,9 @@
                 </li>
                 <li class="nav-item mb-3">
                     <a class="nav-link" href="/user">Asesores</a>
+                </li>
+                <li class="nav-item mb-3">
+                    <a class="nav-link" href="/asesorias">Asesorias</a>
                 </li>
                 <li class="nav-item mb-3">
                     <a class="nav-link" href="/diagnostico">Diagnostico</a>

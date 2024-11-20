@@ -163,3 +163,48 @@ window.addEventListener("load", function () {
         });
     }
 });
+
+
+//crear tablas
+// Función para crear grid
+const createDataGrid = (gridDiv, data, columnDefs) => {
+    const gridOptions = {
+        columnDefs,
+        // Inicializamos con array vacío si no hay datos
+        rowData: data || [],
+        pagination: true,
+        paginationPageSizeSelector: [10, 20, 50, 100],
+        paginationPageSize: 10,
+        domLayout: "autoHeight",
+        onFirstDataRendered: (params) => {
+            params.api.sizeColumnsToFit();
+        },
+        // Mensaje cuando no hay datos
+        noRowsOverlayComponent: 'agNoRowsOverlay',
+        noRowsOverlayComponentParams: {
+            message: 'No hay datos disponibles'
+        }
+    };
+    return agGrid.createGrid(gridDiv, gridOptions);
+};
+
+//Buscar Datos
+
+// Función para hacer fetch con manejo de errores
+const fetchData = async (url) => {
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            credentials: "same-origin",
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error(`Error fetching data from ${url}:`, error);
+        return []; // Retornamos array vacío en caso de error
+    }
+};

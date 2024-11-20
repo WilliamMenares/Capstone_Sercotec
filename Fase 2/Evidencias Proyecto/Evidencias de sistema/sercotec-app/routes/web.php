@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbitoController;
+use App\Http\Controllers\AsesoriaController;
 use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ExcelController;
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/ambi', [AmbitoController::class, 'getambis']);
     Route::get('/api/pregu', [PreguntasController::class, 'getpregu']);
     Route::get('/api/formu', [FormulariosController::class, 'getformu']);
+    Route::get('/api/ase', [AsesoriaController::class, 'getase']);
 
     // Rutas para usuarios
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -70,12 +72,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('forms/formu/{id}', [FormulariosController::class, 'destroy'])->name('forms.destroyFormulario');
 
     //ruta para mostrar Asesorias
-    Route::view('/diagnostico', 'diagnostico' );
     Route::get('/diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
     Route::post('/diagnostico', [DiagnosticoController::class, 'store'])->name('diagnostico.store');
 
     //Ruta para diagnostico
-
+    Route::get('/asesorias', [AsesoriaController::class, 'index'])->name('asesorias.index');
+    Route::delete('asesorias/{id}', [AsesoriaController::class, 'destroy'])->name('asesorias.destroy');
 
 });
 

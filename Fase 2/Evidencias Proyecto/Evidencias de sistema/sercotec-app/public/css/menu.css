@@ -3,6 +3,9 @@
     padding: 0 ;
     box-sizing: border-box;
 }
+.twitter-typeahead{
+    width: 100% !important;
+}
 
 .main {
     display: flex; /* Mantiene el diseño de dos columnas */

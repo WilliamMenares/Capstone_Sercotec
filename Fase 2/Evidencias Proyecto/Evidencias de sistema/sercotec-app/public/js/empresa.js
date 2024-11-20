@@ -1,76 +1,60 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // Primero verificamos si tenemos datos
-    try {
-        const response = await fetch("/api/emp", {
-            method: "GET",
-            credentials: "same-origin",
-        });
+    // Definición de columnas
+    const columnDefs = [
+        {
+            headerName: "Codigo",
+            field: "codigo",
+            filter: true,
+            floatingFilter: true,
+        },
+        {
+            headerName: "Rut",
+            field: "rut",
+            filter: true,
+            floatingFilter: true,
+        },
+        {
+            headerName: "Nombre",
+            field: "nombre",
+            filter: true,
+            floatingFilter: true,
+        },
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        {
+            headerName: "Email",
+            field: "email",
+            filter: true,
+            floatingFilter: true,
+        },
+        {
+            headerName: "Contacto primario",
+            field: "contacto",
+            filter: true,
+            floatingFilter: true,
+        },
+    ];
 
-        const data = await response.json();
+    // Inicializar grids primero con arrays vacíos
+    const Grid = document.querySelector("#myGrid");
 
-        // Definición de columnas
-        const columnDefs = [
-            {
-                headerName: "Codigo",
-                field: "codigo",
-                filter: true,
-                floatingFilter: true,
-            },{
-                headerName: "Rut",
-                field: "rut",
-                filter: true,
-                floatingFilter: true,
-            },
-            {
-                headerName: "Nombre",
-                field: "nombre",
-                filter: true,
-                floatingFilter: true,
-            },
+    let GridApi;
 
-            {
-                headerName: "Email",
-                field: "email",
-                filter: true,
-                floatingFilter: true,
-            },
-            {
-                headerName: "Contacto primario",
-                field: "contacto",
-                filter: true,
-                floatingFilter: true,
-            },
-        ];
-
-        // Configuración del grid
-        const gridOptions = {
-            columnDefs,
-            rowData: data,
-            pagination: true,
-            paginationPageSizeSelector: [10, 20, 50, 100],
-            paginationPageSize: 10,
-            domLayout: "autoHeight",
-            onFirstDataRendered: (params) => {
-                params.api.sizeColumnsToFit();
-            },
-        };
-
-        // Inicializar el grid usando createGrid
-        const gridDiv = document.querySelector("#myGrid");
-        if (!gridDiv) {
-            throw new Error("No se encontró el elemento #myGrid");
-        }
-
-        // Usar createGrid en lugar de new Grid
-        const gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    } catch (error) {
-        console.error("Error:", error);
+    if (Grid) {
+        GridApi = createDataGrid(Grid, [], columnDefs);
     }
+
+    // Luego cargar los datos
+    Promise.all([fetchData("/api/emp")])
+        .then(([Data]) => {
+            if (GridApi) {
+                GridApi.setGridOption("rowData", Data || []);
+            }
+        })
+        .catch((error) => {
+            console.error("Error general:", error);
+        });
 });
+
 function startImport() {
     const fileInput = document.getElementById("excel-file");
     if (!fileInput.files[0]) {
