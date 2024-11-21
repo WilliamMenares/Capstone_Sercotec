@@ -82,7 +82,7 @@ ol ,ul{
 }
 
 /* Tablet and mobile styles */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 928px) {
 
     .box-left {
         position: fixed;
@@ -158,7 +158,7 @@ ol ,ul{
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 928px) {
     .mobile-header {
         display: flex;
     }
@@ -183,7 +183,7 @@ ol ,ul{
 }
 
 /* Ajusta el z-index del menú para que esté por encima del overlay */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 928px) {
     .box-left {
         z-index: 1000;
     }

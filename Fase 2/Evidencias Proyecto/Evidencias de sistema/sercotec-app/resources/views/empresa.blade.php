@@ -3,11 +3,7 @@
 @section('title', 'Empresa')
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
-
-
-
-
-
+<script src="{{ asset('js/crud.js') }}"></script>
 
 @section('content')
 
@@ -38,6 +34,44 @@
     </script>
 
     <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+    <div id="mobileGrid" class="mobile-table">
+        <div class="mobile-table-header">
+            <h2>Lista de Empresas</h2>
+        </div>
+        <div class="mobile-search">
+            <input type="text" id="searchInput" class="form-control bg-dark text-light" placeholder="Buscar por código, RUT, nombre, email o contacto">
+        </div>
+        <div class="mobile-table-body" id="mobileTableBody">
+            @foreach ($empresas as $emp)
+            <div class="mobile-table-row" data-codigo="{{$emp->codigo}}" data-rut="{{$emp->rut}}" data-nombre="{{$emp->nombre}}" data-email="{{$emp->email}}" data-contacto="{{$emp->contacto}}">
+                <div class="mobile-table-cell">
+                    <strong>Código:</strong> {{$emp->codigo}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>RUT:</strong> {{$emp->rut}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Nombre:</strong> {{$emp->nombre}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Email:</strong> {{$emp->email}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Contacto:</strong> {{$emp->contacto}}
+                </div>
+                <div class="mobile-table-cell mobile-table-actions">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{$emp->id}}">Editar</button>
+                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$emp->id}}">Eliminar</button>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        <nav aria-label="Paginación de empresas">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Los elementos de paginación se generarán dinámicamente con JavaScript -->
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <script src="{{ asset('js/empresa.js') }}"></script>
