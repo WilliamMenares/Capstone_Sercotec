@@ -5,6 +5,9 @@
 @section('buscador', 'welcome')
 
 @section('content')
+<div class="tituloo">
+    <h1>Dashboard</h1>
+</div>
 <div class="p-6">
     <!-- Primera fila - 4 cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
