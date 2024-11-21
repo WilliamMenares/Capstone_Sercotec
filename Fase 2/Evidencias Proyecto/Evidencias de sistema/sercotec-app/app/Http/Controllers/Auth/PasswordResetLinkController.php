@@ -22,7 +22,7 @@ class PasswordResetLinkController extends Controller
 
         // Redirigir con el estado del envío.
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
+                    ? back()->with('success', __('Se ha enviado un enlace para restablecer tu contraseña.'))
                     : back()->withErrors(['email' => __($status)]);
     }
 }

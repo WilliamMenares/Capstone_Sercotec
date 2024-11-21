@@ -41,7 +41,7 @@ class NewPasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect()->route('login')->with('success', __('Contraseña restablecida correctamente. Ahora puedes iniciar sesión.'))
             : back()->withErrors(['email' => [__($status)]]);
     }
 }
