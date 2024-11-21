@@ -5,6 +5,32 @@
     height: 100dvh;
 }
 
+#progreso-general{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.avance{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.progreso{
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+.progress{
+    width: 80%;
+}
+
 .contenebus{
     width: 50%;
 }

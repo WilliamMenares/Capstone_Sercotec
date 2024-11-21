@@ -21,14 +21,14 @@
                 <div class="encuinpu">
                     <div class="mb-3 contenebus">
                         <label for="empresa" class="form-label text-light">Empresa:</label>
-                        <input type="text" class="form-control bg-dark text-light search-empresa" 
-                            placeholder="Empresa" required>
+                        <input type="text" class="form-control bg-dark text-light search-empresa" placeholder="Empresa"
+                            required>
                         <input type="hidden" class="input-id-empresa" name="id_empresa">
                     </div>
                     <div class="mb-3 contenebus">
                         <label for="formulario-select" class="form-label text-light">Formulario:</label>
                         <select id="formulario" class="form-select bg-dark text-light" name="id_formulario">
-                            <option value="" >Seleccione un formulario</option>
+                            <option value="">Seleccione un formulario</option>
                             @foreach($formularios as $formulario)
                                 <option value="{{ $formulario->id }}">{{ $formulario->nombre }}</option>
                             @endforeach
@@ -40,6 +40,32 @@
                             placeholder="Responsable" value="{{ Auth::user()->name }}" readonly required>
                     </div>
                 </div>
+                <div id="progreso-general" style="display:none">
+                    <label for="" class="text-light">Progreso General</label>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                            aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+                <div class="avance">
+                    @foreach ($formularios as $formulario)
+                        @foreach ($formulario->ambitos as $ambito)
+                            <div class="progreso text-light" data-formulario="{{ $formulario->id }}" style="display:none">
+                                <label for="">{{ $ambito->title }}</label>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                        aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
+
+
+
+
+
+
                 <div class="enviarencu">
                     <button type="submit" class="btn btn-primary">Crear Asesoria</button>
                 </div>
