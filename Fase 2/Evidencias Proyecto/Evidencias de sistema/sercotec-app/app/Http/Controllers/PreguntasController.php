@@ -25,6 +25,16 @@ class PreguntasController extends Controller
             'title' => 'required|string',
             'id_ambito' => 'required|integer',
             'puntaje' => 'required|integer',
+        ], [
+            'title.required' => 'La pregunta es obligatorio.',
+            'title.string' => 'La pregunta debe ser una cadena de texto.',
+            
+            'id_ambito.required' => 'El id_ambito es obligatorio.',
+            'id_ambito.string' => 'El id_ambito debe ser una cadena de texto.',
+
+            'puntaje.required' => 'El puntaje es obligatorio.',
+            'puntaje.string' => 'El puntaje debe ser una cadena de texto.',
+            
         ]);
 
         // Verificar si ya existe una pregunta con el mismo puntaje en el mismo ámbito
@@ -91,6 +101,16 @@ public function update(Request $request, $id)
             'nombrep' => 'required|string',
             'id_ambito' => 'required|integer',
             'puntaje' => 'required|integer',
+        ], [
+            'nombrep.required' => 'La pregunta es obligatorio.',
+            'nombrep.string' => 'La pregunta debe ser una cadena de texto.',
+            
+            'id_ambito.required' => 'El id_ambito es obligatorio.',
+            'id_ambito.string' => 'El id_ambito debe ser una cadena de texto.',
+
+            'puntaje.required' => 'El puntaje es obligatorio.',
+            'puntaje.string' => 'El puntaje debe ser una cadena de texto.',
+            
         ]);
 
         // Verificar si ya existe otra pregunta con el mismo puntaje en el mismo ámbito

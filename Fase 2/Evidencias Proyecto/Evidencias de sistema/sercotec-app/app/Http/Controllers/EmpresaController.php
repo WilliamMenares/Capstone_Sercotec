@@ -32,6 +32,29 @@ class EmpresaController extends Controller
                 'nombre' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:empresas,email',
                 'contacto' => 'required|string|max:50',
+            ], [
+                'codigo.required' => 'El código es obligatorio.',
+                'codigo.string' => 'El código debe ser una cadena de texto.',
+                'codigo.max' => 'El código no puede tener más de 50 caracteres.',
+                'codigo.unique' => 'El código ya está registrado en el sistema.',
+            
+                'rut.required' => 'El RUT es obligatorio.',
+                'rut.string' => 'El RUT debe ser una cadena de texto.',
+                'rut.max' => 'El RUT no puede tener más de 12 caracteres.',
+                'rut.unique' => 'El RUT ya está registrado en el sistema.',
+            
+                'nombre.required' => 'El nombre es obligatorio.',
+                'nombre.string' => 'El nombre debe ser una cadena de texto.',
+                'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
+            
+                'email.required' => 'El correo electrónico es obligatorio.',
+                'email.email' => 'El correo electrónico debe tener un formato válido.',
+                'email.max' => 'El correo electrónico no puede tener más de 255 caracteres.',
+                'email.unique' => 'El correo electrónico ya está registrado en el sistema.',
+            
+                'contacto.required' => 'El contacto es obligatorio.',
+                'contacto.string' => 'El contacto debe ser una cadena de texto.',
+                'contacto.max' => 'El contacto no puede tener más de 50 caracteres.',
             ]);
 
             // Crear la nueva empresa
@@ -57,6 +80,29 @@ class EmpresaController extends Controller
                 'nombre' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:empresas,email,' . $empresa->id,
                 'contacto' => 'required|string|max:50',
+            ], [
+                'codigo.required' => 'El código es obligatorio.',
+                'codigo.string' => 'El código debe ser una cadena de texto.',
+                'codigo.max' => 'El código no puede tener más de 50 caracteres.',
+                'codigo.unique' => 'El código ya está registrado en el sistema.',
+            
+                'rut.required' => 'El RUT es obligatorio.',
+                'rut.string' => 'El RUT debe ser una cadena de texto.',
+                'rut.max' => 'El RUT no puede tener más de 12 caracteres.',
+                'rut.unique' => 'El RUT ya está registrado en el sistema.',
+            
+                'nombre.required' => 'El nombre es obligatorio.',
+                'nombre.string' => 'El nombre debe ser una cadena de texto.',
+                'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
+            
+                'email.required' => 'El correo electrónico es obligatorio.',
+                'email.email' => 'El correo electrónico debe tener un formato válido.',
+                'email.max' => 'El correo electrónico no puede tener más de 255 caracteres.',
+                'email.unique' => 'El correo electrónico ya está registrado en el sistema.',
+            
+                'contacto.required' => 'El contacto es obligatorio.',
+                'contacto.string' => 'El contacto debe ser una cadena de texto.',
+                'contacto.max' => 'El contacto no puede tener más de 50 caracteres.',
             ]);
 
             // Actualizar los datos de la empresa

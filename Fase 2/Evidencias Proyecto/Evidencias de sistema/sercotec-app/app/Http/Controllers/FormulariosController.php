@@ -24,6 +24,18 @@ class FormulariosController extends Controller
             'responsable' => 'required|string|max:255',
             'ambitos' => 'required|array|min:1',
             'ambitos.*' => 'exists:ambitos,id'
+        ], [
+            'nombre.required' => 'El pregunta es obligatorio.',
+            'nombre.string' => 'El pregunta debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
+            
+            'responsable.required' => 'El responsable es obligatorio.',
+            'responsable.string' => 'El responsable debe ser una cadena de texto.',
+            'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
+
+            'ambitos.required' => 'El ambito es obligatorio.',
+            'ambitos.array' => 'El ambito debe ser una lista.',
+            
         ]);
 
         try {
@@ -53,6 +65,18 @@ class FormulariosController extends Controller
             'nombre' => 'required|string|max:255',
             'responsable' => 'required|string|max:255',
             'ambitos' => 'required|array'
+        ], [
+            'nombre.required' => 'El pregunta es obligatorio.',
+            'nombre.string' => 'El pregunta debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
+            
+            'responsable.required' => 'El responsable es obligatorio.',
+            'responsable.string' => 'El responsable debe ser una cadena de texto.',
+            'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
+
+            'ambitos.required' => 'El ambito es obligatorio.',
+            'ambitos.array' => 'El ambito debe ser una lista.',
+            
         ]);
 
         // Encontrar el formulario y actualizarlo

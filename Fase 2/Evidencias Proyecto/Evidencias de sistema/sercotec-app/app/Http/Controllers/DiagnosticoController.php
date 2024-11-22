@@ -31,8 +31,23 @@ class DiagnosticoController extends Controller
                 'id_formulario' => 'required|integer',
                 'respuesta' => 'required|array',
                 'respuesta.*' => 'in:1,2,3',
+            ], [
+                'responsable.required' => 'El campo responsable es obligatorio.',
+                'responsable.string' => 'El campo responsable debe ser una cadena de texto.',
+                'responsable.max' => 'El campo responsable no puede tener más de 255 caracteres.',
 
+                'id_empresa.required' => 'El campo empresa es obligatorio.',
+                'id_empresa.integer' => 'El campo empresa debe ser un número entero.',
+
+                'id_formulario.required' => 'El campo formulario es obligatorio.',
+                'id_formulario.integer' => 'El campo formulario debe ser un número entero.',
+
+                'respuesta.required' => 'El campo respuesta es obligatorio.',
+                'respuesta.array' => 'El campo respuesta debe ser un conjunto de valores.',
+
+                'respuesta.*.in' => 'Cada respuesta debe ser uno de los siguientes valores: 1, 2 o 3.',
             ]);
+
 
             // Crear la Encuesta y obtener el ID de la encuesta recién creada
             $encuesta = Encuesta::create([

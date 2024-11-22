@@ -32,6 +32,12 @@ class AmbitoController extends Controller
         try {
             $request->validate([
                 'title' => 'required|string|max:255'
+            ], [
+                'title.required' => 'El ambito es obligatorio.',
+                'title.string' => 'El ambito debe ser una cadena de texto.',
+                'title.max' => 'El ambito no debe exceder los 255 caracteres.',
+
+            
             ]);
 
             Ambitos::create([
@@ -54,6 +60,12 @@ class AmbitoController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255'
+        ], [
+            'title.required' => 'El ambito es obligatorio.',
+            'title.string' => 'El ambito debe ser una cadena de texto.',
+            'title.max' => 'El ambito no debe exceder los 255 caracteres.',
+
+        
         ]);
 
         $ambito->title = $request->title;
