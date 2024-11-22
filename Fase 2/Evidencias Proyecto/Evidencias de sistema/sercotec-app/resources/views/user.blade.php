@@ -19,9 +19,45 @@
     </div>
 
     <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+    <div id="mobileGrid" class="mobile-table">
+        <div class="mobile-table-header">
+            <h2>Lista de Asesores</h2>
+        </div>
+        <div class="mobile-search">
+            <input type="text" id="searchInput" class="form-control bg-dark text-light" placeholder="Buscar por id, rut, nombre, email o telefono">
+        </div>
+        <div class="mobile-table-body" id="mobileTableBody">
+            @foreach ($usuarios as $user)
+            <div class="mobile-table-row" data-id="{{$user->id}}" data-name="{{$user->name}}" data-email="{{$user->email}}" data-telefono="{{$user->telefono}}" data-rut="{{$user->rut}}">
+                <div class="mobile-table-cell">
+                    <strong>Id:</strong> {{$user->id}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>RUT:</strong> {{$user->rut}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Nombre:</strong> {{$user->name}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Email:</strong> {{$user->email}}
+                </div>
+                <div class="mobile-table-cell">
+                    <strong>Telefono:</strong> {{$user->telefono}}
+                </div>
+                <div class="mobile-table-cell mobile-table-actions">
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{$user->id}}">Editar</button>
+                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{$user->id}}">Eliminar</button>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        <nav aria-label="Paginación de empresas">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Los elementos de paginación se generarán dinámicamente con JavaScript -->
+            </ul>
+        </nav>
+    </div>
 </div>
-
-
 
 <script src="{{ asset('js/user.js') }}"></script>
 @endsection
@@ -39,7 +75,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>¿Estás seguro de que deseas eliminar este empleado?</p>
+                    <p>¿Estás seguro de que deseas eliminar este Asesor?</p>
 
                 </div>
                 <div class="modal-footer">
