@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         {
             headerName: "Puntaje",
-            width: 98 ,
+            width: 105 ,
             field: "puntaje",
             filter: true,
             floatingFilter: true,
