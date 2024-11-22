@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ambitos;
 use App\Models\Formularios;
 use App\Models\Preguntas;
+use App\Models\RespuestasTipo;
 use Illuminate\Http\Request;
 
 class AmbitoController extends Controller
@@ -15,7 +16,8 @@ class AmbitoController extends Controller
         $ambitos = Ambitos::orderBy('id', 'desc')->get();
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
         $formularios = Formularios::with('ambitos')->get();
-        return view("forms", compact('preguntas', 'ambitos', 'formularios'));
+        $restipo = RespuestasTipo::orderBy('id', 'desc')->get();
+        return view("forms", compact('preguntas', 'ambitos', 'formularios', 'restipo'));
     }
 
     public function getambis()

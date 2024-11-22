@@ -3,7 +3,7 @@
 @section('title', 'Ambitos y Preguntas')
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
-
+<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 <script src="{{ asset('js/forms.js') }}"></script>
 
 
@@ -128,11 +128,11 @@
     <div class="modal fade" id="editModalP{{$pregu->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-light"> <!-- Modo oscuro -->
+            <div class="modal-content bg-dark text-light">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="editModalLabel">Editar Pregunta</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button> <!-- Botón de cierre -->
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('forms.updatePregunta', $pregu->id) }}" method="POST">
@@ -148,6 +148,46 @@
                             <input type="number" class="form-control bg-dark text-light" name="puntaje"
                                 value="{{$pregu->puntaje}}" placeholder="Nombre" required>
                         </div>
+
+                        <select class="form-select bg-dark text-light areatext1 select-situ" 
+                            aria-label="Default select example">
+                            <option value="" selected>Elige Situacion:</option>
+                            @foreach ($restipo as $tipo)
+                                <option value="{{$tipo->id}}">{{$tipo->titulo}}</option>
+                            @endforeach
+                        </select>
+
+                        @foreach ($restipo as $tipo)
+                                        @php
+                                            $feedback = $pregu->feedback()->where('id_tipo', $tipo->id)->first();
+                                        @endphp
+                                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                                            <textarea class="form-control bg-dark text-light" name="situacion_{{$tipo->id}}"
+                                                style="height: 100px">{{ $feedback ? $feedback->situacion : '' }}</textarea>
+                                            <label>Situacion</label>
+                                        </div>
+                                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                                            <textarea class="form-control bg-dark text-light" name="accion1_{{$tipo->id}}"
+                                                style="height: 100px">{{ $feedback ? $feedback->accion1 : '' }}</textarea>
+                                            <label>Accion 1:</label>
+                                        </div>
+                                        <div class="form-floating areatext feedback-{{$tipo->id}}">
+                                            <textarea class="form-control bg-dark text-light" name="accion2_{{$tipo->id}}"
+                                                style="height: 100px">{{ $feedback ? $feedback->accion2 : '' }}</textarea>
+                                            <label>Accion 2:</label>
+                                        </div>
+                                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                                            <textarea class="form-control bg-dark text-light" name="accion3_{{$tipo->id}}"
+                                                style="height: 100px">{{ $feedback ? $feedback->accion3 : '' }}</textarea>
+                                            <label>Accion 3:</label>
+                                        </div>
+                                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                                            <textarea class="form-control bg-dark text-light" name="accion4_{{$tipo->id}}"
+                                                style="height: 100px">{{ $feedback ? $feedback->accion4 : '' }}</textarea>
+                                            <label>Accion 4:</label>
+                                        </div>
+                        @endforeach
+
                         <div class="mb-3">
                             <label for="ambito" class="form-label">Ambito:</label>
                             <input type="text" class="form-control bg-dark text-light search-ambito" name="ambito"
@@ -293,6 +333,42 @@
                         <input type="number" class="form-control bg-dark text-light" name="puntaje" placeholder="Nombre"
                             required>
                     </div>
+                    <select class="form-select bg-dark text-light areatext1 select-situ" 
+                        aria-label="Default select example">
+                        <option value="" selected>Elige Situacion:</option>
+                        @foreach ($restipo as $tipo)
+                            <option value="{{$tipo->id}}">{{$tipo->titulo}}</option>
+                        @endforeach
+                    </select>
+
+                    @foreach ($restipo as $tipo)
+                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                            <textarea class="form-control bg-dark text-light" name="situacion_{{$tipo->id}}"
+                                placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label>Situacion</label>
+                        </div>
+                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                            <textarea class="form-control bg-dark text-light" name="accion1_{{$tipo->id}}"
+                                placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label>Accion 1:</label>
+                        </div>
+                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                            <textarea class="form-control bg-dark text-light" name="accion2_{{$tipo->id}}"
+                                placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label>Accion 2:</label>
+                        </div>
+                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                            <textarea class="form-control bg-dark text-light" name="accion3_{{$tipo->id}}"
+                                placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label>Accion 3:</label>
+                        </div>
+                        <div class="form-floating areatext feedback-{{$tipo->id}}" >
+                            <textarea class="form-control bg-dark text-light" name="accion4_{{$tipo->id}}"
+                                placeholder="Leave a comment here" style="height: 100px"></textarea>
+                            <label>Accion 4:</label>
+                        </div>
+                    @endforeach
+
                     <div class="mb-3">
                         <label for="ambito" class="form-label">Ambito:</label>
                         <input type="text" class="form-control bg-dark text-light search-ambito" name="ambito"

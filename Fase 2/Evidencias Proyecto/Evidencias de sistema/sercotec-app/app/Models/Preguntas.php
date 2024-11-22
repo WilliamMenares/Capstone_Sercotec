@@ -22,4 +22,8 @@ class Preguntas extends Model
     {
         return $this->hasMany(Respuestas::class, 'id_pregunta');
     }
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class, 'id_pregunta');
+    }
 }

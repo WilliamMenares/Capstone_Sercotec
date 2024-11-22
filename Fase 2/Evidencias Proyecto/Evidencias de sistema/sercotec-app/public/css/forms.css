@@ -1,0 +1,12 @@
+.areatext1{
+    margin: 15px 0 15px 0;
+}
+.areatext{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+
