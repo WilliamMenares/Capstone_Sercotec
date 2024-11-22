@@ -24,13 +24,13 @@
 <body>
     <div class="main">
     <div class="mobile-header">
-        <button class="hamburger-btn btn btn-transparent" id="toggle-sidebar">
-            <i class="bi bi-list fs-1"></i>
-        </button>
         <div class="header-content">
+            <button class="hamburger-btn btn btn-transparent" id="toggle-sidebar">
+                <i class="bi bi-list fs-1"></i>
+            </button>
             <img src="{{ asset('img/Logo_Sercotec_Mobil.png') }}" alt="Logo" class="header-logo">
             @auth
-                <span class="welcome-message">{{ Auth::user()->name }}</span>
+                <span class="welcome-message">¡Hola {{ Auth::user()->name }}!</span>
             @endauth
 
         </div>
@@ -72,31 +72,31 @@
         <ul class="menu">
             <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="Logo" class="menu-logo">
             @auth
-                <span class="welcome-message">{{ Auth::user()->name }}</span>
+                <span class="welcome-message">¡Hola {{ Auth::user()->name }}!</span>
             @endauth
 
-            <ul class="nav flex-column d-flex align-items-center">
+            <ul class="nav flex-column d-flex ">
                 <li class="nav-item mb-3">
-                    <a class="nav-link" aria-current="page" href="/welcome">Inicio</a>
+                    <a class="nav-link" aria-current="page" href="/welcome"><i class="bi bi-house-door-fill"></i> Inicio</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/empresa">Empresas</a>
+                    <a class="nav-link" href="/empresa"><i class="bi bi-building-fill"></i> Empresas</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/user">Asesores</a>
+                    <a class="nav-link" href="/user"><i class="bi bi-person-fill"></i> Asesores</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/asesorias">Asesorias</a>
+                    <a class="nav-link" href="/asesorias"><i class="bi bi-file-earmark-arrow-down-fill"></i> Asesorias</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/diagnostico">Diagnostico</a>
+                    <a class="nav-link" href="/diagnostico"><i class="bi bi-ui-checks"></i> Diagnostico</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/forms">Ambitos y Preguntas</a>
+                    <a class="nav-link" href="/forms"><i class="bi bi-info-circle-fill"></i> Ambitos y Preguntas</a>
                 </li>
             </ul>
             <li class="cerrar">
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-left"></i>
                     Cerrar Sesion
                 </a>
                 <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">

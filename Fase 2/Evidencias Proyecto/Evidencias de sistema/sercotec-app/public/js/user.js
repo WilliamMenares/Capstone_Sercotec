@@ -123,13 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
         pagination.innerHTML = '';
 
-        // Botón "Primera página"
         appendPaginationItem('&laquo;&laquo;', () => goToPage(1), currentPage > 1, 'Ir a la primera página');
-
-        // Botón "Anterior"
         appendPaginationItem('&laquo;', () => goToPage(currentPage - 1), currentPage > 1, 'Página anterior');
 
-        // Botones de número de página
         let startPage = Math.max(1, currentPage - 1);
         let endPage = Math.min(pageCount, startPage + 2);
         
@@ -141,10 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             appendPaginationItem(i, () => goToPage(i), true, `Ir a la página ${i}`, i === currentPage);
         }
 
-        // Botón "Siguiente"
         appendPaginationItem('&raquo;', () => goToPage(currentPage + 1), currentPage < pageCount, 'Página siguiente');
-
-        // Botón "Última página"
         appendPaginationItem('&raquo;&raquo;', () => goToPage(pageCount), currentPage < pageCount, 'Ir a la última página');
     }
 
@@ -174,6 +167,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     searchInput.addEventListener('input', filterRows);
 
-    // Inicialización
     filterRows();
 });
