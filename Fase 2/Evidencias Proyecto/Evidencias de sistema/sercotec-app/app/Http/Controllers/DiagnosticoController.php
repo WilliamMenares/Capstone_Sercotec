@@ -67,11 +67,11 @@ class DiagnosticoController extends Controller
 
             return redirect()->route('diagnostico.index')->with(
                 'success',
-                'Ambito registrado exitosamente'
+                'Diagnostico registrado exitosamente'
             );
         } catch (\Exception $e) {
             // Depuración de errores
-            return redirect()->back()->with('error', 'Error al registrar Encuesta: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al registrar Diagnostico: ' . $e->getMessage());
         }
     }
 }

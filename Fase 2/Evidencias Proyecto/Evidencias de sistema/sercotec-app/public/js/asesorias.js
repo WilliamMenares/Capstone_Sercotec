@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
             headerName: "Acciones",
             cellRenderer: (params) => `
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${params.data.id}">Editar</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal${params.data.id}">Eliminar</button>
         `,
         },

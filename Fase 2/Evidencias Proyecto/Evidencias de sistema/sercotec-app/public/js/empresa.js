@@ -75,12 +75,9 @@ function startImport() {
     }
 
     Swal.fire({
+        icon:"info",
         title: "Importando...",
-        html: `
-    <div class="space-y-4">
-        <p>Por favor espera, los registros se están importando.</p>
-    </div>
-`,
+        text: 'Por favor espera, los registros se están importando.',
         allowOutsideClick: false,
         allowEscapeKey: false,
         showConfirmButton: false,

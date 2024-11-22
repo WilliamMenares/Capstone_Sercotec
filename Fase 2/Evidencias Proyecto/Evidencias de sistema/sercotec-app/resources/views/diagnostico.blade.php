@@ -14,7 +14,7 @@
     <div class="titulo">
         <h1>Crear Diagnostico</h1>
     </div>
-    <form action="{{ route('diagnostico.store') }}" method="POST" class="encuesta">
+    <form action="{{ route('diagnostico.store') }}" method="POST" id="form-diagn" class="encuesta">
         @csrf
         <div class="encuesta">
             <div class="buscador">
@@ -23,17 +23,18 @@
                         <label for="empresa" class="form-label text-light">Empresa:</label>
                         <input type="text" class="form-control bg-dark text-light search-empresa" placeholder="Empresa"
                             required>
-                        <input type="hidden" class="input-id-empresa" name="id_empresa">
+                        <input type="hidden" class="input-id-empresa" name="id_empresa" required>
                     </div>
                     <div class="mb-3 contenebus">
                         <label for="formulario-select" class="form-label text-light">Formulario:</label>
-                        <select id="formulario" class="form-select bg-dark text-light" name="id_formulario">
+                        <select id="formulario" class="form-select bg-dark text-light" name="id_formulario" required>
                             <option value="">Seleccione un formulario</option>
                             @foreach($formularios as $formulario)
                                 <option value="{{ $formulario->id }}">{{ $formulario->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
+
                     <div class="mb-3 contenebus">
                         <label for="empresa" class="form-label text-light">Responsable:</label>
                         <input type="text" class="form-control bg-dark text-light" name="responsable"
@@ -43,8 +44,8 @@
                 <div id="progreso-general" style="display:none">
                     <label for="" class="text-light">Progreso General</label>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                            aria-valuemin="0" aria-valuemax="100">0%</div>
+                        <div class="progress-bar" id="progreso-bar" role="progressbar" style="width: 0%;"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
                 </div>
                 <div class="avance">
@@ -118,6 +119,46 @@
         </div>
 
     </form>
+
+    <script>
+        document.getElementById('form-diagn').addEventListener('submit', function (event) {
+            const progressBar = document.getElementById('progreso-bar');
+            const progressValue = parseInt(progressBar.getAttribute('aria-valuenow'), 10); // Obtener el valor actual de progreso
+
+            if (progressValue < 100) { // Verifica si el progreso es menor a 100
+                event.preventDefault(); // Evita el envío del formulario
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Progreso incompleto',
+                    text: 'Por favor, complete el progreso al 100% antes de enviar.',
+                });
+                return; // Salir de la función
+            }
+
+            const preguntas = document.querySelectorAll('.pre-item'); // Todas las preguntas
+            let formularioValido = true;
+
+            preguntas.forEach((pregunta) => {
+                const radios = pregunta.querySelectorAll('input[type="radio"]'); // Radios de la pregunta actual
+                const algunaSeleccionada = Array.from(radios).some(radio => radio.checked); // Comprueba si uno está seleccionado
+
+                if (!algunaSeleccionada) {
+                    formularioValido = false;
+                } else {
+                }
+            });
+
+            if (!formularioValido) {
+                event.preventDefault(); // Evita el envío del formulario
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Preguntas sin responder',
+                    text: 'Por favor, responde todas las preguntas antes de enviar.'
+                });
+            }
+        });
+
+    </script>
 
 </div>
 

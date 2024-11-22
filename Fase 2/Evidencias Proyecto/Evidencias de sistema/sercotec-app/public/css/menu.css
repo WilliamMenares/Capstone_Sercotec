@@ -251,3 +251,14 @@ ol ,ul{
     z-index: 1001;
     color: #333;
 }
+
+
+/* Cambiar color del título */
+.swal2-title {
+    color: white !important; /* Cambiar a cualquier color que desees */
+}
+
+/* Cambiar color del texto */
+.swal2-html-container {
+    color: white !important; /* Cambiar a cualquier color que desees */
+}
