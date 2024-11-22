@@ -14,6 +14,22 @@
     </div>
 
     <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+    <div id="mobileGrid" class="mobile-table">
+        <div class="mobile-table-header">
+            <h2>Lista de Asesorías</h2>
+        </div>
+        <div class="mobile-search">
+            <input type="text" id="searchInput" class="form-control bg-dark text-light" placeholder="Buscar por id, responsable, empresa, contacto o email">
+        </div>
+        <div class="mobile-table-body" id="mobileTableBody">
+            <!-- Las filas se generarán dinámicamente aquí -->
+        </div>
+        <nav aria-label="Paginación de empresas">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Los elementos de paginación se generarán dinámicamente con JavaScript -->
+            </ul>
+        </nav>
+    </div>
 </div>
 
 <script src="{{ asset('js/asesorias.js') }}"></script>

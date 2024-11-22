@@ -18,7 +18,6 @@
     flex-shrink: 0; /* Evita que el menú se reduzca al achicar la pantalla */
     display: flex;
     flex-direction: column;
-    align-items: center;
     background-color: #D1DCF6;
     padding: 20px;
     box-sizing: border-box; /* Incluye el padding dentro del ancho */
@@ -46,10 +45,17 @@
     width: 200px;
 }
 
-.nav-link{
+.nav-link {
+    font-size: 1.2rem !important;
     color: black !important;
-
+    transition: transform 0.5s ease; /* Transición suave */
 }
+
+.nav-link:hover {
+    transform: translateX(5px); /* Mueve el enlace 5px hacia la derecha */
+}
+
+
 a{
     font-size: x-large !important;
 }
@@ -89,7 +95,6 @@ ol ,ul{
         left: -300px; /* Empieza fuera de la pantalla */
         top: 0;
         height: 100vh;
-        width: 250px;
         transition: left 0.3s ease-in-out;
         z-index: 1000;
     }
@@ -107,11 +112,6 @@ ol ,ul{
         margin-top: 120px;
     }
 
-    /* Make the menu items slightly smaller on mobile */
-    .nav-link {
-        font-size: 1.2rem !important;
-    }
-
     .menu img {
         width: 150px; /* Smaller logo for mobile */
     }
@@ -124,9 +124,6 @@ ol ,ul{
         width: 120px;
     }
 
-    .nav-link {
-        font-size: 1rem !important;
-    }
     .header-logo {
         height: 30px;
     }
@@ -213,7 +210,8 @@ ol ,ul{
 .header-content {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 10px;
     flex-grow: 1;
 }
 

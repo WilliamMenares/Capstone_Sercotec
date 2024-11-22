@@ -214,3 +214,110 @@ document.addEventListener("DOMContentLoaded", () => {
         });
          
 });
+
+
+//paginator
+
+document.addEventListener('DOMContentLoaded', function() {
+    const itemsPerPage = 2;
+    const tables = ['ambitos', 'preguntas', 'formularios'];
+
+    tables.forEach(table => {
+        const rows = document.querySelectorAll(`#${table}-table .table-row`);
+        const mobileRows = Array.from(rows).map(row => row.cloneNode(true));
+        const totalPages = Math.ceil(rows.length / itemsPerPage);
+        let currentPage = 1;
+
+        function showPage(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+
+            const mobileContainer = document.getElementById(`${table}-table-mobile`);
+            mobileContainer.innerHTML = '';
+            for (let i = start; i < end && i < mobileRows.length; i++) {
+                mobileContainer.appendChild(mobileRows[i].cloneNode(true));
+            }
+
+            updatePagination(page, totalPages, `${table}-pagination`);
+            updatePagination(page, totalPages, `${table}-pagination-mobile`);
+        }
+
+        function updatePagination(currentPage, totalPages, paginationId) {
+            const pagination = document.getElementById(paginationId);
+            pagination.innerHTML = '';
+
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = '<a class="page-link" href="#" tabindex="-1">Anterior</a>';
+            prevLi.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) showPage(currentPage - 1);
+            });
+            pagination.appendChild(prevLi);
+
+            const startPage = Math.max(1, currentPage - 1);
+            const endPage = Math.min(totalPages, startPage + 2);
+
+            for (let i = startPage; i <= endPage; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(i);
+                });
+                pagination.appendChild(li);
+            }
+
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = '<a class="page-link" href="#">Siguiente</a>';
+            nextLi.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) showPage(currentPage + 1);
+            });
+            pagination.appendChild(nextLi);
+        }
+
+        showPage(1);
+
+        const searchInput = document.querySelector(`input[data-table="${table}-table"]`);
+        const mobileSearchInput = document.querySelector(`input[data-table="${table}-table-mobile"]`);
+
+        [searchInput, mobileSearchInput].forEach(input => {
+            input.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredRows = Array.from(rows).filter(row => 
+                    row.textContent.toLowerCase().includes(searchTerm)
+                );
+                const filteredMobileRows = filteredRows.map(row => row.cloneNode(true));
+
+                currentPage = 1;
+                const newTotalPages = Math.ceil(filteredRows.length / itemsPerPage);
+
+                function showFilteredPage(page) {
+                    const start = (page - 1) * itemsPerPage;
+                    const end = start + itemsPerPage;
+
+                    rows.forEach(row => row.style.display = 'none');
+                    filteredRows.slice(start, end).forEach(row => row.style.display = '');
+
+                    const mobileContainer = document.getElementById(`${table}-table-mobile`);
+                    mobileContainer.innerHTML = '';
+                    for (let i = start; i < end && i < filteredMobileRows.length; i++) {
+                        mobileContainer.appendChild(filteredMobileRows[i].cloneNode(true));
+                    }
+
+                    updatePagination(page, newTotalPages, `${table}-pagination`);
+                    updatePagination(page, newTotalPages, `${table}-pagination-mobile`);
+                }
+
+                showFilteredPage(1);
+            });
+        });
+    });
+});
