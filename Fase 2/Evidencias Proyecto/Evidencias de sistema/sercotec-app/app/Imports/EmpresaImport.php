@@ -76,7 +76,7 @@ class SecondSheetImport implements ToModel, WithStartRow, SkipsOnError, SkipsOnF
     $rutLimpio = $this->limpiarRut(trim($row[1]));
 
     // Paso 1: Verificar si existe un registro con código "No asignado"
-    $registroNoAsignado = Empresa::where('codigo', 'No asignado')->first();
+    $registroNoAsignado = Empresa::where('codigo', 'Sin Asignar')->first();
 
     if ($registroNoAsignado) {
         // Paso 2: Obtener el RUT del registro con "No asignado"
