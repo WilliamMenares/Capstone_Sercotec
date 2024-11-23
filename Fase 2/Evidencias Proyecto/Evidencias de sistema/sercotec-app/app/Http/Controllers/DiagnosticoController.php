@@ -28,6 +28,7 @@ class DiagnosticoController extends Controller
             $request->validate([
                 'responsable' => 'required|string|max:255',
                 'id_empresa' => 'required|integer',
+                               'id_encuesta' => 'required|integer',
                 'id_formulario' => 'required|integer',
                 'respuesta' => 'required|array',
                 'respuesta.*' => 'in:1,2,3',
@@ -59,7 +60,8 @@ class DiagnosticoController extends Controller
             // Crear las respuestas asociadas a esta encuesta
             foreach ($request->respuesta as $id_pregunta => $respuesta) {
                 Respuestas::create([
-                    'id_pregunta' => $id_pregunta,   // El ID de la pregunta (clave del array)
+                    'id_pregunta' => $id_pregunta,
+                                   'id_encuesta' => $id_encuesta,// El ID de la pregunta (clave del array)
                     'id_tipo' => $respuesta,         // El valor de la respuesta (valor del array)
                 ]);
             }
