@@ -11,7 +11,7 @@ class Respuestas extends Model
 
     protected $table = 'respuestas';
 
-    protected $fillable = ['id', 'id_tipo', 'id_pregunta'];
+    protected $fillable = ['id', 'id_tipo','id_encuesta', 'id_pregunta'];
 
     // Relación con Encuesta
 
@@ -25,5 +25,10 @@ class Respuestas extends Model
     public function tipo()
     {
         return $this->belongsTo(RespuestasTipo::class, 'id_tipo');
+    }
+
+    public function encuesta()
+    {
+        return $this->belongsTo(Encuestas::class, 'id_encuesta');
     }
 }
