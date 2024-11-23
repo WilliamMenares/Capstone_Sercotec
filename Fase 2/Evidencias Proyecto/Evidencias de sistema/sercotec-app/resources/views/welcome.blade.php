@@ -5,9 +5,7 @@
 @section('buscador', 'welcome')
 
 @section('content')
-<div class="tituloo">
-    <h1>Dashboard</h1>
-</div>
+
 <div class="p-6">
     <!-- Primera fila - 3 cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -52,7 +50,7 @@
 
         <!-- Columna derecha - Lista de empresas -->
         <div class="bg-white rounded-lg p-6 shadow-sm">
-            <h2 class="text-xl font-semibold mb-4">Últimas empresas diagnosticadas</h2>
+            <h2 class="text-xl font-semibold mb-4">Últimas empresas Agregadas</h2>
             <div class="space-y-3">
                 @foreach($ultimasEmpresas as $empresa)
                 <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">

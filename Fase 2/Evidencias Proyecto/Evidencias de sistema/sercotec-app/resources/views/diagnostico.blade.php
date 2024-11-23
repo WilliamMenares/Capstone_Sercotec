@@ -122,6 +122,17 @@
 
     <script>
         document.getElementById('form-diagn').addEventListener('submit', function (event) {
+            const selectedFormulario = document.querySelector('#formulario').value; // Obtener el formulario seleccionado
+            if (!selectedFormulario) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Formulario no seleccionado',
+                    text: 'Por favor, seleccione un formulario antes de enviar.',
+                });
+                event.preventDefault(); // Evitar envío si no hay formulario seleccionado
+                return;
+            }
+
             const progressBar = document.getElementById('progreso-bar');
             const progressValue = parseInt(progressBar.getAttribute('aria-valuenow'), 10); // Obtener el valor actual de progreso
 
@@ -135,7 +146,8 @@
                 return; // Salir de la función
             }
 
-            const preguntas = document.querySelectorAll('.pre-item'); // Todas las preguntas
+            // Selecciona solo las preguntas del formulario que está activo
+            const preguntas = document.querySelectorAll(`.ambito[data-formulario="${selectedFormulario}"] .pre-item`);
             let formularioValido = true;
 
             preguntas.forEach((pregunta) => {
@@ -144,7 +156,6 @@
 
                 if (!algunaSeleccionada) {
                     formularioValido = false;
-                } else {
                 }
             });
 
@@ -153,10 +164,11 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Preguntas sin responder',
-                    text: 'Por favor, responde todas las preguntas antes de enviar.'
+                    text: 'Por favor, responde todas las preguntas antes de enviar.',
                 });
             }
         });
+
 
     </script>
 

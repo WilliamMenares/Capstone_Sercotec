@@ -11,7 +11,7 @@ class RespuestasTipo extends Model
 
     protected $table = 'respuestas_tipo';
 
-    protected $fillable = ['id', 'titulo'];
+    protected $fillable = ['id', 'titulo','puntaje'];
 
     // Relación inversa con Respuestas
     public function respuestas()

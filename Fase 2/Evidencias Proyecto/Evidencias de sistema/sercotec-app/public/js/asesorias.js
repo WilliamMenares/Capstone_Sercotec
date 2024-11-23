@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     // Definición de columnas
     const columnDefs = [
-        { headerName: "id", field: "id" },
         {
             headerName: "Responsable",
             field: "responsable",

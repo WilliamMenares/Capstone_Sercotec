@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Encuesta;
+use App\Models\Feedback;
 use App\Models\Respuestas;
 
 
@@ -13,18 +14,24 @@ class AsesoriaController extends Controller
     public function index()
     {
         // Paginar con 6 registros por página
-        $encuestas = Encuesta::orderBy('id', 'desc')->get();
+        $encuestas = Encuesta::with(['formulario.ambitos.preguntas.respuestas.tipo', 'empresa'])->get();
 
         return view("asesorias")->with("encuestas", $encuestas);
     }
 
     public function getase()
     {
-        // Cargar encuestas con las relaciones formulario, empresa y los ámbitos del formulario
         $encuestas = Encuesta::with(['formulario.ambitos.preguntas.respuestas.tipo', 'empresa'])->get();
 
         return response()->json($encuestas);
     }
+
+
+
+
+
+
+
 
     public function destroy($id)
     {
@@ -45,7 +52,7 @@ class AsesoriaController extends Controller
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
     }
-    
+
 
 
 
