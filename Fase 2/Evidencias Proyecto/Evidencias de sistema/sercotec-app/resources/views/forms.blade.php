@@ -136,7 +136,7 @@
     </div>
 
     <!-- Mobile and Tablet Tables -->
-    <div class="d-lg-none">
+    <div class="d-lg-none ">
         <!-- Ambitos Mobile Table -->
         <div class="table-card">
             <h2>Ambitos</h2>
@@ -213,8 +213,6 @@
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal3">Crear un
             Formulario</button>
         <div id="myGrid3" class="ag-theme-material-dark "></div>
-    </div>
-
     </div>
 
 

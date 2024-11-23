@@ -10,11 +10,22 @@
 }
 
 .tables-container {
-    display: grid;
+    display: none;
     gap: 2rem;
     padding: 1rem;
     max-width: 1200px;
     margin: 0 auto;
+}
+@media (max-width: 991px) {
+    .multitabla{
+        display: none;
+    }
+    .tblmulti{
+        display: none;
+    }
+    .formulario{
+        display: none;
+    }
 }
 
 @media (min-width: 768px) {
