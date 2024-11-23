@@ -12,6 +12,7 @@ use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\ControllerPdf;
 use App\Http\Controllers\WelcomeController;
 
 Route::get('/', function () {
@@ -83,6 +84,8 @@ Route::middleware(['auth'])->group(function () {
     //Ruta para diagnostico
     Route::get('/asesorias', [AsesoriaController::class, 'index'])->name('asesorias.index');
     Route::delete('asesorias/{id}', [AsesoriaController::class, 'destroy'])->name('asesorias.destroy');
+
+    Route::get('/pdf', [ControllerPdf::class, 'index'])->name('pdf.index');
 
 });
 
