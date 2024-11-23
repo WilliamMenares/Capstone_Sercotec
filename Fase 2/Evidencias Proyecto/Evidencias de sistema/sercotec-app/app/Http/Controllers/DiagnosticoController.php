@@ -59,7 +59,6 @@ class DiagnosticoController extends Controller
             // Crear las respuestas asociadas a esta encuesta
             foreach ($request->respuesta as $id_pregunta => $respuesta) {
                 Respuestas::create([
-                    'id_encuesta' => $encuesta->id,  // Asociar la respuesta con la encuesta creada
                     'id_pregunta' => $id_pregunta,   // El ID de la pregunta (clave del array)
                     'id_tipo' => $respuesta,         // El valor de la respuesta (valor del array)
                 ]);

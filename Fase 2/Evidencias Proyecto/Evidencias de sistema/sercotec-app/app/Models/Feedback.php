@@ -19,8 +19,10 @@ class Feedback extends Model
         'accion4'
     ];
 
+    // Relación con Pregunta
     public function pregunta()
     {
         return $this->belongsTo(Preguntas::class, 'id_pregunta');
     }
+
 }
