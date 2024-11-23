@@ -28,7 +28,7 @@ class DiagnosticoController extends Controller
             $request->validate([
                 'responsable' => 'required|string|max:255',
                 'id_empresa' => 'required|integer',
-                               'id_encuesta' => 'required|integer',
+                               
                 'id_formulario' => 'required|integer',
                 'respuesta' => 'required|array',
                 'respuesta.*' => 'in:1,2,3',
@@ -51,20 +51,23 @@ class DiagnosticoController extends Controller
 
 
             // Crear la Encuesta y obtener el ID de la encuesta recién creada
-            $encuesta = Encuesta::create([
-                'responsable' => $request->responsable,
-                'id_formulario' => $request->id_formulario,
-                'id_empresa' => $request->id_empresa,
-            ]);
-
-            // Crear las respuestas asociadas a esta encuesta
-            foreach ($request->respuesta as $id_pregunta => $respuesta) {
-                Respuestas::create([
-                    'id_pregunta' => $id_pregunta,
-                                   'id_encuesta' => $id_encuesta,// El ID de la pregunta (clave del array)
-                    'id_tipo' => $respuesta,         // El valor de la respuesta (valor del array)
+                $encuesta = Encuesta::create([
+                    'responsable' => $request->responsable,
+                    'id_formulario' => $request->id_formulario,
+                    'id_empresa' => $request->id_empresa,
                 ]);
-            }
+                
+                // Obtener el ID de la encuesta recién creada
+                $id_encuesta = $encuesta->id; // Aquí obtienes el id de la encuesta creada
+                
+                // Crear las respuestas asociadas a esta encuesta
+                foreach ($request->respuesta as $id_pregunta => $respuesta) {
+                    Respuestas::create([
+                        'id_pregunta' => $id_pregunta,  // ID de la pregunta
+                        'id_encuesta' => $id_encuesta,  // ID de la encuesta (que acabamos de crear)
+                        'id_tipo' => $respuesta,        // El valor de la respuesta (valor del array)
+                    ]);
+                }
 
             return redirect()->route('diagnostico.index')->with(
                 'success',
