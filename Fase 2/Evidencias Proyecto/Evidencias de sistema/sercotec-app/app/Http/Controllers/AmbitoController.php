@@ -15,14 +15,14 @@ class AmbitoController extends Controller
     {
         $ambitos = Ambitos::orderBy('id', 'desc')->get();
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
-        $formularios = Formularios::with('ambitos')->get();
+        $formularios = Formularios::with('ambito','user')->get();
         $restipo = RespuestasTipo::orderBy('id', 'desc')->get();
         return view("forms", compact('preguntas', 'ambitos', 'formularios', 'restipo'));
     }
 
     public function getambis()
     {
-        $ambitos = Ambitos::all(); // O el modelo que uses
+        $ambitos = Ambitos::with('formulario')->get(); // O el modelo que uses
         return response()->json($ambitos);
     }
 
@@ -81,13 +81,13 @@ class AmbitoController extends Controller
         $ambito = Ambitos::findOrFail($id);
 
         // Verificar si el ámbito tiene preguntas asociadas
-        if ($ambito->preguntas()->count() > 0) {
+        if ($ambito->pregunta()->exists()) {
             return redirect()->route('forms.index')
                 ->with('error', 'No se puede eliminar el ámbito porque tiene preguntas enlazadas.');
         }
 
         // Verificar si el ámbito tiene formularios asociados
-        if ($ambito->formularios()->count() > 0) {
+        if ($ambito->formulario()->count() > 0) {
             return redirect()->route('forms.index')
                 ->with('error', 'No se puede eliminar el ámbito porque tiene formularios enlazados.');
         }

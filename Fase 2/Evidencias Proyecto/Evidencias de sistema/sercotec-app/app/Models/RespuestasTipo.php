@@ -11,11 +11,16 @@ class RespuestasTipo extends Model
 
     protected $table = 'respuestas_tipo';
 
-    protected $fillable = ['id', 'titulo','puntaje'];
+    protected $fillable = ['titulo', 'puntaje'];
 
-    // Relación inversa con Respuestas
+    // Relación con Respuestas
     public function respuestas()
     {
-        return $this->hasMany(Respuestas::class, 'id_tipo');
+        return $this->hasMany(Respuestas::class, 'respuestatipo_id');
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class, 'respuestas_tipo_id');
     }
 }

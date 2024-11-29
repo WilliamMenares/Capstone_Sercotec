@@ -13,15 +13,13 @@ class Ambitos extends Model
 
     protected $fillable = ['title'];
 
-    // Define la relación con Preguntas
-    public function preguntas()
+    public function formulario()
     {
-        return $this->hasMany(Preguntas::class, 'id_ambito'); // 'id_ambito' es la clave foránea en Preguntas
+        return $this->belongsToMany(Formularios::class, 'formulario_ambito', 'ambito_id', 'formulario_id');
     }
 
-    // Relación muchos a muchos con Formularios
-    public function formularios()
+    public function pregunta()
     {
-        return $this->belongsToMany(Formularios::class, 'ambito_formulario');
+        return $this->hasMany(Preguntas::class, 'ambito_id'); // Un ambito puede tener varias preguntas
     }
 }

@@ -187,3 +187,9 @@
 .hidden {
     display: none;
 }
+
+.prueba{
+    color: white !important;
+    display: flex;
+    flex-direction: column;
+}

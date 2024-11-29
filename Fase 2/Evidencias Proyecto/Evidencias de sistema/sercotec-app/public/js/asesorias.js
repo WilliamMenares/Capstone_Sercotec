@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const columnDefs = [
         {
             headerName: "Responsable",
-            field: "responsable",
+            field: "user.name",
             filter: true,
             floatingFilter: true,
         },
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = document.createElement("div");
         row.classList.add("mobile-table-row");
         row.dataset.id = data.id;
-        row.dataset.responsable = data.responsable;
+        row.dataset.responsable = data.user.name;
         row.dataset.empresa = data.empresa.nombre;
         row.dataset.contacto = data.empresa.contacto;
         row.dataset.email = data.empresa.email;

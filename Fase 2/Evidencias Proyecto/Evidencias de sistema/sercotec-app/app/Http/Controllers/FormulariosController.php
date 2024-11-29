@@ -10,7 +10,7 @@ class FormulariosController extends Controller
 
     public function getformu()
     {
-        $formularios = Formularios::with('ambitos')->get();// O el modelo que uses
+        $formularios = Formularios::with('ambito', 'user')->get();// O el modelo que uses
         return response()->json($formularios);
     }
 
@@ -28,25 +28,25 @@ class FormulariosController extends Controller
             'nombre.required' => 'El pregunta es obligatorio.',
             'nombre.string' => 'El pregunta debe ser una cadena de texto.',
             'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
-            
+
             'responsable.required' => 'El responsable es obligatorio.',
             'responsable.string' => 'El responsable debe ser una cadena de texto.',
             'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
 
             'ambitos.required' => 'El ambito es obligatorio.',
             'ambitos.array' => 'El ambito debe ser una lista.',
-            
+
         ]);
 
         try {
             // Crear el formulario
             $formulario = Formularios::create([
                 'nombre' => $validated['nombre'],
-                'responsable' => $validated['responsable'],
+                'user_id' => $validated['responsable'],
             ]);
 
             // Asociar los ámbitos seleccionados
-            $formulario->ambitos()->attach($validated['ambitos']);
+            $formulario->ambito()->attach($validated['ambitos']);
 
             return redirect()->route('forms.index')
                 ->with('success', 'Formulario creado correctamente.');
@@ -69,25 +69,25 @@ class FormulariosController extends Controller
             'nombre.required' => 'El pregunta es obligatorio.',
             'nombre.string' => 'El pregunta debe ser una cadena de texto.',
             'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
-            
+
             'responsable.required' => 'El responsable es obligatorio.',
             'responsable.string' => 'El responsable debe ser una cadena de texto.',
             'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
 
             'ambitos.required' => 'El ambito es obligatorio.',
             'ambitos.array' => 'El ambito debe ser una lista.',
-            
+
         ]);
 
         // Encontrar el formulario y actualizarlo
         $formulario = Formularios::findOrFail($id);
         $formulario->update([
             'nombre' => $request->nombre,
-            'responsable' => $request->responsable,
+            'user_id' => $request->responsable,
         ]);
 
         // Sincronizar los ámbitos seleccionados
-        $formulario->ambitos()->sync($request->ambitos);
+        $formulario->ambito()->sync($request->ambitos);
 
         return redirect()->route('forms.index')->with('success', 'Formulario actualizado correctamente.');
     }
@@ -97,10 +97,16 @@ class FormulariosController extends Controller
     {
         $formulario = Formularios::findOrFail($id);
 
+        // Verificar si existen encuestas asociadas al formulario
+        if ($formulario->encuesta()->count() > 0) {
+            return redirect()->route('forms.index')->with('error', 'No se puede eliminar el formulario, ya que está asociado a una o más encuestas.');
+        }
+
         // Desvincular todos los ámbitos antes de eliminar
-        $formulario->ambitos()->detach();
+        $formulario->ambito()->detach();
         $formulario->delete();
 
         return redirect()->route('forms.index')->with('success', 'Formulario eliminado correctamente.');
     }
+
 }

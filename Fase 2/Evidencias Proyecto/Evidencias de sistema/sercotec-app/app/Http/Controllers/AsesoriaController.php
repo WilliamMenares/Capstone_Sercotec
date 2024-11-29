@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Encuesta;
 use App\Models\Feedback;
+use App\Models\Preguntas;
 use App\Models\Respuestas;
 
 
@@ -13,19 +14,28 @@ class AsesoriaController extends Controller
 {
     public function index()
     {
-        // Paginar con 6 registros por página
-        $encuestas = Encuesta::with(['formulario.ambitos.preguntas.respuestas.tipo', 'empresa'])->get();
+        $encuestas = Encuesta::with([
+            'user',
+            'empresa',
+            'formulario.ambito.pregunta.respuesta.respuestasTipo'
+        ])->get();
 
-        return view("asesorias")->with("encuestas", $encuestas);
+        $feedbacks = Feedback::all();
+
+        return view("asesorias", compact('encuestas', 'feedbacks'));
+
     }
 
     public function getase()
     {
-        $encuestas = Encuesta::with(['formulario.ambitos.preguntas.respuestas.tipo', 'empresa'])->get();
+        $encuestas = Encuesta::with([
+            'formulario.ambito.pregunta.respuesta.respuestasTipo', 
+            'empresa',
+            'user'
+        ])->get();
 
         return response()->json($encuestas);
     }
-
 
 
 
@@ -39,7 +49,7 @@ class AsesoriaController extends Controller
         $encuesta = Encuesta::findOrFail($id);
 
         // Encuentra todas las respuestas asociadas a la encuesta
-        $respuestas = Respuestas::where('id_encuesta', $id)->get();
+        $respuestas = Respuestas::where('encuesta_id', $id)->get();
 
         // Elimina todas las respuestas
         foreach ($respuestas as $respuesta) {
@@ -53,7 +63,11 @@ class AsesoriaController extends Controller
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
     }
 
+    public function pdf($id){
+        $encuesta = Encuesta::findOrFail($id);
 
+
+    }
 
 
 }

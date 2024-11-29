@@ -12,8 +12,9 @@ class Empresa extends Model
     protected $table = 'empresas';
 
     protected $fillable = ['codigo', 'rut', 'nombre', 'email', 'contacto'];
-    public function encuestas()
+
+    public function encuesta()
     {
-        return $this->hasMany(Encuesta::class, 'id_empresa');
+        return $this->hasMany(Encuesta::class); // Una empres puede tener varias encuestas
     }
 }
