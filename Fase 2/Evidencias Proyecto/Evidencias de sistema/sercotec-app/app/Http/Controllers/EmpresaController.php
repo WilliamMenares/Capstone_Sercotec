@@ -121,10 +121,10 @@ class EmpresaController extends Controller
     {
         try {
             // Buscar la empresa
-            $empresa = Empresa::with('encuestas')->findOrFail($id);
+            $empresa = Empresa::with('encuesta')->findOrFail($id);
 
             // Verificar si la empresa tiene encuestas asociadas
-            if ($empresa->encuestas->isNotEmpty()) {
+            if ($empresa->encuesta->isNotEmpty()) {
                 return redirect()->back()->with('error', 'No se puede eliminar la empresa porque está asociada a una o más encuestas.');
             }
 

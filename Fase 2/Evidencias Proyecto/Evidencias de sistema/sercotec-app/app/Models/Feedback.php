@@ -9,9 +9,10 @@ class Feedback extends Model
 {
     use HasFactory;
 
+    protected $table = 'feedbacks';
     protected $fillable = [
-        'id_pregunta',
-        'id_tipo',
+        'pregunta_id',
+        'respuestas_tipo_id',  // Vinculamos Feedback con RespuestaTipo
         'situacion',
         'accion1',
         'accion2',
@@ -22,7 +23,12 @@ class Feedback extends Model
     // Relación con Pregunta
     public function pregunta()
     {
-        return $this->belongsTo(Preguntas::class, 'id_pregunta');
+        return $this->belongsTo(Preguntas::class);
     }
 
+    // Relación con RespuestaTipo
+    public function respuestatipo()
+    {
+        return $this->belongsTo(RespuestasTipo::class);
+    }
 }

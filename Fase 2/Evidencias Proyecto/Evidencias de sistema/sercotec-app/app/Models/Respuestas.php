@@ -11,24 +11,23 @@ class Respuestas extends Model
 
     protected $table = 'respuestas';
 
-    protected $fillable = ['id', 'id_tipo','id_encuesta', 'id_pregunta'];
+    protected $fillable = ['encuesta_id', 'pregunta_id', 'respuestatipo_id']; 
 
     // Relación con Encuesta
+    public function encuesta()
+    {
+        return $this->belongsTo(Encuesta::class );
+    }
 
     // Relación con Pregunta
     public function pregunta()
     {
-        return $this->belongsTo(Preguntas::class, 'id_pregunta');
+        return $this->belongsTo(Preguntas::class);
     }
 
-    // Relación con RespuestasTipo
-    public function tipo()
-    {
-        return $this->belongsTo(RespuestasTipo::class, 'id_tipo');
-    }
 
-    public function encuesta()
-    {
-        return $this->belongsTo(Encuestas::class, 'id_encuesta');
-    }
+    public function respuestasTipo()
+{
+    return $this->belongsTo(RespuestasTipo::class, 'respuestatipo_id'); // Asegúrate de especificar el campo correctamente
+}
 }

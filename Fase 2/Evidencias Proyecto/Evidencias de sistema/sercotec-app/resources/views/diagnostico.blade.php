@@ -37,8 +37,9 @@
 
                     <div class="mb-3 contenebus">
                         <label for="empresa" class="form-label text-light">Responsable:</label>
-                        <input type="text" class="form-control bg-dark text-light" name="responsable"
+                        <input type="text" class="form-control bg-dark text-light" 
                             placeholder="Responsable" value="{{ Auth::user()->name }}" readonly required>
+                        <input type="hidden"  name="responsable" value="{{ Auth::user()->id }}"  required>
                     </div>
                 </div>
                 <div id="progreso-general" style="display:none">
@@ -50,7 +51,7 @@
                 </div>
                 <div class="avance">
                     @foreach ($formularios as $formulario)
-                        @foreach ($formulario->ambitos as $ambito)
+                        @foreach ($formulario->ambito as $ambito)
                             <div class="progreso text-light" data-formulario="{{ $formulario->id }}" style="display:none">
                                 <label for="">{{ $ambito->title }}</label>
                                 <div class="progress">
@@ -73,7 +74,7 @@
             </div>
             <div class="ambitos-container">
                 @foreach($formularios as $formulario)
-                    @foreach($formulario->ambitos as $index => $ambito)
+                    @foreach($formulario->ambito as $index => $ambito)
                         <div class="ambito text-light" data-formulario="{{ $formulario->id }}" data-index="{{ $index }}"
                             style="display: none;">
                             <div class="preguntas">
@@ -90,17 +91,17 @@
                                         {{ $ambito->title }}
                                     </div>
                                 </div>
-                                @foreach($preguntas->where('id_ambito', $ambito->id) as $pregunta)
+                                @foreach($preguntas->where('ambito_id', $ambito->id) as $pregunta)
                                     <div class="pre-item">
                                         <div class="pre1">
                                             {{ $pregunta->title }}
                                         </div>
                                         <div class="pre2">
-                                            <div class="r1"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="1">
+                                            <div class="r1"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="3">
                                             </div>
                                             <div class="r2"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="2">
                                             </div>
-                                            <div class="r3"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="3">
+                                            <div class="r3"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="1">
                                             </div>
                                         </div>
                                     </div>

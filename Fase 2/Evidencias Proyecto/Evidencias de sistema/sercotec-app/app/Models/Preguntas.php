@@ -11,19 +11,20 @@ class Preguntas extends Model
 
     protected $table = 'preguntas';
 
-    protected $fillable = ['title', 'id_ambito', 'puntaje'];
+    protected $fillable = ['title', 'ambito_id', 'prioridad'];
 
-    // Definimos la relación con Ambitos
     public function ambito()
     {
-        return $this->belongsTo(Ambitos::class, 'id_ambito');
+        return $this->belongsTo(Ambitos::class,'ambito_id'); // La pregunta pertenece a un ambito
     }
-    public function respuestas()
-    {
-        return $this->hasMany(Respuestas::class, 'id_pregunta');
-    }
-    public function feedback()
-    {
-        return $this->hasMany(Feedback::class, 'id_pregunta');
-    }
+     // Relación con Feedback
+     public function feedbacks()
+     {
+         return $this->hasMany(Feedback::class, 'pregunta_id'); // Una pregunta tiene muchos feedbacks
+     }
+
+     public function respuesta()
+     {
+         return $this->hasMany(Respuestas::class, 'pregunta_id'); // Una pregunta tiene muchos feedbacks
+     }
 }

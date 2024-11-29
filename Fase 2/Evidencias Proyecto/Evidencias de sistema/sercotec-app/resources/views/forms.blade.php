@@ -326,7 +326,7 @@
                             <div class="mb-3">
                                 <label for="puntaje" class="form-label">Puntaje:</label>
                                 <input type="number" class="form-control bg-dark text-light" name="puntaje"
-                                    value="{{ $pregu->puntaje }}" placeholder="Nombre" required>
+                                    value="{{ $pregu->prioridad }}" placeholder="Nombre" required>
                             </div>
 
                             <select class="form-select bg-dark text-light areatext1 select-situ"
@@ -340,8 +340,8 @@
                             @foreach ($restipo as $tipo)
                                 @php
                                     $feedback = $pregu
-                                        ->feedback()
-                                        ->where('id_tipo', $tipo->id)
+                                        ->feedbacks()
+                                        ->where('respuestas_tipo_id', $tipo->id)
                                         ->first();
                                 @endphp
                                 <div class="form-floating areatext feedback-{{ $tipo->id }}">
@@ -433,15 +433,16 @@
                             </div>
                             <div class="mb-3">
                                 <label for="responsable" class="form-label">Responsable:</label>
-                                <input type="text" class="form-control bg-dark text-light" name="responsable"
-                                    value="{{ $formu->responsable }}" placeholder="Responsable" required readonly>
+                                <input type="text" class="form-control bg-dark text-light"
+                                    value="{{ $formu->user->name }}" placeholder="Responsable" required readonly>
+                                <input type="hidden" name="responsable" value="{{ $formu->user->id }}" required >
                             </div>
                             <div class="mb-3">
                                 <label for="ambitos" class="form-label">Ámbitos:</label>
                                 <select name="ambitos[]" class="select-ambito sl_ambito" multiple required>
                                     @foreach ($ambitos as $ambito)
                                         <option value="{{ $ambito->id }}"
-                                            @if (in_array($ambito->id, $formu->ambitos->pluck('id')->toArray())) selected @endif>
+                                            @if (in_array($ambito->id, $formu->ambito->pluck('id')->toArray())) selected @endif>
                                             {{ $ambito->title }}
                                         </option>
                                     @endforeach
@@ -584,8 +585,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="responsable" class="form-label">Responsable:</label>
-                        <input type="text" readonly class="form-control bg-dark text-light" name="responsable"
+                        <input type="text" readonly class="form-control bg-dark text-light" 
                             value="{{ Auth::user()->name }}" placeholder="Responsable" required>
+                            <input type="hidden"  name="responsable" value="{{ Auth::user()->id }}"  required>
                     </div>
                     <div class="mb-3">
                         <label for="ambitos" class="form-label">Ámbitos:</label>

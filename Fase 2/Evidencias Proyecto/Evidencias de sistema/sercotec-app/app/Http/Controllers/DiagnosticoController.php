@@ -15,7 +15,7 @@ class DiagnosticoController extends Controller
     public function index()
     {
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
-        $formularios = Formularios::with('ambitos')->get();
+        $formularios = Formularios::with('ambito')->get();
         return view("diagnostico", compact('preguntas', 'formularios'));
     }
 
@@ -52,9 +52,9 @@ class DiagnosticoController extends Controller
 
             // Crear la Encuesta y obtener el ID de la encuesta recién creada
                 $encuesta = Encuesta::create([
-                    'responsable' => $request->responsable,
-                    'id_formulario' => $request->id_formulario,
-                    'id_empresa' => $request->id_empresa,
+                    'user_id' => $request->responsable,
+                    'formulario_id' => $request->id_formulario,
+                    'empresa_id' => $request->id_empresa,
                 ]);
                 
                 // Obtener el ID de la encuesta recién creada
@@ -63,9 +63,9 @@ class DiagnosticoController extends Controller
                 // Crear las respuestas asociadas a esta encuesta
                 foreach ($request->respuesta as $id_pregunta => $respuesta) {
                     Respuestas::create([
-                        'id_pregunta' => $id_pregunta,  // ID de la pregunta
-                        'id_encuesta' => $id_encuesta,  // ID de la encuesta (que acabamos de crear)
-                        'id_tipo' => $respuesta,        // El valor de la respuesta (valor del array)
+                        'pregunta_id' => $id_pregunta,  // ID de la pregunta
+                        'encuesta_id' => $id_encuesta,  // ID de la encuesta (que acabamos de crear)
+                        'respuestatipo_id' => $respuesta,        // El valor de la respuesta (valor del array)
                     ]);
                 }
 

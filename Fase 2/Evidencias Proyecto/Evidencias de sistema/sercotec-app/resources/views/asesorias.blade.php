@@ -14,6 +14,10 @@
     </div>
 
     <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+
+
+
+
     <div id="mobileGrid" class="mobile-table">
         <div class="mobile-table-header">
             <h2>Lista de Asesorías</h2>
@@ -31,6 +35,197 @@
             </ul>
         </nav>
     </div>
+    @foreach ($encuestas as $encu)
+        @php
+            // Array para almacenar los porcentajes de cada ámbito
+            $ambitosConPorcentaje = [];
+
+            // Calcular porcentajes para todos los ámbitos
+            foreach ($encu->formulario->ambito as $ambito) {
+                $cantidadPreguntas = $ambito->pregunta->count();
+                $maxPuntajePosible = 5 * $cantidadPreguntas;
+
+                $puntajeActual = 0;
+                foreach ($ambito->pregunta as $pregunta) {
+                    foreach ($pregunta->respuesta as $respuesta) {
+                        $puntajeActual += $respuesta->respuestasTipo->puntaje;
+                    }
+                }
+
+                $porcentajeSatisfaccion = ($puntajeActual / $maxPuntajePosible) * 100;
+
+                // Guardar el ámbito con su porcentaje
+                $ambitosConPorcentaje[] = [
+                    'ambito' => $ambito,
+                    'porcentaje' => $porcentajeSatisfaccion,
+                    'puntajeActual' => $puntajeActual,
+                    'maxPuntajePosible' => $maxPuntajePosible
+                ];
+            }
+
+            // Ordenar ámbitos por porcentaje (menor a mayor)
+            usort($ambitosConPorcentaje, function ($a, $b) {
+                return $a['porcentaje'] <=> $b['porcentaje'];
+            });
+
+            // Tomar los dos con menor porcentaje
+            $ambitosMenorPorcentaje = array_slice($ambitosConPorcentaje, 0, 2);
+
+            // Tomar el de mayor porcentaje (último elemento del array ordenado)
+            $ambitoMayorPorcentaje = end($ambitosConPorcentaje);
+        @endphp
+
+        <div class="prueba">
+            <div>
+                <p>Responsable: {{$encu->user->name}}</p>
+                <p>Nombre Empresa: {{$encu->empresa->nombre}}</p>
+                <p>Email Empresa: {{$encu->empresa->email}}</p>
+                <p>Contacto Empresa: {{$encu->empresa->contacto}}</p>
+            </div>
+            <div>
+                <p>Formulario: {{ $encu->formulario->nombre }}</p>
+
+                <h3>Ámbitos con menor porcentaje de satisfacción:</h3>
+                @foreach ($ambitosMenorPorcentaje as $ambitoData)
+                        @php
+                            $ambito = $ambitoData['ambito'];
+                        @endphp
+
+                        <p><strong>Ámbito: {{ $ambito->title }}</strong></p>
+                        <p>Puntaje obtenido: {{ $ambitoData['puntajeActual'] }} de {{ $ambitoData['maxPuntajePosible'] }}</p>
+                        <p>Porcentaje de Satisfacción: {{ number_format($ambitoData['porcentaje'], 2) }}%</p>
+
+                        @php
+                            // Filtrar preguntas con respuesta "No Cumple" en este ámbito
+                            $preguntasNoCumple = $ambito->pregunta->filter(function ($pregunta) {
+                                return $pregunta->respuesta->contains(function ($respuesta) {
+                                    return $respuesta->respuestasTipo->titulo == 'No Cumple';
+                                });
+                            });
+
+                            // Si hay más de una pregunta con "No Cumple", seleccionar la de mayor prioridad
+                            if ($preguntasNoCumple->count() > 1) {
+                                $preguntasNoCumple = $preguntasNoCumple->sortByDesc('prioridad')->take(1);
+                            }
+                        @endphp
+
+                        @foreach ($preguntasNoCumple as $pregunta)
+                            <p>Pregunta: {{ $pregunta->title }}</p>
+                            @foreach ($pregunta->respuesta as $respuesta)
+                                @if ($respuesta->respuestasTipo->titulo == 'No Cumple')
+                                    <p>Situación: {{ $respuesta->respuestasTipo->titulo }}</p>
+                                    <p>Puntaje: {{ $respuesta->respuestasTipo->puntaje }}</p>
+
+                                    {{-- Buscar feedbacks relacionados --}}
+                                    @php
+                                        $feedbackRelacionados = $feedbacks->filter(function ($feedback) use ($pregunta, $respuesta) {
+                                            return $feedback->pregunta_id === $pregunta->id &&
+                                                $feedback->respuestas_tipo_id === $respuesta->respuestatipo_id;
+                                        });
+                                    @endphp
+
+                                    @if ($feedbackRelacionados->isNotEmpty())
+                                        <div class="feedbacks">
+                                            <p><strong>Feedbacks:</strong></p>
+                                            @foreach ($feedbackRelacionados as $feedback)
+                                                <p>Situación: {{ $feedback->situacion }}</p>
+                                                <p>Acción 1: {{ $feedback->accion1 }}</p>
+                                                <p>Acción 2: {{ $feedback->accion2 }}</p>
+                                                <p>Acción 3: {{ $feedback->accion3 }}</p>
+                                                <p>Acción 4: {{ $feedback->accion4 }}</p>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p>No hay feedbacks relacionados.</p>
+                                    @endif
+                                @endif
+                            @endforeach
+                        @endforeach
+                @endforeach
+
+                <h3>Ámbito con mayor porcentaje de satisfacción:</h3>
+                @php
+                    $mostrarAmbitoMayor = false;
+                    $ambitoMayor = $ambitoMayorPorcentaje['ambito'];
+
+                    // Verificar que el porcentaje mayor no sea igual a los menores
+                    $porcentajeMayor = $ambitoMayorPorcentaje['porcentaje'];
+                    $porcentajesMenores = array_map(function ($ambito) {
+                        return $ambito['porcentaje'];
+                    }, $ambitosMenorPorcentaje);
+
+                    // Verificar si tiene al menos una pregunta en Cumple
+                    $tienePreguntasCumple = $ambitoMayor->pregunta->contains(function ($pregunta) {
+                        return $pregunta->respuesta->contains(function ($respuesta) {
+                            return $respuesta->respuestasTipo->titulo == 'Cumple';
+                        });
+                    });
+
+                    // Solo mostrar si el porcentaje es diferente a los menores y tiene preguntas Cumple
+                    if (!in_array($porcentajeMayor, $porcentajesMenores) && $tienePreguntasCumple) {
+                        $mostrarAmbitoMayor = true;
+
+                        // Filtrar preguntas con respuesta "Cumple"
+                        $preguntasCumple = $ambitoMayor->pregunta->filter(function ($pregunta) {
+                            return $pregunta->respuesta->contains(function ($respuesta) {
+                                return $respuesta->respuestasTipo->titulo == 'Cumple';
+                            });
+                        });
+
+                        // Si hay más de una pregunta con "Cumple", seleccionar la de mayor prioridad
+                        if ($preguntasCumple->count() > 1) {
+                            $preguntasCumple = $preguntasCumple->sortByDesc('prioridad')->take(1);
+                        }
+                    }
+                @endphp
+
+                @if($mostrarAmbitoMayor)
+                    <p><strong>Ámbito: {{ $ambitoMayor->title }}</strong></p>
+                    <p>Puntaje obtenido: {{ $ambitoMayorPorcentaje['puntajeActual'] }} de
+                        {{ $ambitoMayorPorcentaje['maxPuntajePosible'] }}
+                    </p>
+                    <p>Porcentaje de Satisfacción: {{ number_format($ambitoMayorPorcentaje['porcentaje'], 2) }}%</p>
+
+                    @foreach ($preguntasCumple as $pregunta)
+                        <p>Pregunta: {{ $pregunta->title }}</p>
+                        @foreach ($pregunta->respuesta as $respuesta)
+                            @if ($respuesta->respuestasTipo->titulo == 'Cumple')
+                                <p>Situación: {{ $respuesta->respuestasTipo->titulo }}</p>
+                                <p>Puntaje: {{ $respuesta->respuestasTipo->puntaje }}</p>
+
+                                {{-- Buscar feedbacks relacionados --}}
+                                @php
+                                    $feedbackRelacionados = $feedbacks->filter(function ($feedback) use ($pregunta, $respuesta) {
+                                        return $feedback->pregunta_id === $pregunta->id &&
+                                            $feedback->respuestas_tipo_id === $respuesta->respuestatipo_id;
+                                    });
+                                @endphp
+
+                                @if ($feedbackRelacionados->isNotEmpty())
+                                    <div class="feedbacks">
+                                        <p><strong>Feedbacks:</strong></p>
+                                        @foreach ($feedbackRelacionados as $feedback)
+                                            <p>Situación: {{ $feedback->situacion }}</p>
+                                            <p>Acción 1: {{ $feedback->accion1 }}</p>
+                                            <p>Acción 2: {{ $feedback->accion2 }}</p>
+                                            <p>Acción 3: {{ $feedback->accion3 }}</p>
+                                            <p>Acción 4: {{ $feedback->accion4 }}</p>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p>No hay feedbacks relacionados.</p>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endforeach
+                @else
+                    <p>No hay ámbito con mayor porcentaje que cumpla los criterios requeridos.</p>
+                @endif
+
+            </div>
+        </div>
+    @endforeach
+
 </div>
 
 <script src="{{ asset('js/asesorias.js') }}"></script>
@@ -68,81 +263,7 @@
     </div>
 
 
-    <div style="display: none;">
-        @php
-            $ambitosPuntajes = []; // Array para almacenar los ámbitos con sus porcentajes, preguntas y respuestas
-        @endphp
 
-        @foreach ($encuestas as $encuesta)
-            @foreach ($encuesta['formulario']['ambitos'] as $ambito)
-                @php
-                    $totalPuntajeAmbito = 0;
-                    $maxPuntajeAmbito = count($ambito['preguntas']) * 5 ?: 1; // Evitar división por 0
-
-                    // Encontrar la pregunta con el puntaje de respuesta más bajo
-                    $preguntaSeleccionada = collect($ambito['preguntas'])->sort(function ($a, $b) {
-                        // Encuentra el puntaje mínimo de las respuestas
-                        $minPuntajeA = collect($a['respuestas'])->min('tipo.puntaje');
-                        $minPuntajeB = collect($b['respuestas'])->min('tipo.puntaje');
-
-                        if ($minPuntajeA === $minPuntajeB) {
-                            // Si los puntajes son iguales, compara por el puntaje de la pregunta
-                            return $b['puntaje'] <=> $a['puntaje'];
-                        }
-                        // Comparar por el puntaje mínimo de la respuesta
-                        return $minPuntajeA <=> $minPuntajeB;
-                    })->first(); // Seleccionar la primera pregunta después de ordenar
-
-                    // Calcular el puntaje total del ámbito
-                    foreach ($ambito['preguntas'] as $pregunta) {
-                        foreach ($pregunta['respuestas'] as $respuesta) {
-                            $totalPuntajeAmbito += $respuesta['tipo']['puntaje'];
-                        }
-                    }
-
-                    $porcentajeCompletado = ($totalPuntajeAmbito / $maxPuntajeAmbito) * 100;
-
-                    // Agregar ámbito al arreglo con su información completa
-                    $ambitosPuntajes[] = [
-                        'title' => $ambito['title'],
-                        'porcentaje' => $porcentajeCompletado,
-                        'preguntas' => [$preguntaSeleccionada], // Solo incluir la pregunta seleccionada
-                    ];
-                @endphp
-            @endforeach
-        @endforeach
-
-        @php
-            // Ordenar los ámbitos por porcentaje en forma ascendente
-            usort($ambitosPuntajes, function ($a, $b) {
-                return $a['porcentaje'] <=> $b['porcentaje'];
-            });
-
-            // Seleccionar los dos ámbitos con menor porcentaje
-            $ambitosMenores = array_slice($ambitosPuntajes, 0, 2);
-        @endphp
-
-        <h3>Ámbitos con menor porcentaje de completado:</h3>
-        <ul>
-            @foreach ($ambitosMenores as $ambito)
-
-                <strong>Ámbito:</strong> {{ $ambito['title'] }}
-                <p><strong>Porcentaje Completado:</strong> {{ number_format($ambito['porcentaje'], 2) }}%</p>
-
-                @foreach ($ambito['preguntas'] as $pregunta)
-
-                    <strong>Pregunta:</strong> {{ $pregunta['title'] }}
-
-                    @foreach ($pregunta['respuestas'] as $respuesta)
-
-                    @endforeach
-
-                @endforeach
-
-
-            @endforeach
-        </ul>
-    </div>
 
 
 

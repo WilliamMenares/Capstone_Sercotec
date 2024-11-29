@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('ambitos', function (Blueprint $table) {
+        Schema::create('preguntas', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->foreignId('ambito_id')->constrained('ambitos'); // Relación con ambitos
+            $table->integer('prioridad');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('ambitos');
+        Schema::dropIfExists('preguntas');
     }
 };
