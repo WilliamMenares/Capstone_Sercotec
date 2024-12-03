@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Encuesta;
 use App\Models\Feedback;
-use App\Models\Preguntas;
 use App\Models\Respuestas;
-
-
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AsesoriaController extends Controller
 {
@@ -23,13 +20,12 @@ class AsesoriaController extends Controller
         $feedbacks = Feedback::all();
 
         return view("asesorias", compact('encuestas', 'feedbacks'));
-
     }
 
     public function getase()
     {
         $encuestas = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo', 
+            'formulario.ambito.pregunta.respuesta.respuestasTipo',
             'empresa',
             'user'
         ])->get();
@@ -62,12 +58,19 @@ class AsesoriaController extends Controller
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
     }
+    
+    public function generarPDF($id)
+{
+    $encuesta = Encuesta::with([
+        'formulario.ambito.pregunta.respuesta.respuestasTipo', 
+        'empresa', 
+        'user'
+    ])->findOrFail($id);
 
-    public function pdf($id){
-        $encuesta = Encuesta::findOrFail($id);
+    $feedbacks = Feedback::all();
 
-
-    }
-
-
+    $pdf = PDF::loadView('pdf', compact('encuesta', 'feedbacks'));
+    
+    return $pdf->download('asesoria_'.$id.'.pdf');
+}
 }
