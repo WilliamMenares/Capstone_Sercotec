@@ -1,0 +1,27 @@
+name: Deploy to cPanel
+on:
+  push:
+    branches:
+      - main
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.1.0
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.SFTP_SERVER }}
+        username: ${{ secrets.SFTP_USER }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        server-dir: public_html/
+        local-dir: Fase 2/Evidencias Proyecto/Evidencias de sistema/sercotec-app/
+        exclude: |
+          **/.env*
+          **/.git*
+          **/.git*/**
+          **/.github*/**
+          **/.github*/*
