@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
             headerName: "Acciones",
             cellRenderer: (params) => `
+            <button type="button" class="btn btn-primary pdf-download" data-id="${params.data.id}">PDF</button>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal${params.data.id}">Eliminar</button>
         `,
         },
@@ -86,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="mobile-table-cell"><strong>Contacto Empresa:</strong> ${data.empresa.contacto}</div>
             <div class="mobile-table-cell"><strong>Email Empresa:</strong> ${data.empresa.email}</div>
             <div class="mobile-table-cell mobile-table-actions">
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal${data.id}">Editar</button>
+                <button class="btn btn-primary btn-sm pdf-download" data-id="${data.id}">PDF</button>
                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal${data.id}">Eliminar</button>
             </div>
         `;
@@ -190,3 +191,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('pdf-download')) {
+        const encuestaId = event.target.dataset.id;
+        
+        fetch(`/asesorias/pdf/${encuestaId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `asesoria_${encuestaId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(error => {
+                console.error('Error downloading PDF:', error);
+                alert('No se pudo descargar el PDF');
+            });
+    }
+});

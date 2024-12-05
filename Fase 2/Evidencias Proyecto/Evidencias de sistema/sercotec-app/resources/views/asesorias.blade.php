@@ -227,7 +227,6 @@
     @endforeach
 
 </div>
-
 <script src="{{ asset('js/asesorias.js') }}"></script>
 
 @endsection
