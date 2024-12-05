@@ -12,8 +12,12 @@ use App\Http\Controllers\EmpresaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\ControllerPdf;
 use App\Http\Controllers\WelcomeController;
+
+
+
+
+
 
 Route::get('/', function () {
     return view('login');
@@ -34,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/api/pregu', [PreguntasController::class, 'getpregu']);
     Route::get('/api/formu', [FormulariosController::class, 'getformu']);
     Route::get('/api/ase', [AsesoriaController::class, 'getase']);
+
 
     // Rutas para usuarios
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -85,7 +90,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asesorias', [AsesoriaController::class, 'index'])->name('asesorias.index');
     Route::delete('asesorias/{id}', [AsesoriaController::class, 'destroy'])->name('asesorias.destroy');
 
-    Route::get('/pdf', [ControllerPdf::class, 'index'])->name('pdf.index');
+    //ruta para pdf
+    Route::get('/asesorias/pdf/{id}', [AsesoriaController::class, 'generarPDF'])
+    ->name('asesorias.pdf');
 
 });
 
