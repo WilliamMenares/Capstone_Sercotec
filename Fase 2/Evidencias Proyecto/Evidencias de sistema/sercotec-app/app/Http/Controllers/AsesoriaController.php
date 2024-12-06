@@ -58,19 +58,19 @@ class AsesoriaController extends Controller
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
     }
-    
+
     public function generarPDF($id)
-{
-    $encuesta = Encuesta::with([
-        'formulario.ambito.pregunta.respuesta.respuestasTipo', 
-        'empresa', 
-        'user'
-    ])->findOrFail($id);
+    {
+        $encuesta = Encuesta::with([
+            'formulario.ambito.pregunta.respuesta.respuestasTipo',
+            'empresa',
+            'user'
+        ])->findOrFail($id);
 
-    $feedbacks = Feedback::all();
+        $feedbacks = Feedback::all();
 
-    $pdf = PDF::loadView('pdf', compact('encuesta', 'feedbacks'));
-    
-    return $pdf->download('asesoria_'.$id.'.pdf');
-}
+        $pdf = PDF::loadView('pdf', compact('encuesta', 'feedbacks'));
+
+        return $pdf->download('asesoria_' . $id . '.pdf');
+    }
 }
