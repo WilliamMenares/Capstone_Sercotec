@@ -51,8 +51,8 @@
 
 
             <div class="grid grid-rows-2 gap-3">
-                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-6 hover:bg-yellow-100">
-                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-3 hover:bg-yellow-100">
+                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <line x1="4" y1="20" x2="20" y2="4" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -69,18 +69,18 @@
                         @endphp
 
                         @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-                            <h3 class="text-lg font-medium text-gray-900">Porcentaje Más Bajo: {{ $minAmbito['ambito'] }}
+                            <h3 class="text-lg font-medium text-gray-900">Ámbito con el porcentaje más Bajo: {{ $minAmbito['ambito'] }}
                             </h3>
                             <p class="text-3xl font-bold text-gray-900">
                                 {{ number_format($minAmbito['porcentaje_general'], 2) }}%</p>
                         @else
-                            <h3 class="text-lg font-medium text-gray-900">Porcentaje Más Bajo: Sin datos</h3>
+                            <h3 class="text-lg font-medium text-gray-900">Ámbito con el porcentaje más Bajo: Sin datos</h3>
                         @endif
                     </div>
                 </a>
 
-                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-6 hover:bg-yellow-100">
-                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-3 hover:bg-yellow-100">
+                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <line x1="4" y1="20" x2="20" y2="4" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -95,12 +95,12 @@
                         @endphp
 
                         @if ($ambitosCollection->isNotEmpty() && $maxAmbito)
-                            <h3 class="text-lg font-medium text-gray-900">Porcentaje Más Alto: {{ $maxAmbito['ambito'] }}
+                            <h3 class="text-lg font-medium text-gray-900">Ámbito con el porcentaje más Alto: {{ $maxAmbito['ambito'] }}
                             </h3>
                             <p class="text-3xl font-bold text-gray-900">
                                 {{ number_format($maxAmbito['porcentaje_general'], 2) }}%</p>
                         @else
-                            <h3 class="text-lg font-medium text-gray-900">Porcentaje Más Alto: Sin datos</h3>
+                            <h3 class="text-lg font-medium text-gray-900">Ámbito con el porcentaje más Alto: Sin datos</h3>
                         @endif
                     </div>
                 </a>
@@ -110,15 +110,15 @@
 
 
 
-    @if ($ambitosCollection->isNotEmpty() && $minAmbito)
+
     <!-- Segunda fila - 2 columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6">
         <!-- Columna izquierda - Área para contenido futuro -->
         <div class="bg-white rounded-lg p-6 shadow-sm min-h-[400px]">
             <h2 class="text-xl font-semibold mb-4">Contenido Futuro</h2>
             <p class="text-gray-500"></p>
-
-
+    @if ($ambitosCollection->isNotEmpty() && $minAmbito)
+        <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"> 
             <strong>Lista de % promedio de todos los ambitos</strong>
 
             @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
@@ -134,7 +134,10 @@
                 No hay datos de ámbitos disponibles
             </div>
             @endif
-
+            </div>  
+            
+            @if ($ambitosCollection->isNotEmpty() && $minAmbito)
+            <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
             <strong>Pregunta con mas veces respondida No Cumple y el ambito al cual esta enlazada</strong>
             @if ($preguntaConMasRespuestasTipo1)
                 <p>Pregunta con mas NO cunple: {{ $preguntaConMasRespuestasTipo1->title }}</p>
@@ -143,8 +146,8 @@
             @else
                 <p>No hay preguntas que no cumplan</p>
             @endif
-
-
+            </div>
+            @endif
 
         </div>
 
