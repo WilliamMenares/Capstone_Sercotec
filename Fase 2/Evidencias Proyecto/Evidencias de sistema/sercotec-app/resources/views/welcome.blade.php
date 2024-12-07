@@ -9,7 +9,7 @@
     <div class="p-6">
         <!-- Primera fila - 3 tarjetas + 2 tarjetas divididas -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 ">
-            <a href="#" class="dashboard-card block rounded-lg bg-sky-50 p-6 hover:bg-sky-100">
+            <a href="{{ route('asesorias.index') }}" class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
                 <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -23,21 +23,21 @@
             </a>
 
             <a href="{{ route('empresa.index') }}"
-                class="dashboard-card block rounded-lg bg-rose-900 p-6 hover:bg-rose-800">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
+                <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                     </path>
                 </svg>
                 <div class="mt-4">
-                    <h3 class="text-lg font-medium text-white">Empresas</h3>
-                    <p class="text-3xl font-bold text-white">{{ $empresasCount }}</p>
+                    <h3 class="text-lg font-medium text-gray-900">Empresas</h3>
+                    <p class="text-3xl font-bold text-gray-900">{{ $empresasCount }}</p>
                 </div>
             </a>
 
-            <a href="#" class="dashboard-card block rounded-lg bg-purple-50 p-6 hover:bg-purple-100">
-                <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            <a href="{{ route('user.index') }}" class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
+                <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
@@ -51,8 +51,8 @@
 
 
             <div class="grid grid-rows-2 gap-3">
-                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-3 hover:bg-yellow-100">
-                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <a href="#" class="dashboard-card block rounded-lg bg-sky-100 p-3 hover:bg-sky-200">
+                    <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <line x1="4" y1="20" x2="20" y2="4" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -79,8 +79,8 @@
                     </div>
                 </a>
 
-                <a href="#" class="dashboard-card block rounded-lg bg-yellow-50 p-3 hover:bg-yellow-100">
-                    <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <a href="#" class="dashboard-card block rounded-lg bg-sky-100 p-3 hover:bg-sky-200">
+                    <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
                         <line x1="4" y1="20" x2="20" y2="4" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
@@ -112,13 +112,13 @@
 
 
     <!-- Segunda fila - 2 columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6">
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6 ">
         <!-- Columna izquierda - Área para contenido futuro -->
-        <div class="bg-white rounded-lg p-6 shadow-sm min-h-[400px]">
+        <div class="bg-sky-100 rounded-lg p-6  shadow-sm min-h-[400px]">
             <h2 class="text-xl font-semibold mb-4">Contenido Futuro</h2>
             <p class="text-gray-500"></p>
     @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-        <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"> 
+        <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors mb-2"> 
             <strong>Lista de % promedio de todos los ambitos</strong>
 
             @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
@@ -137,8 +137,8 @@
             </div>  
             
             @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-            <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <strong>Pregunta con mas veces respondida No Cumple y el ambito al cual esta enlazada</strong>
+            <div class="p-3 bg-cyan-200 rounded-lg hover:bg-cyan-300 transition-colors mb-2">
+            <strong>Pregunta que "No Cumple" y el ambito al cual está enlazada</strong>
             @if ($preguntaConMasRespuestasTipo1)
                 <p>Pregunta con mas NO cunple: {{ $preguntaConMasRespuestasTipo1->title }}</p>
                 <p>Ambito: {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
@@ -152,11 +152,11 @@
         </div>
 
         <!-- Columna derecha - Lista de empresas -->
-        <div class="bg-white rounded-lg p-6 shadow-sm">
-            <h2 class="text-xl font-semibold mb-4">Últimas empresas Asesoradas</h2>
+        <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
+            <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
             <div class="space-y-3">
                 @foreach ($ultimasEmpresas as $empresa)
-                    <div class="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors">
                         <p class="font-medium text-gray-900">{{ $empresa->nombre }}</p>
                         <p class="text-sm text-gray-500">{{ $empresa->created_at }}</p>
                     </div>
