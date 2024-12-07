@@ -60,34 +60,69 @@
             <h2 class="text-xl font-semibold mb-4">Contenido Futuro</h2>
             <p class="text-gray-500"></p>
             @php
-                $sortedAmbitos = collect($ambitosConTotales)->sortBy('porcentaje_general');
-                $minAmbito = $sortedAmbitos->first();  // El ámbito con el menor porcentaje
-                $maxAmbito = $sortedAmbitos->last();   // El ámbito con el mayor porcentaje
+                // Validar que $ambitosConTotales no sea null y tenga elementos
+                $ambitosCollection = collect($ambitosConTotales ?? []);
+
+                if ($ambitosCollection->isNotEmpty()) {
+                    $sortedAmbitos = $ambitosCollection->sortBy('porcentaje_general');
+                    $minAmbito = $sortedAmbitos->first();
+                    $maxAmbito = $sortedAmbitos->last();
+                } else {
+                    $minAmbito = null;
+                    $maxAmbito = null;
+                }
             @endphp
 
-            <!-- Mostrar el menor porcentaje -->
-            <div>
-                <strong>Menor Porcentaje:</strong> {{$minAmbito['ambito']}}
-                <p>{{ number_format($minAmbito['porcentaje_general'], 2) }}%</p>
-            </div>
+            @if($ambitosCollection->isNotEmpty())
+                <!-- Mostrar el menor porcentaje -->
+                @if($minAmbito && isset($minAmbito['ambito'], $minAmbito['porcentaje_general']))
+                    <div>
+                        <strong>Menor Porcentaje:</strong> {{ $minAmbito['ambito'] }}
+                        <p>{{ number_format($minAmbito['porcentaje_general'], 2) }}%</p>
+                    </div>
+                @else
+                    <div>
+                        <strong>Menor Porcentaje:</strong> No hay datos disponibles
+                    </div>
+                @endif
 
-            <!-- Mostrar el mayor porcentaje -->
-            <div>
-                <strong>Mayor Porcentaje:</strong> {{$maxAmbito['ambito']}}
-                <p>{{ number_format($maxAmbito['porcentaje_general'], 2) }}%</p>
-            </div>
-            <strong>Lista de % promedio de todos los ambitos</strong>
+                <!-- Mostrar el mayor porcentaje -->
+                @if($maxAmbito && isset($maxAmbito['ambito'], $maxAmbito['porcentaje_general']))
+                    <div>
+                        <strong>Mayor Porcentaje:</strong> {{ $maxAmbito['ambito'] }}
+                        <p>{{ number_format($maxAmbito['porcentaje_general'], 2) }}%</p>
+                    </div>
+                @else
+                    <div>
+                        <strong>Mayor Porcentaje:</strong> No hay datos disponibles
+                    </div>
+                @endif
 
-            @foreach (collect($ambitosConTotales)->sortBy('porcentaje_general') as $ambi)
-                <p>{{$ambi['ambito']}}</p>
+                <strong>Lista de % promedio de todos los ambitos</strong>
 
-                <p>{{ number_format($ambi['porcentaje_general'], 2) }}%</p>
-            @endforeach
+                @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
+                    @if(isset($ambi['ambito'], $ambi['porcentaje_general']))
+                        <p>{{ $ambi['ambito'] }}</p>
+                        <p>{{ number_format($ambi['porcentaje_general'], 2) }}%</p>
+                    @endif
+                @empty
+                    <p>No hay ámbitos para mostrar</p>
+                @endforelse
+            @else
+                <div class="alert alert-info">
+                    No hay datos de ámbitos disponibles
+                </div>
+            @endif
 
             <strong>Pregunta con mas veces respondida No Cumple y el ambito al cual esta enlazada</strong>
-            <p>Pregunta con mas NO cunple: {{$preguntaConMasRespuestasTipo1->title}}</p>
-            <p>Ambito: {{$preguntaConMasRespuestasTipo1->ambito->title}}</p>
-            <p>Respuestas: {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
+            @if($preguntaConMasRespuestasTipo1)
+                <p>Pregunta con mas NO cunple: {{$preguntaConMasRespuestasTipo1->title}}</p>
+                <p>Ambito: {{$preguntaConMasRespuestasTipo1->ambito->title}}</p>
+                <p>Respuestas: {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
+            @else
+                <p>No hay preguntas que no cumplan</p>
+            @endif
+
 
 
         </div>
