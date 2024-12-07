@@ -18,6 +18,7 @@
         .section {
             margin-bottom: 40px;
         }
+
         .section-portada {
             position: absolute;
             bottom: 20px;
@@ -28,7 +29,8 @@
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .titulo-portada{
+
+        .titulo-portada {
             display: flex;
             text-align: center;
             background-color: #f9f9f9;
@@ -36,6 +38,7 @@
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .logo-portada {
             display: block;
             margin: 20px auto;
@@ -88,86 +91,66 @@
 </head>
 
 <body>
-    <!-- Primera página -->
     <div class="titulo-portada">
-        <h1>Informe de Asesoría</h1>        
+        <h1>Informe de Asesoría</h1>
     </div>
-    <img src="{{ asset('img/Logo_Sercotec.png') }}" alt="Logo" class="logo-portada">
+
+    <img src="{{ storage_path('app/public/img/Logo_Sercotec.png') }}" alt="Logo" class="logo-portada">
+
     <div class="section-portada">
         <h2>Información sobre la asesoría</h2>
-        <p>Responsable: {{ $encuesta->user->name }}</p>
-        <p>Empresa: {{ $encuesta->empresa->nombre }}</p>
-        <p>Contacto: {{ $encuesta->empresa->contacto }}</p>
-        <p>Email: {{ $encuesta->empresa->email }}</p>
-        <p>Formulario realizado: {{ $encuesta->formulario->nombre }}</p>
+        <table>
+            <tr>
+                <th>Responsable:</th>
+                <td>{{$datos_encu[$encuesta->id]['responsable']}}</td>
+            </tr>
+            @foreach ($datos_encu[$encuesta->id]['empresas'] as $emp)
+                <tr>
+                    <th>Rut Empresa:</th>
+                    <td>{{$emp['rut']}}</td>
+                </tr>
+                <tr>
+                    <th>Nombre Empresa:</th>
+                    <td>{{$emp['nombre']}}</td>
+                </tr>
+                <tr>
+                    <th>Contacto:</th>
+                    <td>{{$emp['contacto']}}</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>{{$emp['email']}}</td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 
     <div class="page-break"></div>
-
-    <!-- Segunda página -->
     <div class="section">
-        <h2>Ámbitos con Menor Porcentaje de Satisfacción</h2>
-        @foreach ($ambitosMenorPorcentaje as $ambitoData)
-            <div class="ambito">
-                <h3>{{ $ambitoData['ambito']->title }}</h3>
-                <p>Puntaje: {{ $ambitoData['puntajeActual'] }} de {{ $ambitoData['maxPuntajePosible'] }}</p>
-                <p>Porcentaje de Satisfacción: {{ number_format($ambitoData['porcentaje'], 2) }}%</p>
+        <h2>Informacion General</h2>
+        <p>Puntaje Total Obtenido: {{$datos_encu[$encuesta->id]['obtenido']}} de
+            {{$datos_encu[$encuesta->id]['resultado']}}
+        </p>
+        <p>Porcentaje Total Obtenido
+            {{($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}
+        </p>
+    </div>
 
-                @php
-                    $preguntasNoCumple = $ambitoData['ambito']->pregunta->filter(function ($pregunta) {
-                        return $pregunta->respuesta->contains(function ($respuesta) {
-                            return $respuesta->respuestasTipo->titulo == 'No Cumple';
-                        });
-                    });
-                @endphp
 
-                @if ($preguntasNoCumple->isNotEmpty())
-                    <h4>Preguntas Que no cumplen:</h4>
-                    <ul style="margin-left: 20px;">
-                        @foreach ($preguntasNoCumple as $pregunta)
-                            <li>{{ $pregunta->title }}</li>
-                        @endforeach  
-                    </ul>
-                @endif
-                <div class="clear"></div>
-                <div class="grafico">
-                    <img src="{{ public_path('charts/' . $ambitoData['chartFileName']) }}"
-                        alt="Gráfico de {{ $ambitoData['ambito']->title }}" class="grafico">
-                </div>
-            </div>
+    <div class="section">
+        <h2>Ámbitos </h2>
+        @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
+            <p>------------------------------------------</p>
+            <p>{{$amb['nombre']}}</p>
+            <p>Puntaje Obtenido por Ambito: {{$amb['obtenido']}} de {{$amb['resultado']}}</p>
+            <p>Porcentaje Total Obtenido : {{($amb['obtenido'] * 100) / $amb['resultado'] }} </p>
+            <p></p>
+            @foreach ($amb['preguntas'] as $preg)
+                <p>{{$preg['nombre']}}</p>
+                <p>{{$preg['respuesta']}}</p>
+            @endforeach
+            <p>------------------------------------------</p>
         @endforeach
-    </div>
-
-    <div class="page-break"></div>
-
-    <!-- Tercera página y siguientes -->
-    <div class="section">
-        <h2>Ámbito con Mayor Porcentaje de Satisfacción</h2>
-        <div class="ambito">
-            <h3>{{ $ambitoMayorPorcentaje['ambito']->title }}</h3>
-            <p>Puntaje: {{ $ambitoMayorPorcentaje['puntajeActual'] }} de
-                {{ $ambitoMayorPorcentaje['maxPuntajePosible'] }}</p>
-            <p>Porcentaje de Satisfacción: {{ number_format($ambitoMayorPorcentaje['porcentaje'], 2) }}%</p>
-            @php
-                $preguntasCumple = $ambitoMayorPorcentaje['ambito']->pregunta->filter(function ($pregunta) {
-                    return $pregunta->respuesta->contains(function ($respuesta) {
-                        return $respuesta->respuestasTipo->titulo == 'Cumple';
-                    });
-                });
-            @endphp
-
-            @if ($preguntasCumple->isNotEmpty())
-                <h4>Preguntas que Cumplen:</h4>
-                @foreach ($preguntasCumple as $pregunta)
-                    <p>- {{ $pregunta->title }}</p>
-                @endforeach
-            @endif
-            <div class="grafico">
-                <img src="{{ public_path('charts/' . $ambitoMayorPorcentaje['chartFileName']) }}"
-                    alt="Gráfico de {{ $ambitoMayorPorcentaje['ambito']->title }}" class="grafico">
-            </div>
-        </div>
-
     </div>
 </body>
 
