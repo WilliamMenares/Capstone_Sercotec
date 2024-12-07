@@ -34,7 +34,7 @@ class WelcomeController extends Controller
                         'total_preguntas' => 0,
                         'puntajes_respuestas' => 0,
                         'porcentaje_general' => 0,
-                        'pregunta_mas_respuestas_tipo_1' => null,
+                        'pregunta_mas_respuestas_tipo_1' => [],
                         'max_respuestas_tipo_1' => 0,
                     ];
                 }

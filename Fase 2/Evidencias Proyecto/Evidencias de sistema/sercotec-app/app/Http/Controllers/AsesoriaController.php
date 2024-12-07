@@ -117,6 +117,8 @@ class AsesoriaController extends Controller
 
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
+
+        
     }
 
     public function generarPDF($id)
