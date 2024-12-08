@@ -18,14 +18,14 @@
     flex-shrink: 0; /* Evita que el menú se reduzca al achicar la pantalla */
     display: flex;
     flex-direction: column;
-    background-color: #D1DCF6;
+    background-color: #E0F2FE;
     padding: 20px;
     box-sizing: border-box; /* Incluye el padding dentro del ancho */
 }
 
 .box-rigth {
     flex-grow: 1; /* Permite que el contenido use el espacio restante */
-    background-color: #333;
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 80%, rgba(252,176,69,1) 100%);
     overflow-y: auto; /* Agrega scroll si el contenido es largo */
     padding: 20px;
     box-sizing: border-box;
