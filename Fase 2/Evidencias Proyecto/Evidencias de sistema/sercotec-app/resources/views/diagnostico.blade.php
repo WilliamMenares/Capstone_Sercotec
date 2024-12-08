@@ -14,20 +14,26 @@
     <div class="titulo">
         <h1>Crear Diagnostico</h1>
     </div>
+    <div id="progreso-general" style="display:none">
+        <label for="" class="text-dark">Progreso General</label>
+        <div class="progress bg-light">
+            <div class="progress-bar progress-bar-striped" id="progreso-bar" role="progressbar" style="width: 0%;"
+                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+    </div>
     <form action="{{ route('diagnostico.store') }}" method="POST" id="form-diagn" class="encuesta">
-        @csrf
         <div class="encuesta">
             <div class="buscador">
                 <div class="encuinpu">
                     <div class="mb-3 contenebus">
-                        <label for="empresa" class="form-label text-light">Empresa:</label>
-                        <input type="text" class="form-control bg-dark text-light search-empresa" placeholder="Empresa"
+                        <label for="empresa" class="form-label text-dark">Empresa:</label>
+                        <input type="text" class="form-control bg-light text-dark search-empresa" placeholder="Empresa"
                             required>
                         <input type="hidden" class="input-id-empresa" name="id_empresa" required>
                     </div>
                     <div class="mb-3 contenebus">
-                        <label for="formulario-select" class="form-label text-light">Formulario:</label>
-                        <select id="formulario" class="form-select bg-dark text-light" name="id_formulario" required>
+                        <label for="formulario-select" class="form-label text-dark">Formulario:</label>
+                        <select id="formulario" class="form-select bg-light text-dark" name="id_formulario" required>
                             <option value="">Seleccione un formulario</option>
                             @foreach($formularios as $formulario)
                                 <option value="{{ $formulario->id }}">{{ $formulario->nombre }}</option>
@@ -36,26 +42,20 @@
                     </div>
 
                     <div class="mb-3 contenebus">
-                        <label for="empresa" class="form-label text-light">Responsable:</label>
-                        <input type="text" class="form-control bg-dark text-light" 
+                        <label for="empresa" class="form-label text-dark">Responsable:</label>
+                        <input type="text" class="form-control bg-light text-dark" 
                             placeholder="Responsable" value="{{ Auth::user()->name }}" readonly required>
                         <input type="hidden"  name="responsable" value="{{ Auth::user()->id }}"  required>
                     </div>
                 </div>
-                <div id="progreso-general" style="display:none">
-                    <label for="" class="text-light">Progreso General</label>
-                    <div class="progress">
-                        <div class="progress-bar" id="progreso-bar" role="progressbar" style="width: 0%;"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-                    </div>
-                </div>
-                <div class="avance">
+                
+                <div class="avance" >
                     @foreach ($formularios as $formulario)
                         @foreach ($formulario->ambito as $ambito)
-                            <div class="progreso text-light" data-formulario="{{ $formulario->id }}" style="display:none">
+                            <div class="progreso text-dark" data-formulario="{{ $formulario->id }}" style="display:none">
                                 <label for="">{{ $ambito->title }}</label>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                <div class="progress bg-light">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%;" aria-valuenow="0"
                                         aria-valuemin="0" aria-valuemax="100">0%</div>
                                 </div>
                             </div>
@@ -68,14 +68,12 @@
 
 
 
-                <div class="enviarencu">
-                    <button type="submit" class="btn btn-primary">Crear Asesoria</button>
-                </div>
+               
             </div>
             <div class="ambitos-container">
                 @foreach($formularios as $formulario)
                     @foreach($formulario->ambito as $index => $ambito)
-                        <div class="ambito text-light" data-formulario="{{ $formulario->id }}" data-index="{{ $index }}"
+                        <div class="ambito text-dark" data-formulario="{{ $formulario->id }}" data-index="{{ $index }}"
                             style="display: none;">
                             <div class="preguntas">
                                 <div class="pre-enca">
@@ -108,10 +106,15 @@
                                 @endforeach
                             </div>
 
-                            <div class="navegacion">
-                                <button type="button" id="prev-btn" class="btn btn-secondary">Anterior</button>
+                            <div class="navegacion d-flex justify-content-between">
+                                <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
+                                <button type="submit" class="btn btn-success">Crear Asesoria</button>
                                 <button type="button" id="next-btn" class="btn btn-primary">Siguiente</button>
                             </div>
+
+                                
+
+                            @csrf
                         </div>
                     @endforeach
                 @endforeach
