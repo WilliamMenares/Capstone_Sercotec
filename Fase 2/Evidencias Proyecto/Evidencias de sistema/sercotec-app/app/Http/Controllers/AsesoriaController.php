@@ -6,6 +6,7 @@ use App\Models\Encuesta;
 use App\Models\Feedback;
 use App\Models\Respuestas;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Log;
 
 class AsesoriaController extends Controller
 {
@@ -24,18 +25,22 @@ class AsesoriaController extends Controller
                 $datos_encu[$encu->id] = [
                     'empresas' => [],
                     'ambitos' => [],
+                    'responsable' => '',
                     'obtenido' => 0,
                     'resultado' => 0,
                 ];
             }
             ;
+            $datos_encu[$encu->id]['responsable'] = $encu->user->name;
+
+
             $datos_encu[$encu->id]['empresas'][] = [
                 'rut' => $encu->empresa->rut ?? '',
                 'nombre' => $encu->empresa->nombre ?? '', // Usamos el valor del modelo o un valor vacío
                 'email' => $encu->empresa->email ?? '',
                 'contacto' => $encu->empresa->contacto ?? ''
             ];
-           
+
 
             foreach ($encu->formulario->ambito as $ambi) {
                 $datos_encu[$encu->id]['ambitos'][] = [
@@ -118,67 +123,146 @@ class AsesoriaController extends Controller
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
 
-        
+
     }
 
     public function generarPDF($id)
     {
-        $encuesta = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->findOrFail($id);
-
-        $feedbacks = Feedback::all();
-
-        // Cálculo de porcentajes de ámbitos
-        $ambitosConPorcentaje = [];
-        foreach ($encuesta->formulario->ambito as $ambito) {
-            $cantidadPreguntas = $ambito->pregunta->count();
-            $maxPuntajePosible = 5 * $cantidadPreguntas;
-
-            $puntajeActual = 0;
-            foreach ($ambito->pregunta as $pregunta) {
-                foreach ($pregunta->respuesta as $respuesta) {
-                    $puntajeActual += $respuesta->respuestasTipo->puntaje;
-                }
+        try {
+            // Validar ID
+            if (!is_numeric($id) || $id <= 0) {
+                throw new \InvalidArgumentException('ID de encuesta inválido');
             }
 
-            $porcentajeSatisfaccion = ($puntajeActual / $maxPuntajePosible) * 100;
+            // Obtener la encuesta con relaciones
+            $encuesta = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->find($id);
 
-            $ambitosConPorcentaje[] = [
-                'ambito' => $ambito,
-                'porcentaje' => $porcentajeSatisfaccion,
-                'puntajeActual' => $puntajeActual,
-                'maxPuntajePosible' => $maxPuntajePosible
+            // Validar que la encuesta existe
+            if (!$encuesta) {
+                throw new \RuntimeException('Encuesta no encontrada');
+            }
+
+            // Validar relaciones necesarias
+            if (!$encuesta->formulario) {
+                throw new \RuntimeException('La encuesta no tiene un formulario asociado');
+            }
+
+            if (!$encuesta->empresa) {
+                throw new \RuntimeException('La encuesta no tiene una empresa asociada');
+            }
+
+            if (!$encuesta->user) {
+                throw new \RuntimeException('La encuesta no tiene un usuario asociado');
+            }
+
+            // Inicializar array de datos
+            $datos_encu = [];
+
+            // Procesar datos de la encuesta
+            $datos_encu[$encuesta->id] = [
+                'empresas' => [],
+                'ambitos' => [],
+                'responsable' => $encuesta->user->name ?? 'Sin responsable',
+                'obtenido' => 0,
+                'resultado' => 0,
             ];
 
-            // Generar gráfico para cada ámbito
-            $chartFileName = $this->generarGraficoCircular($porcentajeSatisfaccion, $ambito->id);
-            $ambitosConPorcentaje[count($ambitosConPorcentaje) - 1]['chartFileName'] = $chartFileName;
+            // Agregar datos de la empresa
+            $datos_encu[$encuesta->id]['empresas'][] = [
+                'rut' => $encuesta->empresa->rut ?? 'Sin RUT',
+                'nombre' => $encuesta->empresa->nombre ?? 'Empresa sin nombre',
+                'email' => $encuesta->empresa->email ?? 'Sin email',
+                'contacto' => $encuesta->empresa->contacto ?? 'Sin contacto'
+            ];
+
+            $puntajeMaximoen = 0;
+            $puntajeEncuesta = 0;
+
+            // Procesar ámbitos
+            foreach ($encuesta->formulario->ambito as $ambi) {
+                if (!$ambi->title) {
+                    continue;
+                }
+
+                $datoAmbito = [
+                    'nombre' => $ambi->title,
+                    'preguntas' => [],
+                    'resultado' => 0,
+                    'obtenido' => 0,
+                ];
+
+                $cantidadPreguntas = 0;
+                $puntajeObtenido = 0;
+
+                foreach ($ambi->pregunta as $pregu) {
+                    if (!$pregu->title) {
+                        continue;
+                    }
+
+                    $cantidadPreguntas++;
+                    $preguntaData = [
+                        'nombre' => $pregu->title,
+                        'respuesta' => 'Sin respuesta'
+                    ];
+
+                    foreach ($pregu->respuesta as $res) {
+                        if ($encuesta->id == $res->encuesta_id && $res->respuestasTipo) {
+                            $preguntaData['respuesta'] = $res->respuestasTipo->titulo ?? 'Sin respuesta';
+                            $puntaje = $res->respuestasTipo->puntaje ?? 0;
+                            $puntajeEncuesta += $puntaje;
+                            $puntajeObtenido += $puntaje;
+                            break;
+                        }
+                    }
+
+                    $datoAmbito['preguntas'][] = $preguntaData;
+                }
+
+                $datoAmbito['resultado'] = $cantidadPreguntas * 5;
+                $datoAmbito['obtenido'] = $puntajeObtenido;
+                $puntajeMaximoen += $cantidadPreguntas * 5;
+
+                $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
+            }
+
+            $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
+            $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
+
+            // Generar el PDF con la vista actualizada
+            try {
+                $pdf = PDF::loadView('pdf', [
+                    'encuesta' => $encuesta,
+                    'datos_encu' => $datos_encu
+                ])->setPaper('a4', 'portrait');
+
+                // Configurar headers para la descarga
+                return response($pdf->output())
+                    ->header('Content-Type', 'application/pdf')
+                    ->header('Content-Disposition', 'attachment; filename="asesoria_' . $id . '.pdf"')
+                    ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
+
+            } catch (\Exception $e) {
+                Log::error('Error en la generación del PDF: ' . $e->getMessage());
+                throw new \RuntimeException('Error al generar el archivo PDF: ' . $e->getMessage());
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Error en generarPDF: ' . $e->getMessage());
+
+            if (config('app.debug')) {
+                throw $e;
+            }
+
+            return response()->json([
+                'error' => 'No se pudo generar el PDF',
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-        // Ordenar ámbitos
-        usort($ambitosConPorcentaje, function ($a, $b) {
-            return $a['porcentaje'] <=> $b['porcentaje'];
-        });
-
-        // Ámbitos con menor porcentaje
-        $ambitosMenorPorcentaje = array_slice($ambitosConPorcentaje, 0, 2);
-
-        // Ámbito con mayor porcentaje
-        $ambitoMayorPorcentaje = end($ambitosConPorcentaje);
-
-        $pdf = PDF::loadView('pdf', compact(
-            'encuesta',
-            'feedbacks',
-            'ambitosMenorPorcentaje',
-            'ambitoMayorPorcentaje'
-        ))->setPaper('a4', 'portrait');
-        
-        return $pdf->download('asesoria_' . $id . '.pdf');
     }
-
     private function generarGraficoCircular($porcentaje, $ambitoId)
     {
         // Crear una imagen de 200x200 píxeles

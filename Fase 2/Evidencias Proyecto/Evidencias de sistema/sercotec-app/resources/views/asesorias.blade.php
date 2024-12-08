@@ -32,30 +32,7 @@
             </ul>
         </nav>
     </div>
-    <div style="color:white">
-        <p>////////////////////////////////////////////////</p>
-        @foreach ($encuestas as $encu)
-            <p>Puntaje Total Obtenido: {{$datos_encu[$encu->id]['obtenido']}} de {{$datos_encu[$encu->id]['resultado']}} </p>
-            <p>Porcentaje Total Obtenido {{($datos_encu[$encu->id]['obtenido'] * 100 ) / $datos_encu[$encu->id]['resultado'] }}</p>
-            @foreach ($datos_encu[$encu->id]['empresas'] as $emp)
-                <p>{{$emp['rut']}}</p>
-            @endforeach
-
-            @foreach ($datos_encu[$encu->id]['ambitos'] as $amb)
-                <p>------------------------------------------</p>
-                <p>{{$amb['nombre']}}</p>
-                <p>Puntaje Obtenido por Ambito: {{$amb['obtenido']}} de {{$amb['resultado']}}</p>
-                <p>Porcentaje Total Obtenido : {{($amb['obtenido'] * 100) / $amb['resultado'] }} </p>
-                <p></p>
-                <p>------------------------------------------</p>
-                @foreach ($amb['preguntas'] as $preg)
-                    <p>{{$preg['nombre']}}</p>
-                    <p>{{$preg['respuesta']}}</p>
-                @endforeach
-            @endforeach
-            <p>////////////////////////////////////////////////</p>
-        @endforeach
-    </div>
+    
 
 
 
