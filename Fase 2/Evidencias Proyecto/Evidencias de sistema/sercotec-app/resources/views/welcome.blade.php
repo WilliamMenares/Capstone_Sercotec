@@ -32,8 +32,8 @@
                         </path>
                     </svg>
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Asesorías</h3>
-                        <p class="text-3xl font-bold text-gray-900">{{ $mejoresEmpresas }}</p>
+                        <h3 class="text-lg font-medium text-gray-900">Empresa con el puntaje mas alto</h3>
+                        <p class="text-3xl font-bold text-gray-900"></p>
                     </div>
                 </a>
             </div>
@@ -60,8 +60,8 @@
                         </path>
                     </svg>
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Empresas</h3>
-                        <p class="text-3xl font-bold text-gray-900">{{ $peoresEmpresas }}</p>
+                        <h3 class="text-lg font-medium text-gray-900">Empresa con el puntaje mas bajo</h3>
+                        <p class="text-3xl font-bold text-gray-900"></p>
                     </div>
                 </a>
             </div>

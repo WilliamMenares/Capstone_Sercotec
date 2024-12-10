@@ -83,23 +83,6 @@ class WelcomeController extends Controller
             }
         }
 
-        // Obtener las empresas con sus encuestas asociadas y calcular los puntajes
-        $empresasConPuntajes = Empresa::with('encuesta.respuestas.respuestasTipo')  // Cargar encuestas con respuestas
-            ->get()
-            ->map(function ($empresa) {
-                // Calcular el puntaje promedio de las encuestas de esta empresa
-                $promedio = $empresa->encuesta->flatMap(fn($encuesta) => $encuesta->respuestas)  // Obtiene las respuestas de todas las encuestas
-                    ->avg(fn($respuesta) => $respuesta->respuestasTipo->puntaje);  // Calcula el puntaje promedio de las respuestas
-                return [
-                    'empresa' => $empresa,
-                    'promedio' => $promedio,
-                ];
-            })
-            ->filter(fn($item) => $item['promedio'] !== null);  // Filtrar aquellas empresas sin puntajes
-
-        // Obtener las 5 empresas con mejores y peores puntajes
-        $mejoresEmpresas = $empresasConPuntajes->sortByDesc('promedio')->take(5);  // Las 5 empresas con mejor puntaje
-        $peoresEmpresas = $empresasConPuntajes->sortBy('promedio')->take(5);  // Las 5 empresas con peor puntaje
 
         // Cálculo del promedio de puntajes de encuestas completadas
         $promedioPuntajes = Encuesta::with('respuestas.respuestasTipo')
@@ -107,13 +90,12 @@ class WelcomeController extends Controller
             ->flatMap(fn($encuesta) => $encuesta->respuestas)
             ->avg(fn($respuesta) => $respuesta->respuestasTipo->puntaje);
 
-        // Obtener las últimas 6 empresas
         $ultimasEmpresas = Encuesta::with('empresa') // Eager loading para cargar la empresa asociada a cada encuesta
             ->orderBy('created_at', 'desc') // Ordenar por la fecha de creación de la encuesta
             ->take(6) // Obtener las últimas 6 encuestas
             ->get()
             ->pluck('empresa'); // Extraer solo las empresas asociadas
-
+       
         return view('welcome', compact(
             'asesoriasCount',
             'empresasCount',
@@ -121,9 +103,7 @@ class WelcomeController extends Controller
             'ultimasEmpresas',
             'ambitosConTotales',
             'preguntaConMasRespuestasTipo1',
-            'promedioPuntajes',
-            'mejoresEmpresas',
-            'peoresEmpresas'
+            'promedioPuntajes'
         ));
-    }
+    }  
 }
