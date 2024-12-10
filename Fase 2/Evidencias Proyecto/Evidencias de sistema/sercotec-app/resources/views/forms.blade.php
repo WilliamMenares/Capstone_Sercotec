@@ -201,14 +201,14 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                     data-bs-target="#createModal">Crear un
                     Ambito</button>
-                <div id="myGrid" class="ag-theme-material-dark "></div>
+                <div id="myGrid" class="ag-theme-quartz "></div>
             </div>
 
             <div class="tblmulti">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                     data-bs-target="#createModal2">Crear
                     una Pregunta</button>
-                <div id="myGrid2" class="ag-theme-material-dark "></div>
+                <div id="myGrid2" class="ag-theme-quartz "></div>
             </div>
         </div>
 
@@ -216,7 +216,7 @@
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal3">Crear
                 un
                 Formulario</button>
-            <div id="myGrid3" class="ag-theme-material-dark "></div>
+            <div id="myGrid3" class="ag-theme-quartz "></div>
         </div>
     </div>
 

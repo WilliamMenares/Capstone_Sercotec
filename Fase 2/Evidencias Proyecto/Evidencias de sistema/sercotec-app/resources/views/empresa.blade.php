@@ -33,7 +33,7 @@
         
     </script>
 
-    <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+    <div id="myGrid" class="ag-theme-quartz tablita"></div>
     <div id="mobileGrid" class="mobile-table">
         <div class="mobile-table-header">
             <h2>Lista de Empresas</h2>
