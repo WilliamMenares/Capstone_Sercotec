@@ -27,4 +27,8 @@ class Encuesta extends Model
     {
         return $this->belongsTo(Formularios::class, 'formulario_id'); // Una Encuesta tiene un Formulario
     }
+    public function respuestas()
+    {
+        return $this->hasMany(Respuestas::class); // Si una encuesta tiene muchas respuestas
+    }
 }
