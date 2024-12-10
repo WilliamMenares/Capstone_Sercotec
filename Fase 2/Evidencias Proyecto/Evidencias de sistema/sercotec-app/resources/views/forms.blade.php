@@ -14,7 +14,7 @@
             <h1>Ambitos y Preguntas</h1>
         </div>
     </div>
-    <div class="tables-container">
+    <div class="tables-container ">
         <!-- Ambitos Table -->
         <div class="table-card d-none d-lg-block">
             <h2>Ambitos</h2>
@@ -195,26 +195,30 @@
         </div>
     </div>
 
-    <div class="multitabla">
-        <div class="tblmulti">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Crear un
-                Ambito</button>
-            <div id="myGrid" class="ag-theme-material-dark "></div>
+    <div class="tablas-apf">
+        <div class="multitabla">
+            <div class="tblmulti">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#createModal">Crear un
+                    Ambito</button>
+                <div id="myGrid" class="ag-theme-material-dark "></div>
+            </div>
+
+            <div class="tblmulti">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#createModal2">Crear
+                    una Pregunta</button>
+                <div id="myGrid2" class="ag-theme-material-dark "></div>
+            </div>
         </div>
 
-        <div class="tblmulti">
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal2">Crear
-                una Pregunta</button>
-            <div id="myGrid2" class="ag-theme-material-dark "></div>
+        <div class="formulario">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal3">Crear
+                un
+                Formulario</button>
+            <div id="myGrid3" class="ag-theme-material-dark "></div>
         </div>
     </div>
-
-    <div class="formulario">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal3">Crear un
-            Formulario</button>
-        <div id="myGrid3" class="ag-theme-material-dark "></div>
-    </div>
-
 
     @foreach ($ambitos as $ambi)
         <div class="modal fade" id="deleteModal{{ $ambi->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -435,7 +439,7 @@
                                 <label for="responsable" class="form-label">Responsable:</label>
                                 <input type="text" class="form-control bg-dark text-light"
                                     value="{{ $formu->user->name }}" placeholder="Responsable" required readonly>
-                                <input type="hidden" name="responsable" value="{{ $formu->user->id }}" required >
+                                <input type="hidden" name="responsable" value="{{ $formu->user->id }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="ambitos" class="form-label">Ámbitos:</label>
@@ -585,9 +589,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="responsable" class="form-label">Responsable:</label>
-                        <input type="text" readonly class="form-control bg-dark text-light" 
+                        <input type="text" readonly class="form-control bg-dark text-light"
                             value="{{ Auth::user()->name }}" placeholder="Responsable" required>
-                            <input type="hidden"  name="responsable" value="{{ Auth::user()->id }}"  required>
+                        <input type="hidden" name="responsable" value="{{ Auth::user()->id }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="ambitos" class="form-label">Ámbitos:</label>

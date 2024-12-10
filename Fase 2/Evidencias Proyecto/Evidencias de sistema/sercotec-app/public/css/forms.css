@@ -1,6 +1,8 @@
 .areatext1{
     margin: 15px 0 15px 0;
 }
+
+
 .areatext{
     visibility: hidden;
     height: 0;
@@ -8,13 +10,18 @@
     padding: 0;
     margin: 0;
 }
-
+.tablas-apf{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .tables-container {
     display: none;
     gap: 2rem;
     padding: 1rem;
     max-width: 1200px;
     margin: 0 auto;
+    
 }
 @media (max-width: 991px) {
     .multitabla{
@@ -46,6 +53,7 @@
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     color: white; /* Añadido para mejor contraste */
+    margin-bottom: 10px;
 }
 
 .table-card h2 {
