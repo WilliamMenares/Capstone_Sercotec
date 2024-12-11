@@ -142,7 +142,7 @@
 <body>
     <!-- Cover Page -->
     <div class="cover-page">
-        <img src="{{ storage_path('app/public/img/Logo_Sercotec.png') }}" alt="Logo" class="logo-portada">
+        <img src="{{ $logoBase64 }}" alt="Logo" class="logo-portada">
         
         <div class="cover-title">
             <h1>Informe de Asesoría</h1>
