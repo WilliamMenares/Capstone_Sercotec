@@ -141,16 +141,26 @@
         <h2>Ámbitos </h2>
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <p>------------------------------------------</p>
-            <p>{{$amb['nombre']}}</p>
-            <p>Puntaje Obtenido por Ambito: {{$amb['obtenido']}} de {{$amb['resultado']}}</p>
-            <p>Porcentaje Total Obtenido : {{($amb['obtenido'] * 100) / $amb['resultado'] }} </p>
+            <p>{{ $amb['nombre'] }}</p>
+            <p>Puntaje Obtenido por Ambito: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}</p>
+            <p>Porcentaje Total Obtenido: {{ ($amb['obtenido'] * 100) / $amb['resultado'] }}%</p>
             <p></p>
             @foreach ($amb['preguntas'] as $preg)
-                <p>{{$preg['nombre']}}</p>
-                <p>{{$preg['respuesta']}}</p>
+                <p><strong>Pregunta:</strong> {{ $preg['nombre'] }}</p>
+                <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
+                @if (!empty($preg['feedback']))
+                    <p><strong>Situación:</strong> {{ $preg['feedback']['situacion'] }}</p>
+                    <p><strong>Acción 1:</strong> {{ $preg['feedback']['accion1'] }}</p>
+                    <p><strong>Acción 2:</strong> {{ $preg['feedback']['accion2'] }}</p>
+                    <p><strong>Acción 3:</strong> {{ $preg['feedback']['accion3'] }}</p>
+                    <p><strong>Acción 4:</strong> {{ $preg['feedback']['accion4'] }}</p>
+                @else
+                    <p><strong>Feedback:</strong> Sin feedback disponible</p>
+                @endif
             @endforeach
             <p>------------------------------------------</p>
         @endforeach
+
     </div>
 </body>
 

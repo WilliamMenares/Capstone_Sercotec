@@ -75,16 +75,12 @@ class EmpresaController extends Controller
 
             // Validar los datos de entrada
             $validatedData = $request->validate([
-                'codigo' => 'required|string|max:50|unique:empresas,codigo,' . $empresa->id,
                 'rut' => 'required|string|max:12|unique:empresas,rut,' . $empresa->id,
                 'nombre' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:empresas,email,' . $empresa->id,
                 'contacto' => 'required|string|max:50',
             ], [
-                'codigo.required' => 'El código es obligatorio.',
-                'codigo.string' => 'El código debe ser una cadena de texto.',
-                'codigo.max' => 'El código no puede tener más de 50 caracteres.',
-                'codigo.unique' => 'El código ya está registrado en el sistema.',
+                
             
                 'rut.required' => 'El RUT es obligatorio.',
                 'rut.string' => 'El RUT debe ser una cadena de texto.',

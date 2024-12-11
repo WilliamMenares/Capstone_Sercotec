@@ -86,8 +86,8 @@
                     </svg>
 
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Pje. promedio por diagnostico</h3>
-                        <p class="text-3xl font-bold text-gray-900">{{ number_format($promedioPuntajes, 2) }}</p>
+                        <h3 class="text-lg font-medium text-gray-900">% Promedio General Diagnosticos</h3>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format(($promedioPuntajes * 100) / 5, 2) }}%</p>
                     </div>
                 </a>
             </div>

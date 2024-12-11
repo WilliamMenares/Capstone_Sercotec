@@ -173,8 +173,8 @@ const createDataGrid = (gridDiv, data, columnDefs) => {
         // Inicializamos con array vacío si no hay datos
         rowData: data || [],
         pagination: true,
-        paginationPageSizeSelector: [10, 20, 50, 100],
-        paginationPageSize: 10,
+        paginationPageSizeSelector: [5, 10, 20, 50, 100],
+        paginationPageSize: 5,
         domLayout: "autoHeight",
         onFirstDataRendered: (params) => {
             params.api.sizeColumnsToFit();
