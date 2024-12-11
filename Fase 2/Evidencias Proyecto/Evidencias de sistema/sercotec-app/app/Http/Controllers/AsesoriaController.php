@@ -51,7 +51,25 @@ class AsesoriaController extends Controller
 
 
     }
+    // Método nuevo antes de generarPDF
+    private function prepararLogoBase64()
+    {
+        $logoPath = public_path('img/Logo_Sercotec.png');
+        
+        // Verificar si el archivo existe
+        if (!file_exists($logoPath)) {
+            Log::error('Archivo de logo no encontrado: ' . $logoPath);
+            return null;
+        }
 
+        try {
+            $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+            return $logoBase64;
+        } catch (\Exception $e) {
+            Log::error('Error al procesar el logo: ' . $e->getMessage());
+            return null;
+        }
+    }
     public function generarPDF($id)
     {
         try {
@@ -59,6 +77,8 @@ class AsesoriaController extends Controller
             if (!is_numeric($id) || $id <= 0) {
                 throw new \InvalidArgumentException('ID de encuesta inválido');
             }
+            // Preparar el logo antes de generar el PDF
+            $logoBase64 = $this->prepararLogoBase64();
 
             // Obtener la encuesta con relaciones
             $encuesta = Encuesta::with([
@@ -215,7 +235,8 @@ class AsesoriaController extends Controller
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
-                    'datos_encu' => $datos_encu
+                    'datos_encu' => $datos_encu,
+                    'logoBase64' => $logoBase64  // Agregar el logo base64
                 ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga
