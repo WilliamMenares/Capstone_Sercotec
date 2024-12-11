@@ -52,7 +52,7 @@ class AsesoriaController extends Controller
 
     }
 
-    private function prepararLogoBase64()
+    public function prepararLogoBase64()
     {
         $logoPath = public_path('img/Logo_Sercotec.png');
         
