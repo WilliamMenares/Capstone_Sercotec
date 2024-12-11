@@ -52,7 +52,9 @@ class AsesoriaController extends Controller
 
     }
 
-    public function prepararLogoBase64()
+
+    // Método nuevo antes de generarPDF
+    private function prepararLogoBase64()
     {
         $logoPath = public_path('img/Logo_Sercotec.png');
         
@@ -70,6 +72,7 @@ class AsesoriaController extends Controller
             return null;
         }
     }
+
     public function generarPDF($id)
     {
         try {
@@ -77,6 +80,7 @@ class AsesoriaController extends Controller
             if (!is_numeric($id) || $id <= 0) {
                 throw new \InvalidArgumentException('ID de encuesta inválido');
             }
+
             try {
                 // Preparar el logo antes de generar el PDF
                 $logoBase64 = $this->prepararLogoBase64();
