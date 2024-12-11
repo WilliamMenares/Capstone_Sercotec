@@ -52,7 +52,9 @@ class AsesoriaController extends Controller
 
     }
 
-    public function prepararLogoBase64()
+
+    // Método nuevo antes de generarPDF
+    private function prepararLogoBase64()
     {
         $logoPath = public_path('img/Logo_Sercotec.png');
         
@@ -70,28 +72,36 @@ class AsesoriaController extends Controller
             return null;
         }
     }
+
     public function generarPDF($id)
-    {
-        try {
-            // Validar ID
-            if (!is_numeric($id) || $id <= 0) {
-                throw new \InvalidArgumentException('ID de encuesta inválido');
-            }
-            try {
-                // Preparar el logo antes de generar el PDF
-                $logoBase64 = $this->prepararLogoBase64();
+{
+    try {
+        // Validar ID
+        if (!is_numeric($id) || $id <= 0) {
+            throw new \InvalidArgumentException('ID de encuesta inválido');
+        }
 
-            // Obtener la encuesta con relaciones
-            $encuesta = Encuesta::with([
-                'formulario.ambito.pregunta.respuesta.respuestasTipo',
-                'empresa',
-                'user'
-            ])->find($id);
+        // Preparar el logo antes de generar el PDF
+        $logoBase64 = $this->prepararLogoBase64();
 
-            // Validar que la encuesta existe
-            if (!$encuesta) {
-                throw new \RuntimeException('Encuesta no encontrada');
-            }
+    } catch (\Exception $e) {
+        Log::error('Error al preparar el logo: ' . $e->getMessage());
+        return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
+    }
+
+    try {
+        // Obtener la encuesta con relaciones
+        $encuesta = Encuesta::with([
+            'formulario.ambito.pregunta.respuesta.respuestasTipo',
+            'empresa',
+            'user'
+        ])->find($id);
+
+        // Validar que la encuesta existe
+        if (!$encuesta) {
+            throw new \RuntimeException('Encuesta no encontrada');
+        }
+
 
             // Validar relaciones necesarias
             if (!$encuesta->formulario) {
