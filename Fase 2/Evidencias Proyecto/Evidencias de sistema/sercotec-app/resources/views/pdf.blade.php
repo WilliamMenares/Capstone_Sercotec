@@ -8,7 +8,7 @@
 
         :root {
             --primary-color: #2C3E50;
-            --secondary-color: #16A085;
+            --secondary-color: #be1717;
             --accent-color: #2980B9;
             --background-light: #f4f6f7;
             --border-color: #E0E0E0;
@@ -183,18 +183,21 @@
     <!-- General Information -->
     <div class="section">
         <h2 class="section-title">Información General</h2>
-        <p>Puntaje Total Obtenido: {{ $datos_encu[$encuesta->id]['obtenido'] }} de
+        <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
             {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
-        <p>Porcentaje Total Obtenido:
+        <p><strong>Porcentaje Total Obtenido:</strong>
             {{ ($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}%</p>
 
-        <!-- aqui necesito que vaya el for que recorre los ambitos con sus preguntas y con su respuesta. -->
+        <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <div class="ambito">
                 <div class="ambito-header">
                     <div class="ambito-name">
-                        {{ $amb['nombre'] }} ({{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
-                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%))
+                        <span class="ambito-title">{{ $amb['nombre'] }}</span>
+                        <span class="ambito-puntaje">
+                            Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }} 
+                            ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                        </span>
                     </div>
                 </div>
 
@@ -207,6 +210,10 @@
             </div>
         @endforeach
     </div>
+
+
+    <div class="page-break"></div>
+
 
     <!-- Ámbitos Section -->
     <div class="section">
