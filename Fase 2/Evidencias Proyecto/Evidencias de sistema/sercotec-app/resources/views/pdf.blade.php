@@ -192,12 +192,11 @@
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <div class="ambito">
                 <div class="ambito-header">
-                    <div class="ambito-name">
-                        <span class="ambito-title">{{ $amb['nombre'] }}</span>
-                        <span class="ambito-puntaje">
-                            Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }} 
-                            ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
-                        </span>
+                    <div class="ambito-name">{{ $amb['nombre'] }}
+                    </div>
+                    <div class="ambito-score">
+                        Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
+                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
                     </div>
                 </div>
 
