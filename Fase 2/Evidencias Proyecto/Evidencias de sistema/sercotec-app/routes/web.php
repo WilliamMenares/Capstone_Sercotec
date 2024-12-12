@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     //ruta para pdf
     Route::get('/asesorias/pdf/{id}', [AsesoriaController::class, 'generarPDF'])
     ->name('asesorias.pdf');
+    Route::get('/radar-chart', [AsesoriaController::class, 'createRadarChart']);
 
 });
 
