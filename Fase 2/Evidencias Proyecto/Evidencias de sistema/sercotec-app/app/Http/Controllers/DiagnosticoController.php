@@ -8,6 +8,7 @@ use App\Models\Preguntas;
 use App\Models\Respuestas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class DiagnosticoController extends Controller
 {
@@ -16,10 +17,7 @@ class DiagnosticoController extends Controller
     {
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
         $formularios = Formularios::with('ambito')->get();
-        $ambitos = $preguntas->groupBy(function ($pregunta) {
-            return $pregunta->ambito->nombre ?? 'Sin Ámbito'; // "Sin Ámbito" si no tiene ámbito asociado
-        });
-        return view("diagnostico", compact('ambitos', 'preguntas', 'formularios'));
+        return view("diagnostico", compact('preguntas', 'formularios'));
     }
 
     public function store(Request $request)
