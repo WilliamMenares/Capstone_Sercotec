@@ -251,6 +251,11 @@
             </div>
         @endforeach
     </div>
+
+    <div class="page-break"></div>
+
+    <!-- Aqui va el grafico de radar. -->
+ 
 </body>
 
 </html>

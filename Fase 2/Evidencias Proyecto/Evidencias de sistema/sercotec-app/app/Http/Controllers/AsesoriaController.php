@@ -242,13 +242,14 @@ class AsesoriaController extends Controller
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
+           
             // Generar el PDF con la vista actualizada
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
                     'logoBase64' => $logoBase64  // Agregar el logo base64
-                ])->setPaper('a4', 'portrait');
+                    ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga
                 return response($pdf->output())
@@ -274,33 +275,5 @@ class AsesoriaController extends Controller
             ], 500);
         }
     }
-    private function generarGraficoCircular($porcentaje, $ambitoId)
-    {
-        // Crear una imagen de 200x200 píxeles
-        $imagen = imagecreate(200, 200);
-
-        // Definir colores
-        $blanco = imagecolorallocate($imagen, 255, 255, 255);
-        $azul = imagecolorallocate($imagen, 0, 0, 255);
-        $rojo = imagecolorallocate($imagen, 255, 0, 0);
-        $negro = imagecolorallocate($imagen, 0, 0, 0);
-
-        // Rellenar el fondo
-        imagefill($imagen, 0, 0, $blanco);
-
-        // Dibujar el gráfico circular
-        imagefilledarc($imagen, 100, 100, 180, 180, 0, $porcentaje * 3.6, $azul, IMG_ARC_PIE);
-        imagefilledarc($imagen, 100, 100, 180, 180, $porcentaje * 3.6, 360, $rojo, IMG_ARC_PIE);
-
-        // Agregar texto
-        imagestring($imagen, 5, 70, 90, round($porcentaje) . "%", $negro);
-
-        // Guardar la imagen
-        $fileName = 'chart_' . $ambitoId . '.png';
-        $filePath = public_path('charts/' . $fileName);
-        imagepng($imagen, $filePath);
-        imagedestroy($imagen);
-
-        return $fileName;
-    }
+    
 }
