@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'providers' => [
+    // Otros providers...
+    ConsoleTVs\Charts\ChartsServiceProvider::class,
+    ]
+
 ];
