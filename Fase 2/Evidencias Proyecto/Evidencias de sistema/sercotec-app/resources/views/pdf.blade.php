@@ -255,13 +255,7 @@
     <div class="page-break"></div>
 
     <!-- Aqui va el grafico de radar. -->
-    <div class="section">
-        <h2 class="section-title">Análisis de Ámbitos</h2>
-        <div class="chart-container">
-            <img src="{{ public_path($radarChartPath) }}" alt="Gráfico Radar" style="max-width: 100%; height: auto;">
-        </div>
-    </div>
-
+ 
 </body>
 
 </html>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Encuesta;
 use App\Models\Feedback;
 use App\Models\Respuestas;
-use App\Helpers\RadarChartGenerator;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Log;
 
@@ -243,14 +242,13 @@ class AsesoriaController extends Controller
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
-            $radarChartPath = RadarChartGenerator::generateRadarChart($datos_encu[$encuesta->id]['ambitos']);
+           
             // Generar el PDF con la vista actualizada
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
-                    'logoBase64' => $logoBase64,  // Agregar el logo base64
-                    'radarChartPath' => $radarChartPath
+                    'logoBase64' => $logoBase64  // Agregar el logo base64
                     ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga
