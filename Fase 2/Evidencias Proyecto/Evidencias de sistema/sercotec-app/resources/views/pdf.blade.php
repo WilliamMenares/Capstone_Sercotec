@@ -2,8 +2,143 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{ asset('css/pdf.css') }}">
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #be1717;
+            --accent-color: #2980B9;
+            --background-light: #f4f6f7;
+            --border-color: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            background-color: white;
+        }
+
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--background-light) 0%, white 100%);
+            text-align: center;
+            padding: 40px;
+        }
+
+        .cover-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .logo-portada {
+            max-width: 300px;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .report-info {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .report-info table {
+            width: 100%;
+        }
+
+        .report-info th {
+            text-align: left;
+            color: #2980B9;
+            padding-right: 20px;
+            width: 40%;
+        }
+
+        .report-info td {
+            padding: 10px 0;
+        }
+
+        .section {
+            margin: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ambito {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .ambito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .ambito-name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .ambito-score {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .question {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-title {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .feedback {
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
 </head>
 
 <body>
