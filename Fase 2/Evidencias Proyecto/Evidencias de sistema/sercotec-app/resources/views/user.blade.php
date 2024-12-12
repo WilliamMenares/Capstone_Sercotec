@@ -98,7 +98,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-light"> <!-- Modo oscuro -->
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editModalLabel">Editar Empleado</h1>
+                    <h1 class="modal-title fs-5" id="editModalLabel">Editar Asesor</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button> <!-- Botón de cierre -->
                 </div>
@@ -193,7 +193,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Crear Empleado</button>
+                        <button type="submit" class="btn btn-primary">Crear Asesor</button>
                     </div>
                 </form>
             </div>

@@ -62,32 +62,21 @@ class FormulariosController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'responsable' => 'required|string|max:255',
-            'ambitos' => 'required|array'
+            'nombre' => 'required|string|max:255'
         ], [
             'nombre.required' => 'El pregunta es obligatorio.',
             'nombre.string' => 'El pregunta debe ser una cadena de texto.',
             'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
 
-            'responsable.required' => 'El responsable es obligatorio.',
-            'responsable.string' => 'El responsable debe ser una cadena de texto.',
-            'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
-
-            'ambitos.required' => 'El ambito es obligatorio.',
-            'ambitos.array' => 'El ambito debe ser una lista.',
 
         ]);
 
         // Encontrar el formulario y actualizarlo
         $formulario = Formularios::findOrFail($id);
         $formulario->update([
-            'nombre' => $request->nombre,
-            'user_id' => $request->responsable,
+            'nombre' => $request->nombre
         ]);
 
-        // Sincronizar los ámbitos seleccionados
-        $formulario->ambito()->sync($request->ambitos);
 
         return redirect()->route('forms.index')->with('success', 'Formulario actualizado correctamente.');
     }

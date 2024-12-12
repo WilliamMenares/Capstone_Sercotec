@@ -328,7 +328,7 @@
                                     value="{{ $pregu->title }}" placeholder="Nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="puntaje" class="form-label">Puntaje:</label>
+                                <label for="puntaje" class="form-label">Prioridad:</label>
                                 <input type="number" class="form-control bg-dark text-light" name="puntaje"
                                     value="{{ $pregu->prioridad }}" placeholder="Nombre" required>
                             </div>
@@ -370,13 +370,7 @@
                                 </div>
                             @endforeach
 
-                            <div class="mb-3">
-                                <label for="ambito" class="form-label">Ambito:</label>
-                                <input type="text" class="form-control bg-dark text-light search-ambito"
-                                    name="ambito" value="{{ $pregu->ambito->title }}" placeholder="Ambito" required>
-                                <input type="hidden" class="input-id-ambito" name="id_ambito"
-                                    value="{{ $pregu->ambito->id }}">
-                            </div>
+                            
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -439,11 +433,10 @@
                                 <label for="responsable" class="form-label">Responsable:</label>
                                 <input type="text" class="form-control bg-dark text-light"
                                     value="{{ $formu->user->name }}" placeholder="Responsable" required readonly>
-                                <input type="hidden" name="responsable" value="{{ $formu->user->id }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="ambitos" class="form-label">Ámbitos:</label>
-                                <select name="ambitos[]" class="select-ambito sl_ambito" multiple required>
+                                <select  class="select-ambito sl_ambito" multiple disabled required>
                                     @foreach ($ambitos as $ambito)
                                         <option value="{{ $ambito->id }}"
                                             @if (in_array($ambito->id, $formu->ambito->pluck('id')->toArray())) selected @endif>
@@ -513,7 +506,7 @@
                             placeholder="Nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label for="puntaje" class="form-label">Puntaje:</label>
+                        <label for="puntaje" class="form-label">Prioridad:</label>
                         <input type="number" class="form-control bg-dark text-light" name="puntaje"
                             placeholder="Nombre" required>
                     </div>

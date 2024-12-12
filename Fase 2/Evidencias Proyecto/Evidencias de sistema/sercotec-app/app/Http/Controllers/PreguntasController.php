@@ -99,14 +99,13 @@ class PreguntasController extends Controller
             // Validar los datos del request
             $request->validate([
                 'nombrep' => 'required|string',
-                'id_ambito' => 'required|integer',
+                
                 'puntaje' => 'required|integer',
             ], [
                 'nombrep.required' => 'La pregunta es obligatorio.',
                 'nombrep.string' => 'La pregunta debe ser una cadena de texto.',
 
-                'id_ambito.required' => 'El id_ambito es obligatorio.',
-                'id_ambito.string' => 'El id_ambito debe ser una cadena de texto.',
+                
 
                 'puntaje.required' => 'El puntaje es obligatorio.',
                 'puntaje.string' => 'El puntaje debe ser una cadena de texto.',
@@ -129,7 +128,6 @@ class PreguntasController extends Controller
                 // Actualizar pregunta
                 $pregunta->update([
                     'title' => $request->nombrep,
-                    'ambito_id' => $request->id_ambito,
                     'prioridad' => $request->puntaje
                 ]);
 

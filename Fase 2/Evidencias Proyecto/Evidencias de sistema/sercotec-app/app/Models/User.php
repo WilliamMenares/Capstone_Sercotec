@@ -53,5 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Formularios::class); // Un usuario puede tener varios formularios
     }
+    public function encuestas()
+    {
+        return $this->hasMany(Encuesta::class); // Un usuario puede tener varios formularios
+    }
 
 }
