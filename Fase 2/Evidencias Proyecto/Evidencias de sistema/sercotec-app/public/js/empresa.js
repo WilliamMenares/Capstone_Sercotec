@@ -104,7 +104,7 @@ function startImport() {
             // Recargar la página después de 5 segundos
             setTimeout(function () {
                 location.reload(); // Recarga la página
-            }, 5000);
+            }, 2000);
         },
         error: function (xhr) {
             let errorMessage = "Error al procesar el archivo.";

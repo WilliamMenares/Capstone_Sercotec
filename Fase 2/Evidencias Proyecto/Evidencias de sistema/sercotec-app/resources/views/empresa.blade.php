@@ -33,7 +33,7 @@
         
     </script>
 
-    <div id="myGrid" class="ag-theme-material-dark tablita"></div>
+    <div id="myGrid" class="ag-theme-quartz tablita"></div>
     <div id="mobileGrid" class="mobile-table">
         <div class="mobile-table-header">
             <h2>Lista de Empresas</h2>
@@ -123,8 +123,8 @@
                         @method('PUT')
                         <div class="mb-3">
                             <label for="codigo" class="form-label">Codigo:</label>
-                            <input type="text" class="form-control bg-dark text-light" name="codigo"
-                                placeholder="codigo" value="{{$emp->codigo}}" autocomplete="off" required>
+                            <input type="text" class="form-control bg-dark text-light"
+                                placeholder="codigo" value="{{$emp->codigo}}" autocomplete="off" readonly required>
                         </div>
                         <div class="mb-3">
                             <label for="rut" class="form-label">Rut</label>

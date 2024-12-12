@@ -11,10 +11,9 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $asesoriasCount = Encuesta::count(); // Reemplaza con datos reales
-        $empresasCount = Empresa::count(); // Reemplaza con datos reales
-        $usuariosCount = User::count(); // Reemplaza con datos reales
-
+        $asesoriasCount = Encuesta::count();
+        $empresasCount = Empresa::count();
+        $usuariosCount = User::count();
 
         $encuestas = Encuesta::with(['formulario.ambito.pregunta.respuesta.respuestasTipo'])->get();
 
@@ -85,25 +84,26 @@ class WelcomeController extends Controller
         }
 
 
-
-
+        // Cálculo del promedio de puntajes de encuestas completadas
+        $promedioPuntajes = Encuesta::with('respuestas.respuestasTipo')
+            ->get()
+            ->flatMap(fn($encuesta) => $encuesta->respuestas)
+            ->avg(fn($respuesta) => $respuesta->respuestasTipo->puntaje);
 
         $ultimasEmpresas = Encuesta::with('empresa') // Eager loading para cargar la empresa asociada a cada encuesta
             ->orderBy('created_at', 'desc') // Ordenar por la fecha de creación de la encuesta
             ->take(6) // Obtener las últimas 6 encuestas
             ->get()
             ->pluck('empresa'); // Extraer solo las empresas asociadas
-
-
+       
         return view('welcome', compact(
             'asesoriasCount',
             'empresasCount',
             'usuariosCount',
             'ultimasEmpresas',
             'ambitosConTotales',
-            'preguntaConMasRespuestasTipo1'
+            'preguntaConMasRespuestasTipo1',
+            'promedioPuntajes'
         ));
-    }
-
-
+    }  
 }

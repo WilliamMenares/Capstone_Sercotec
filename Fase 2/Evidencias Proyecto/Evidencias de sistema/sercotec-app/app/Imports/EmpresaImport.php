@@ -61,50 +61,56 @@ class SecondSheetImport implements ToModel, WithStartRow, SkipsOnError, SkipsOnF
 
 
     public function model(array $row)
-{
-    set_time_limit(0);
+    {
+        set_time_limit(0);
 
-    // Verificar que la fila no esté vacía
-    if (empty($row[0]) || empty($row[1])) {
-        return null;
-    }
-
-    $this->rows++;
-    Session::put('import_progress', $this->rows);
-
-    // Limpiar el RUT
-    $rutLimpio = $this->limpiarRut(trim($row[1]));
-
-    // Paso 1: Verificar si existe un registro con código "No asignado"
-    $registroNoAsignado = Empresa::where('codigo', 'Sin Asignar')->first();
-
-    if ($registroNoAsignado) {
-        // Paso 2: Obtener el RUT del registro con "No asignado"
-        $rutNoAsignado = $registroNoAsignado->rut;
-
-        // Paso 3: Verificar si el RUT del registro en el archivo coincide
-        if ($rutLimpio === $this->limpiarRut($rutNoAsignado)) {
-            // Paso 4: Actualizar el código del registro en la base de datos
-            $registroNoAsignado->update([
-                'codigo' => trim($row[0]),
-            ]);
-            return null; // No crear un nuevo registro, ya que solo estamos actualizando
+        // Verificar que la fila no esté vacía
+        if (empty($row[0]) || empty($row[1])) {
+            return null;
         }
-    }
 
-    // Paso 5: Crear un nuevo registro si el código no existe
-    if (Empresa::where('codigo', trim($row[0]))->exists()) {
-        return null;  // No insertar si el código ya existe
-    }
+        $this->rows++;
+        Session::put('import_progress', $this->rows);
 
-    return new Empresa([
-        'codigo' => trim($row[0]),
-        'rut' => $rutLimpio,
-        'nombre' => trim($row[2]),
-        'contacto' => trim($row[3]),
-        'email' => !empty($row[4]) ? trim($row[4]) : null,
-    ]);
-}
+        // Limpiar el RUT
+        $rutLimpio = $this->limpiarRut(trim($row[1]));
+
+        // Verificar la longitud del RUT (debe ser 9 o 10 caracteres, considerando guión y dígito verificador)
+        if (strlen($rutLimpio) < 9 || strlen($rutLimpio) > 10) {
+            // Si el RUT no tiene la longitud adecuada, no insertar el registro
+            return null;
+        }
+
+        // Paso 1: Verificar si existe un registro con código "No asignado"
+        $registroNoAsignado = Empresa::where('codigo', 'Sin Asignar')->first();
+
+        if ($registroNoAsignado) {
+            // Paso 2: Obtener el RUT del registro con "No asignado"
+            $rutNoAsignado = $registroNoAsignado->rut;
+
+            // Paso 3: Verificar si el RUT del registro en el archivo coincide
+            if ($rutLimpio === $this->limpiarRut($rutNoAsignado)) {
+                // Paso 4: Actualizar el código del registro en la base de datos
+                $registroNoAsignado->update([
+                    'codigo' => trim($row[0]),
+                ]);
+                return null; // No crear un nuevo registro, ya que solo estamos actualizando
+            }
+        }
+
+        // Paso 5: Crear un nuevo registro si el código no existe
+        if (Empresa::where('codigo', trim($row[0]))->exists()) {
+            return null;  // No insertar si el código ya existe
+        }
+
+        return new Empresa([
+            'codigo' => trim($row[0]),
+            'rut' => $rutLimpio,
+            'nombre' => trim($row[2]),
+            'contacto' => trim($row[3]),
+            'email' => !empty($row[4]) ? trim($row[4]) : null,
+        ]);
+    }
 
 
 

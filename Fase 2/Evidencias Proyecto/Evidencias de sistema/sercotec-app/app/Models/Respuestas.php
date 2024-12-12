@@ -30,4 +30,6 @@ class Respuestas extends Model
 {
     return $this->belongsTo(RespuestasTipo::class, 'respuestatipo_id'); // Asegúrate de especificar el campo correctamente
 }
+
+
 }

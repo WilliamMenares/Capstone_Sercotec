@@ -15,82 +15,8 @@ class AsesoriaController extends Controller
 
         $encuestas = Encuesta::with(['formulario.ambito.pregunta.respuesta.respuestasTipo', 'empresa'])->get();
 
-        $datos_encu = [];
 
-        foreach ($encuestas as $encu) {
-            $puntajeMaximoen = 0;
-            $puntajeEncuesta = 0;
-
-            if (!isset($datos_encu[$encu->id])) {
-                $datos_encu[$encu->id] = [
-                    'empresas' => [],
-                    'ambitos' => [],
-                    'responsable' => '',
-                    'obtenido' => 0,
-                    'resultado' => 0,
-                ];
-            }
-            ;
-            $datos_encu[$encu->id]['responsable'] = $encu->user->name;
-
-
-            $datos_encu[$encu->id]['empresas'][] = [
-                'rut' => $encu->empresa->rut ?? '',
-                'nombre' => $encu->empresa->nombre ?? '', // Usamos el valor del modelo o un valor vacío
-                'email' => $encu->empresa->email ?? '',
-                'contacto' => $encu->empresa->contacto ?? ''
-            ];
-
-
-            foreach ($encu->formulario->ambito as $ambi) {
-                $datos_encu[$encu->id]['ambitos'][] = [
-                    'nombre' => $ambi->title ?? '',
-                    'preguntas' => [],
-                    'resultado' => 0,
-                    'obtenido' => 0,
-                ];
-
-                $cantidadPreguntas = 0;
-                $puntajeObtenido = 0;
-                // Obtener el índice del último ámbito agregado
-                $ultimoIndice = array_key_last($datos_encu[$encu->id]['ambitos']);
-
-                foreach ($ambi->pregunta as $pregu) {
-                    $cantidadPreguntas += 1;
-                    // Agregar las preguntas al ámbito correspondiente
-                    $datos_encu[$encu->id]['ambitos'][$ultimoIndice]['preguntas'][] = [
-                        'nombre' => $pregu->title ?? '',
-                        'respuesta' => '',
-                    ];
-
-                    // Obtener el índice de la última pregunta agregada
-                    $ultimoIndicePregunta = array_key_last($datos_encu[$encu->id]['ambitos'][$ultimoIndice]['preguntas']);
-
-
-                    // Buscar y agregar respuesta correspondiente
-                    foreach ($pregu->respuesta as $res) {
-                        if ($encu->id == $res->encuesta_id) {
-                            $datos_encu[$encu->id]['ambitos'][$ultimoIndice]['preguntas'][$ultimoIndicePregunta]['respuesta'] = $res->respuestasTipo->titulo ?? '';
-                            $puntaje = $res->respuestasTipo->puntaje ?? 0;
-                            $puntajeEncuesta += $puntaje;
-                            $puntajeObtenido += $puntaje;
-                            ;
-                            break; // Salir del bucle una vez que encontramos la respuesta
-                        }
-                    }
-
-                }
-                $datos_encu[$encu->id]['ambitos'][$ultimoIndice]['resultado'] = $cantidadPreguntas * 5;
-                $datos_encu[$encu->id]['ambitos'][$ultimoIndice]['obtenido'] = $puntajeObtenido;
-                $puntajeMaximoen += $cantidadPreguntas * 5;
-            }
-            ;
-            $datos_encu[$encu->id]['resultado'] = $puntajeMaximoen;
-            $datos_encu[$encu->id]['obtenido'] = $puntajeEncuesta;
-        }
-        ;
-
-        return view("asesorias", compact('datos_encu', 'encuestas'));
+        return view("asesorias", compact('encuestas'));
     }
 
     public function getase()
@@ -126,25 +52,56 @@ class AsesoriaController extends Controller
 
     }
 
-    public function generarPDF($id)
+
+    // Método nuevo antes de generarPDF
+    private function prepararLogoBase64()
     {
+        $logoPath = public_path('img/Logo_Sercotec.png');
+        
+        // Verificar si el archivo existe
+        if (!file_exists($logoPath)) {
+            Log::error('Archivo de logo no encontrado: ' . $logoPath);
+            return null;
+        }
+
         try {
-            // Validar ID
-            if (!is_numeric($id) || $id <= 0) {
-                throw new \InvalidArgumentException('ID de encuesta inválido');
-            }
+            $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+            return $logoBase64;
+        } catch (\Exception $e) {
+            Log::error('Error al procesar el logo: ' . $e->getMessage());
+            return null;
+        }
+    }
 
-            // Obtener la encuesta con relaciones
-            $encuesta = Encuesta::with([
-                'formulario.ambito.pregunta.respuesta.respuestasTipo',
-                'empresa',
-                'user'
-            ])->find($id);
+    public function generarPDF($id)
+{
+    try {
+        // Validar ID
+        if (!is_numeric($id) || $id <= 0) {
+            throw new \InvalidArgumentException('ID de encuesta inválido');
+        }
 
-            // Validar que la encuesta existe
-            if (!$encuesta) {
-                throw new \RuntimeException('Encuesta no encontrada');
-            }
+        // Preparar el logo antes de generar el PDF
+        $logoBase64 = $this->prepararLogoBase64();
+
+    } catch (\Exception $e) {
+        Log::error('Error al preparar el logo: ' . $e->getMessage());
+        return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
+    }
+
+    try {
+        // Obtener la encuesta con relaciones
+        $encuesta = Encuesta::with([
+            'formulario.ambito.pregunta.respuesta.respuestasTipo',
+            'empresa',
+            'user'
+        ])->find($id);
+
+        // Validar que la encuesta existe
+        if (!$encuesta) {
+            throw new \RuntimeException('Encuesta no encontrada');
+        }
+
 
             // Validar relaciones necesarias
             if (!$encuesta->formulario) {
@@ -181,6 +138,7 @@ class AsesoriaController extends Controller
 
             $puntajeMaximoen = 0;
             $puntajeEncuesta = 0;
+            $feedback = Feedback::all();
 
             // Procesar ámbitos
             foreach ($encuesta->formulario->ambito as $ambi) {
@@ -193,6 +151,7 @@ class AsesoriaController extends Controller
                     'preguntas' => [],
                     'resultado' => 0,
                     'obtenido' => 0,
+                    'porcentaje' => 0,  // Agregamos el campo para el porcentaje de cumplimiento
                 ];
 
                 $cantidadPreguntas = 0;
@@ -206,15 +165,31 @@ class AsesoriaController extends Controller
                     $cantidadPreguntas++;
                     $preguntaData = [
                         'nombre' => $pregu->title,
-                        'respuesta' => 'Sin respuesta'
+                        'respuesta' => 'Sin respuesta',
+                        'feedback' => [], // Inicializamos feedback como un array vacío
                     ];
 
                     foreach ($pregu->respuesta as $res) {
                         if ($encuesta->id == $res->encuesta_id && $res->respuestasTipo) {
                             $preguntaData['respuesta'] = $res->respuestasTipo->titulo ?? 'Sin respuesta';
                             $puntaje = $res->respuestasTipo->puntaje ?? 0;
-                            $puntajeEncuesta += $puntaje;
                             $puntajeObtenido += $puntaje;
+
+                            // Buscar feedback asociado a la respuesta
+                            $feedbackData = $feedback->where('pregunta_id', $pregu->id)
+                                ->where('respuestas_tipo_id', $res->respuestasTipo->id)
+                                ->first();
+
+                            // Agregar feedback si existe
+                            if ($feedbackData) {
+                                $preguntaData['feedback'] = [
+                                    'situacion' => $feedbackData->situacion,
+                                    'accion1' => $feedbackData->accion1,
+                                    'accion2' => $feedbackData->accion2,
+                                    'accion3' => $feedbackData->accion3,
+                                    'accion4' => $feedbackData->accion4,
+                                ];
+                            }
                             break;
                         }
                     }
@@ -224,10 +199,45 @@ class AsesoriaController extends Controller
 
                 $datoAmbito['resultado'] = $cantidadPreguntas * 5;
                 $datoAmbito['obtenido'] = $puntajeObtenido;
-                $puntajeMaximoen += $cantidadPreguntas * 5;
+                $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
 
-                $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
+                
+
+                // Solo agregar si el puntaje obtenido es mayor a 0
+                if ($puntajeObtenido > 0) {
+                    $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
+                    $puntajeMaximoen += $cantidadPreguntas * 5;
+                    $puntajeEncuesta += $puntajeObtenido;
+                    Log::info($puntajeEncuesta);
+                }
             }
+
+            // Ordenar los ámbitos en función del porcentaje de cumplimiento
+            usort($datos_encu[$encuesta->id]['ambitos'], function ($a, $b) {
+                return $b['porcentaje'] <=> $a['porcentaje'];  // Ordenamos de mayor a menor
+            });
+
+            // Verificar la cantidad de ámbitos y seleccionamos los correctos
+            $topAmbitos = [];
+            $bottomAmbitos = [];
+
+            // Si hay al menos un ámbito, seleccionamos el mejor (primer ámbito)
+            if (count($datos_encu[$encuesta->id]['ambitos']) >= 1) {
+                $topAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][0];  // El mejor ámbito
+            }
+
+            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
+            if (count($datos_encu[$encuesta->id]['ambitos']) == 2) {
+                $bottomAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][1];  // Los dos peores
+            }
+
+            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
+            if (count($datos_encu[$encuesta->id]['ambitos']) >= 3) {
+                $bottomAmbitos = array_slice($datos_encu[$encuesta->id]['ambitos'], -2);  // Los dos peores
+            }
+
+            // Combinamos el mejor con los dos peores sin duplicarlos
+            $datos_encu[$encuesta->id]['ambitos'] = array_merge($topAmbitos, $bottomAmbitos);
 
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
@@ -236,7 +246,8 @@ class AsesoriaController extends Controller
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
-                    'datos_encu' => $datos_encu
+                    'datos_encu' => $datos_encu,
+                    'logoBase64' => $logoBase64  // Agregar el logo base64
                 ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga

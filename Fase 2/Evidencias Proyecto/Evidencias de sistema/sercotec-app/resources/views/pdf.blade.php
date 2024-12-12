@@ -1,87 +1,137 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #16A085;
+            --accent-color: #2980B9;
+            --background-light: #f4f6f7;
+            --border-color: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            background-color: white;
         }
 
-        h1,
-        h2,
-        h3 {
-            color: #2C3E50;
-        }
-
-        .section {
-            margin-bottom: 40px;
-        }
-
-        .section-portada {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .titulo-portada {
+        .cover-page {
+            height: 100vh;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--background-light) 0%, white 100%);
             text-align: center;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .cover-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-weight: 700;
         }
 
         .logo-portada {
-            display: block;
-            margin: 20px auto;
-            max-width: 200px;
-            height: auto;
+            max-width: 300px;
+            margin-bottom: 40px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .report-info {
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .report-info table {
+            width: 100%;
+        }
+
+        .report-info th {
+            text-align: left;
+            color: var(--secondary-color);
+            padding-right: 20px;
+            width: 40%;
+        }
+
+        .report-info td {
+            padding: 10px 0;
+        }
+
+        .section {
+            margin: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .ambito {
-            border: 1px solid #ddd;
-            padding: 15px;
+            background-color: var(--background-light);
+            border-radius: 10px;
+            padding: 20px;
             margin-bottom: 20px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            border-left: 5px solid var(--secondary-color);
         }
 
-        .ambito h3 {
-            color: #2980B9;
+        .ambito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        .ambito p {
-            line-height: 1.6;
+        .ambito-name {
+            font-weight: 700;
+            color: var(--primary-color);
         }
 
-        h4 {
-            font-weight: bold;
-            color: #16A085;
+        .ambito-score {
+            color: var(--secondary-color);
+            font-weight: 700;
         }
 
-        hr {
-            border: 0;
-            border-top: 1px solid #ddd;
-            margin: 20px 0;
+        .question {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .grafico {
-            width: 200px;
-            height: 200px;
-            float: right;
-            margin-left: 20px;
+        .question-title {
+            color: var(--accent-color);
+            margin-bottom: 10px;
         }
 
-        .clear {
-            clear: both;
+        .feedback {
+            background-color: var(--background-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
         }
 
         .page-break {
@@ -89,69 +139,88 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="titulo-portada">
-        <h1>Informe de Asesoría</h1>
-    </div>
-
-    <img src="{{ storage_path('app/public/img/Logo_Sercotec.png') }}" alt="Logo" class="logo-portada">
-
-    <div class="section-portada">
-        <h2>Información sobre la asesoría</h2>
-        <table>
-            <tr>
-                <th>Responsable:</th>
-                <td>{{$datos_encu[$encuesta->id]['responsable']}}</td>
-            </tr>
-            @foreach ($datos_encu[$encuesta->id]['empresas'] as $emp)
-                <tr>
-                    <th>Rut Empresa:</th>
-                    <td>{{$emp['rut']}}</td>
-                </tr>
-                <tr>
-                    <th>Nombre Empresa:</th>
-                    <td>{{$emp['nombre']}}</td>
-                </tr>
-                <tr>
-                    <th>Contacto:</th>
-                    <td>{{$emp['contacto']}}</td>
-                </tr>
-                <tr>
-                    <th>Email:</th>
-                    <td>{{$emp['email']}}</td>
-                </tr>
-            @endforeach
-        </table>
+    <!-- Cover Page -->
+    <div class="cover-page">
+        <img src="{{ $logoBase64 }}" alt="Logo" class="logo-portada">
+        
+        <div class="cover-title">
+            <h1>Informe de Asesoría</h1>
+        </div>
+        
+        <div class="report-info">
+            <table>
+                @foreach ($datos_encu[$encuesta->id]['empresas'] as $emp)
+                    <tr>
+                        <th>Responsable:</th>
+                        <td>{{$datos_encu[$encuesta->id]['responsable']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Rut Empresa:</th>
+                        <td>{{$emp['rut']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre Empresa:</th>
+                        <td>{{$emp['nombre']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Contacto:</th>
+                        <td>{{$emp['contacto']}}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{$emp['email']}}</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     </div>
 
     <div class="page-break"></div>
+
+    <!-- General Information -->
     <div class="section">
-        <h2>Informacion General</h2>
-        <p>Puntaje Total Obtenido: {{$datos_encu[$encuesta->id]['obtenido']}} de
-            {{$datos_encu[$encuesta->id]['resultado']}}
-        </p>
-        <p>Porcentaje Total Obtenido
-            {{($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}
-        </p>
+        <h2 class="section-title">Información General</h2>
+        <p>Puntaje Total Obtenido: {{$datos_encu[$encuesta->id]['obtenido']}} de {{$datos_encu[$encuesta->id]['resultado']}}</p>
+        <p>Porcentaje Total Obtenido: {{($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado']}}%</p>
     </div>
 
-
+    <!-- Ámbitos Section -->
     <div class="section">
-        <h2>Ámbitos </h2>
+        <h2 class="section-title">Ámbitos</h2>
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
-            <p>------------------------------------------</p>
-            <p>{{$amb['nombre']}}</p>
-            <p>Puntaje Obtenido por Ambito: {{$amb['obtenido']}} de {{$amb['resultado']}}</p>
-            <p>Porcentaje Total Obtenido : {{($amb['obtenido'] * 100) / $amb['resultado'] }} </p>
-            <p></p>
-            @foreach ($amb['preguntas'] as $preg)
-                <p>{{$preg['nombre']}}</p>
-                <p>{{$preg['respuesta']}}</p>
-            @endforeach
-            <p>------------------------------------------</p>
+            <div class="ambito">
+                <div class="ambito-header">
+                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
+                    <div class="ambito-score">
+                        Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }} 
+                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                    </div>
+                </div>
+
+                @foreach ($amb['preguntas'] as $preg)
+                    <div class="question">
+                        <h4 class="question-title">{{ $preg['nombre'] }}</h4>
+                        <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
+                        
+                        @if (!empty($preg['feedback']))
+                            <div class="feedback">
+                                <p><strong>Situación:</strong> {{ $preg['feedback']['situacion'] }}</p>
+                                <p><strong>Acciones Recomendadas:</strong></p>
+                                <ul>
+                                    <li>{{ $preg['feedback']['accion1'] }}</li>
+                                    <li>{{ $preg['feedback']['accion2'] }}</li>
+                                    <li>{{ $preg['feedback']['accion3'] }}</li>
+                                    <li>{{ $preg['feedback']['accion4'] }}</li>
+                                </ul>
+                            </div>
+                        @else
+                            <p><em>Sin feedback disponible</em></p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
         @endforeach
     </div>
 </body>
-
 </html>

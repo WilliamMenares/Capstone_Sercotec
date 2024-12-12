@@ -7,6 +7,17 @@
     width: 100% !important;
 }
 
+.ag-theme-quartz {
+    /* Cambia el color del texto de la tabla */
+    --ag-foreground-color: rgb(0, 0, 0);
+    /* Cambia el color de fondo de la tabla */
+    --ag-background-color: #E0F2FE;
+    /* Cambia el color de fondo del encabezado de la fila superior */
+    --ag-header-background-color: #E0F2FE;
+    /* Cambia el color al pasar el cursor sobre una fila */
+    --ag-row-hover-color: #BAE6FD;
+}
+
 .main {
     display: flex; /* Mantiene el diseño de dos columnas */
     flex-direction: row; /* Coloca el menú a la izquierda en escritorio */
@@ -146,7 +157,7 @@ ol ,ul{
     left: 0;
     right: 0;
     height: 120px;
-    background-color: #D1DCF6;
+    background-color: #E0F2FE;
     z-index: 999;
     padding: 10px;
     align-items: center;
