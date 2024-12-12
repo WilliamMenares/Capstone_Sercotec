@@ -87,10 +87,10 @@
                     <a class="nav-link" href="/user"><i class="bi bi-person-fill"></i> Asesores</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/asesorias"><i class="bi bi-file-earmark-arrow-down-fill"></i> Asesorias</a>
+                    <a class="nav-link" href="/asesorias"><i class="bi bi-file-earmark-arrow-down-fill"></i> Diagnósticos</a>
                 </li>
                 <li class="nav-item mb-3">
-                    <a class="nav-link" href="/diagnostico"><i class="bi bi-ui-checks"></i> Diagnostico</a>
+                    <a class="nav-link" href="/diagnostico"><i class="bi bi-ui-checks"></i> Formulario</a>
                 </li>
                 <li class="nav-item mb-3">
                     <a class="nav-link" href="/forms"><i class="bi bi-info-circle-fill"></i> Ambitos y Preguntas</a>
