@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
@@ -255,6 +256,33 @@
     <div class="page-break"></div>
 
     <!-- Aqui va el grafico de radar. -->
+    <title>Gráfico de Radar de Competencias</title>
+    <style>
+        .chart-container {
+            width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .chart-description {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+    <div class="chart-container">
+        {!! $chart->render() !!}
+        <div class="chart-description">
+            <h3>Desglose de Porcentajes por Ámbito</h3>
+            <p>
+                • Liderazgo: Capacidad de guiar y motivar equipos<br>
+                • Innovación: Creatividad y generación de nuevas ideas<br>
+                • Trabajo en Equipo: Colaboración y sinergia<br>
+                • Comunicación: Efectividad en intercambio de información<br>
+                • Desarrollo Profesional: Crecimiento y aprendizaje continuo<br>
+                • Adaptabilidad: Flexibilidad ante cambios
+            </p>
+        </div>
+    </div>
  
 </body>
 

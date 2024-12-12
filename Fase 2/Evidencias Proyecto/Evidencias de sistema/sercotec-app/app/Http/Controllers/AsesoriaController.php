@@ -7,6 +7,8 @@ use App\Models\Feedback;
 use App\Models\Respuestas;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Log;
+use ConsoleTVs\Charts\Classes\LaravelChart;
+use Illuminate\Support\Facades\View;
 
 class AsesoriaController extends Controller
 {
@@ -276,4 +278,54 @@ class AsesoriaController extends Controller
         }
     }
     
+}
+class RadarChartController extends Controller
+{
+    public function createRadarChart()
+    {
+        // Datos con ámbitos específicos y sus porcentajes
+        $chart = new LaravelChart([
+            'chart_title' => 'Evaluación de Competencias Organizacionales',
+            'chart_type' => 'radar',
+            'labels' => [
+                'Liderazgo', 
+                'Innovación', 
+                'Trabajo en Equipo', 
+                'Comunicación', 
+                'Desarrollo Profesional',
+                'Adaptabilidad'
+            ],
+            'datasets' => [
+                [
+                    'label' => 'Departamento de Tecnología',
+                    'data' => [85, 90, 75, 80, 88, 82],
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.4)',
+                    'borderColor' => 'rgba(75, 192, 192, 1)',
+                ],
+                [
+                    'label' => 'Departamento Comercial',
+                    'data' => [70, 65, 88, 92, 75, 79],
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.4)',
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                ]
+            ],
+            'options' => [
+                'responsive' => true,
+                'plugins' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Comparativo de Competencias por Departamento'
+                    ]
+                ],
+                'scale' => [
+                    'ticks' => [
+                        'beginAtZero' => true,
+                        'max' => 100
+                    ]
+                ]
+            ]
+        ]);
+
+        return view('charts.radar', compact('chart'));
+    }
 }
