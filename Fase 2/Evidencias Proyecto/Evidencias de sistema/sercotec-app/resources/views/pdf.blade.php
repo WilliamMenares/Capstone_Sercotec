@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
     <style>
@@ -47,14 +48,14 @@
         .logo-portada {
             max-width: 300px;
             margin-bottom: 40px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
         }
 
         .report-info {
             background-color: var(--background-light);
             border-radius: 10px;
             padding: 30px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             width: 100%;
         }
@@ -79,7 +80,7 @@
             padding: 20px;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .section-title {
@@ -119,7 +120,7 @@
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .question-title {
@@ -139,37 +140,38 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Cover Page -->
     <div class="cover-page">
         <img src="{{ $logoBase64 }}" alt="Logo" class="logo-portada">
-        
+
         <div class="cover-title">
-            <h1>Informe de Asesoría</h1>
+            <h1>Informe de Diagnóstico</h1>
         </div>
-        
+
         <div class="report-info">
             <table>
                 @foreach ($datos_encu[$encuesta->id]['empresas'] as $emp)
                     <tr>
                         <th>Responsable:</th>
-                        <td>{{$datos_encu[$encuesta->id]['responsable']}}</td>
+                        <td>{{ $datos_encu[$encuesta->id]['responsable'] }}</td>
                     </tr>
                     <tr>
                         <th>Rut Empresa:</th>
-                        <td>{{$emp['rut']}}</td>
+                        <td>{{ $emp['rut'] }}</td>
                     </tr>
                     <tr>
                         <th>Nombre Empresa:</th>
-                        <td>{{$emp['nombre']}}</td>
+                        <td>{{ $emp['nombre'] }}</td>
                     </tr>
                     <tr>
                         <th>Contacto:</th>
-                        <td>{{$emp['contacto']}}</td>
+                        <td>{{ $emp['contacto'] }}</td>
                     </tr>
                     <tr>
                         <th>Email:</th>
-                        <td>{{$emp['email']}}</td>
+                        <td>{{ $emp['email'] }}</td>
                     </tr>
                 @endforeach
             </table>
@@ -181,19 +183,40 @@
     <!-- General Information -->
     <div class="section">
         <h2 class="section-title">Información General</h2>
-        <p>Puntaje Total Obtenido: {{$datos_encu[$encuesta->id]['obtenido']}} de {{$datos_encu[$encuesta->id]['resultado']}}</p>
-        <p>Porcentaje Total Obtenido: {{($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado']}}%</p>
+        <p>Puntaje Total Obtenido: {{ $datos_encu[$encuesta->id]['obtenido'] }} de
+            {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
+        <p>Porcentaje Total Obtenido:
+            {{ ($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}%</p>
+
+        <!-- aqui necesito que vaya el for que recorre los ambitos con sus preguntas y con su respuesta. -->
+        @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
+            <div class="ambito">
+                <div class="ambito-header">
+                    <div class="ambito-name">
+                        {{ $amb['nombre'] }} ({{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
+                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%))
+                    </div>
+                </div>
+
+                @foreach ($amb['preguntas'] as $preg)
+                    <div class="question">
+                        <h4 class="question-title">{{ $preg['nombre'] }}</h4>
+                        <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
     </div>
 
     <!-- Ámbitos Section -->
     <div class="section">
-        <h2 class="section-title">Ámbitos</h2>
+        <h2 class="section-title">Plan de trabajo</h2>
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <div class="ambito">
                 <div class="ambito-header">
                     <div class="ambito-name">{{ $amb['nombre'] }}</div>
                     <div class="ambito-score">
-                        Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }} 
+                        Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }}
                         ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
                     </div>
                 </div>
@@ -202,7 +225,7 @@
                     <div class="question">
                         <h4 class="question-title">{{ $preg['nombre'] }}</h4>
                         <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
-                        
+
                         @if (!empty($preg['feedback']))
                             <div class="feedback">
                                 <p><strong>Situación:</strong> {{ $preg['feedback']['situacion'] }}</p>
@@ -223,4 +246,5 @@
         @endforeach
     </div>
 </body>
+
 </html>

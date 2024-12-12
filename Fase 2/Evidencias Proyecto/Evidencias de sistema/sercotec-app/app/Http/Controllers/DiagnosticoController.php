@@ -16,7 +16,10 @@ class DiagnosticoController extends Controller
     {
         $preguntas = Preguntas::with('ambito')->orderBy('id', 'desc')->get();
         $formularios = Formularios::with('ambito')->get();
-        return view("diagnostico", compact('preguntas', 'formularios'));
+        $ambitos = $preguntas->groupBy(function ($pregunta) {
+            return $pregunta->ambito->nombre ?? 'Sin Ámbito'; // "Sin Ámbito" si no tiene ámbito asociado
+        });
+        return view("diagnostico", compact('ambitos', 'preguntas', 'formularios'));
     }
 
     public function store(Request $request)
