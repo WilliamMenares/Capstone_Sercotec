@@ -66,7 +66,7 @@
 
         .report-info th {
             text-align: left;
-            color: var(--secondary-color);
+            color: #2980B9;
             padding-right: 20px;
             width: 40%;
         }
