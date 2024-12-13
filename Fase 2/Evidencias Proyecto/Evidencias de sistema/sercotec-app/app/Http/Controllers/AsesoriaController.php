@@ -253,7 +253,7 @@ class AsesoriaController extends Controller
                 }
 
                 // Generate chart
-                $chart = \Charts::multi('radar', 'morris')
+                $chart = Charts::multi('radar', 'morris')
                     ->title('Análisis de Ámbitos')
                     ->labels($labels)
                     ->dataset('Porcentaje de Cumplimiento', $chartData)
