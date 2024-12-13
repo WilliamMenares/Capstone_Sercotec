@@ -6,6 +6,7 @@ use App\Models\Encuesta;
 use App\Models\Feedback;
 use App\Models\Respuestas;
 use Barryvdh\DomPDF\Facade\Pdf;
+use ConsoleTVs\Charts\Charts;
 use Log;
 
 class AsesoriaController extends Controller
@@ -242,23 +243,31 @@ class AsesoriaController extends Controller
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
-            $radarChartData = [
-                'labels' => [],
-                'percentages' => []
+            $data = [
+                'Ámbito 1' => 70,
+                'Ámbito 2' => 65,
+                'Ámbito 3' => 80,
+                'Ámbito 4' => 90,
             ];
-        
-            foreach ($datos_encu[$encuesta->id]['ambitos'] as $ambito) {
-                $porcentaje = round(($ambito['obtenido'] * 100) / $ambito['resultado'], 2);
-                $radarChartData['labels'][] = $ambito['nombre'];
-                $radarChartData['percentages'][] = $porcentaje;
-            }
+    
+            // Crear el gráfico
+            $chart = new Charts();
+            $chart->dataset('Cumplimiento', 'radar', $data)
+                 ->options([
+                     'legend' => [
+                         'display' => false
+                     ]
+                 ]);
+    
+            // Convertir el gráfico a base64
+            $chartImage = 'data:image/svg+xml;base64,' . base64_encode($chart->render());
             // Generar el PDF con la vista actualizada
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
                     'logoBase64' => $logoBase64,
-                    'radarChartData' => $radarChartData  // Agregar los datos del radar chart
+                    'chartImage' => $chartImage,
                 ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga
