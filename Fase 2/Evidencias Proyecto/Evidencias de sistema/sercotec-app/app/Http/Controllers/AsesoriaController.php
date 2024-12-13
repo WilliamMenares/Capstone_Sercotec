@@ -49,8 +49,6 @@ class AsesoriaController extends Controller
 
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
-
-
     }
 
 
@@ -58,7 +56,7 @@ class AsesoriaController extends Controller
     private function prepararLogoBase64()
     {
         $logoPath = public_path('img/Logo_Sercotec.png');
-        
+
         // Verificar si el archivo existe
         if (!file_exists($logoPath)) {
             Log::error('Archivo de logo no encontrado: ' . $logoPath);
@@ -75,33 +73,32 @@ class AsesoriaController extends Controller
     }
 
     public function generarPDF($id)
-{
-    try {
-        // Validar ID
-        if (!is_numeric($id) || $id <= 0) {
-            throw new \InvalidArgumentException('ID de encuesta inválido');
+    {
+        try {
+            // Validar ID
+            if (!is_numeric($id) || $id <= 0) {
+                throw new \InvalidArgumentException('ID de encuesta inválido');
+            }
+
+            // Preparar el logo antes de generar el PDF
+            $logoBase64 = $this->prepararLogoBase64();
+        } catch (\Exception $e) {
+            Log::error('Error al preparar el logo: ' . $e->getMessage());
+            return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
         }
 
-        // Preparar el logo antes de generar el PDF
-        $logoBase64 = $this->prepararLogoBase64();
+        try {
+            // Obtener la encuesta con relaciones
+            $encuesta = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->find($id);
 
-    } catch (\Exception $e) {
-        Log::error('Error al preparar el logo: ' . $e->getMessage());
-        return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
-    }
-
-    try {
-        // Obtener la encuesta con relaciones
-        $encuesta = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->find($id);
-
-        // Validar que la encuesta existe
-        if (!$encuesta) {
-            throw new \RuntimeException('Encuesta no encontrada');
-        }
+            // Validar que la encuesta existe
+            if (!$encuesta) {
+                throw new \RuntimeException('Encuesta no encontrada');
+            }
 
 
             // Validar relaciones necesarias
@@ -202,7 +199,7 @@ class AsesoriaController extends Controller
                 $datoAmbito['obtenido'] = $puntajeObtenido;
                 $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
 
-                
+
 
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {
@@ -243,26 +240,29 @@ class AsesoriaController extends Controller
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
-            $data = [
-                'Ámbito 1' => 70,
-                'Ámbito 2' => 65,
-                'Ámbito 3' => 80,
-                'Ámbito 4' => 90,
-            ];
-    
-            // Crear el gráfico
-            $chart = new Charts();
-            $chart->dataset('Cumplimiento', 'radar', $data)
-                 ->options([
-                     'legend' => [
-                         'display' => false
-                     ]
-                 ]);
-    
-            // Convertir el gráfico a base64
-            $chartImage = 'data:image/svg+xml;base64,' . base64_encode($chart->render());
-            // Generar el PDF con la vista actualizada
             try {
+
+                // Chart generation for radar chart
+                $ambitos = $datos_encu[$encuesta->id]['ambitos'];
+                $chartData = [];
+                $labels = [];
+
+                foreach ($ambitos as $ambito) {
+                    $labels[] = $ambito['nombre'];
+                    $chartData[] = round(($ambito['obtenido'] * 100) / $ambito['resultado'], 2);
+                }
+
+                // Generate chart
+                $chart = \Charts::multi('radar', 'morris')
+                    ->title('Análisis de Ámbitos')
+                    ->labels($labels)
+                    ->dataset('Porcentaje de Cumplimiento', $chartData)
+                    ->responsive(true)
+                    ->height(400)
+                    ->width(600);
+
+                // Convert chart to image
+                $chartImage = $chart->render();
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
@@ -275,12 +275,10 @@ class AsesoriaController extends Controller
                     ->header('Content-Type', 'application/pdf')
                     ->header('Content-Disposition', 'attachment; filename="asesoria_' . $id . '.pdf"')
                     ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-
             } catch (\Exception $e) {
                 Log::error('Error en la generación del PDF: ' . $e->getMessage());
                 throw new \RuntimeException('Error al generar el archivo PDF: ' . $e->getMessage());
             }
-
         } catch (\Exception $e) {
             Log::error('Error en generarPDF: ' . $e->getMessage());
 
@@ -294,5 +292,4 @@ class AsesoriaController extends Controller
             ], 500);
         }
     }
-    
 }
