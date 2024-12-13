@@ -258,13 +258,7 @@
 
     <div class="section">
         <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        @if (isset($chartImage))
-            <div class="chart-container" style="text-align: center;">
-                {!! $chartImage !!}
-            </div>
-        @else
-            <p>No se pudo generar el gráfico</p>
-        @endif
+        
     </div>
     </div>
 
