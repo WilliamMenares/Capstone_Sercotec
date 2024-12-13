@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
@@ -186,12 +186,14 @@
         <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
             {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
         <p><strong>Porcentaje Total Obtenido:</strong>
-            {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'], 2) }}%</p>
+            {{ ($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}%</p>
 
+        <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <div class="ambito">
                 <div class="ambito-header">
-                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
+                    <div class="ambito-name">{{ $amb['nombre'] }}
+                    </div>
                     <div class="ambito-score">
                         Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
                         ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
@@ -208,7 +210,9 @@
         @endforeach
     </div>
 
+
     <div class="page-break"></div>
+
 
     <!-- Ámbitos Section -->
     <div class="section">
@@ -250,11 +254,9 @@
 
     <div class="page-break"></div>
 
-    <!-- Radar Chart Section -->
-    <div class="section">
-        <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar" class="chart">
-    </div>
-</body>
-</html>
+    <!-- Aqui va el grafico de radar -->
 
+
+</body>
+
+</html>
