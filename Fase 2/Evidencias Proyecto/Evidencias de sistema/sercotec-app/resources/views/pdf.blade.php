@@ -3,7 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
@@ -255,47 +254,9 @@
     <div class="section">
         <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
         <div style="width: 100%; height: 400px;">
-            <canvas id="radarChart"></canvas>
+            <img src="{{ $chartImagePath }}" alt="Radar Chart" style="width: 100%; height: 100%; object-fit: contain;">
         </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('radarChart').getContext('2d');
-            var radarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: {!! json_encode($radarChartData['labels']) !!},
-                    datasets: [{
-                        label: 'Porcentaje de Cumplimiento',
-                        data: {!! json_encode($radarChartData['percentages']) !!},
-                        backgroundColor: 'rgba(44, 62, 80, 0.4)',
-                        borderColor: 'rgba(44, 62, 80, 1)',
-                        pointBackgroundColor: 'rgba(44, 62, 80, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(44, 62, 80, 1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scale: {
-                        ticks: {
-                            beginAtZero: true,
-                            max: 100,
-                            stepSize: 20
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Porcentaje de Cumplimiento por Ámbito'
-                        }
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 </html>
 
