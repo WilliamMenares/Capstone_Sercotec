@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
@@ -186,14 +187,12 @@
         <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
             {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
         <p><strong>Porcentaje Total Obtenido:</strong>
-            {{ ($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}%</p>
+            {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'], 2) }}%</p>
 
-        <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
             <div class="ambito">
                 <div class="ambito-header">
-                    <div class="ambito-name">{{ $amb['nombre'] }}
-                    </div>
+                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
                     <div class="ambito-score">
                         Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
                         ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
@@ -252,14 +251,51 @@
 
     <div class="page-break"></div>
 
-    <!-- Aqui va el grafico de radar. -->
+    <!-- Radar Chart Section -->
     <div class="section">
         <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
         <div style="width: 100%; height: 400px;">
-            <img src="{{ $chartImagePath }}" alt="Radar Chart" style="width: 100%; height: 100%; object-fit: contain;">
+            <canvas id="radarChart"></canvas>
         </div>
     </div>
-</body>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('radarChart').getContext('2d');
+            var radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: {!! json_encode($radarChartData['labels']) !!},
+                    datasets: [{
+                        label: 'Porcentaje de Cumplimiento',
+                        data: {!! json_encode($radarChartData['percentages']) !!},
+                        backgroundColor: 'rgba(44, 62, 80, 0.4)',
+                        borderColor: 'rgba(44, 62, 80, 1)',
+                        pointBackgroundColor: 'rgba(44, 62, 80, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(44, 62, 80, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scale: {
+                        ticks: {
+                            beginAtZero: true,
+                            max: 100,
+                            stepSize: 20
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Porcentaje de Cumplimiento por Ámbito'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
 </html>
 
