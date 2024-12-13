@@ -253,9 +253,7 @@
     <!-- Radar Chart Section -->
     <div class="section">
         <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        <div style="width: 100%; height: 400px;">
-            <img src="{{ $chartImagePath }}" alt="Radar Chart" style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
+        <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar" class="chart">
     </div>
 </body>
 </html>
