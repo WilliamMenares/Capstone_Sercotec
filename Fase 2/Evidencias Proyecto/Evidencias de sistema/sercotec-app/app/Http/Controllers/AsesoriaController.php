@@ -241,15 +241,25 @@ class AsesoriaController extends Controller
 
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
-
+            $radarChartData = [
+                'labels' => [],
+                'percentages' => []
+            ];
+        
+            foreach ($datos_encu[$encuesta->id]['ambitos'] as $ambito) {
+                $porcentaje = round(($ambito['obtenido'] * 100) / $ambito['resultado'], 2);
+                $radarChartData['labels'][] = $ambito['nombre'];
+                $radarChartData['percentages'][] = $porcentaje;
+            }
            
             // Generar el PDF con la vista actualizada
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
-                    'logoBase64' => $logoBase64  // Agregar el logo base64
-                    ])->setPaper('a4', 'portrait');
+                    'logoBase64' => $logoBase64,
+                    'radarChartData' => $radarChartData  // Agregar los datos del radar chart
+                ])->setPaper('a4', 'portrait');
 
                 // Configurar headers para la descarga
                 return response($pdf->output())
