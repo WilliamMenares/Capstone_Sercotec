@@ -250,7 +250,7 @@ class AsesoriaController extends Controller
                 ];
 
                 // Arreglo para almacenar los ámbitos con sus porcentajes
-                
+
 
                 $cantidadPreguntas = 0;
                 $puntajeObtenido = 0;
@@ -298,7 +298,14 @@ class AsesoriaController extends Controller
 
                 $datoAmbito['resultado'] = $cantidadPreguntas * 5;
                 $datoAmbito['obtenido'] = $puntajeObtenido;
-                $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
+                if ($datoAmbito['resultado'] != 0) {
+                    $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
+                } else {
+                    // Asignar valor predeterminado, por ejemplo, 0 o manejar el error según sea necesario
+                    $datoAmbito['porcentaje'] = 0;  // O cualquier otro valor que desees asignar
+                    // O puedes manejarlo con un mensaje de error si prefieres
+                    // echo "Error: No se puede dividir por cero.";
+                }
 
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {
