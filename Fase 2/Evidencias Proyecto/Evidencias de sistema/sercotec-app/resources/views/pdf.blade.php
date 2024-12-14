@@ -138,6 +138,9 @@
         .page-break {
             page-break-after: always;
         }
+        .info-ptjes{
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -183,10 +186,16 @@
     <!-- General Information -->
     <div class="section">
         <h2 class="section-title">Información General</h2>
+        <div class="info-ptjes">
         <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
             {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
         <p><strong>Porcentaje Total Obtenido:</strong>
-            {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'],2) }}%</p>
+
+        {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'],2) }}%</p>
+        </div>
+
+       
+
 
         <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)

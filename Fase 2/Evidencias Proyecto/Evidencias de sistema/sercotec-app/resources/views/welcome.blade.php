@@ -9,7 +9,7 @@
     <div class="p-6">
         <!-- Primera fila - 3 tarjetas + 2 tarjetas divididas -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 ">
-            <div class="grid grid-rows-2 gap-3">
+            <div class="grid grid-rows-1 gap-3">
                 <a href="{{ route('asesorias.index') }}"
                     class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
                     <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -23,20 +23,8 @@
                         <p class="text-3xl font-bold text-gray-900">{{ $asesoriasCount }}</p>
                     </div>
                 </a>
-                <a href="{{ route('asesorias.index') }}"
-                    class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
-                    <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" stroke-width="2" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12l3 3 5-5" />
-                    </svg>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Empresa con el puntaje mas alto</h3>
-                        <p class="text-3xl font-bold text-gray-900"></p>
-                    </div>
-                </a>
             </div>
-            <div class="grid grid-rows-2 gap-3">
+            <div class="grid grid-rows-1 gap-3">
                 <a href="{{ route('empresa.index') }}"
                     class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
                     <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -48,18 +36,6 @@
                     <div class="mt-4">
                         <h3 class="text-lg font-medium text-gray-900">Empresas</h3>
                         <p class="text-3xl font-bold text-gray-900">{{ $empresasCount }}</p>
-                    </div>
-                </a>
-                <a href="{{ route('empresa.index') }}"
-                    class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
-                    <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="10" stroke-width="2" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9l-6 6m0-6l6 6" />
-                    </svg>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Empresa con el puntaje mas bajo</h3>
-                        <p class="text-3xl font-bold text-gray-900"></p>
                     </div>
                 </a>
             </div>
