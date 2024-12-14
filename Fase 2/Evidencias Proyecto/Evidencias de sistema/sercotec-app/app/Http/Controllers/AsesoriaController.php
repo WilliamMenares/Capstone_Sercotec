@@ -234,6 +234,7 @@ class AsesoriaController extends Controller
             $puntajeEncuesta = 0;
             $feedback = Feedback::all();
 
+
             // Procesar ámbitos
             foreach ($encuesta->formulario->ambito as $ambi) {
                 if (!$ambi->title) {
@@ -259,6 +260,7 @@ class AsesoriaController extends Controller
                     $cantidadPreguntas++;
                     $preguntaData = [
                         'nombre' => $pregu->title,
+                        'prioridad' => $pregu->prioridad,
                         'respuesta' => 'Sin respuesta',
                         'feedback' => [], // Inicializamos feedback como un array vacío
                     ];
@@ -295,8 +297,6 @@ class AsesoriaController extends Controller
                 $datoAmbito['obtenido'] = $puntajeObtenido;
                 $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
 
-
-
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {
                     $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
@@ -306,12 +306,9 @@ class AsesoriaController extends Controller
                 }
             }
 
-
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
-
-            
             $chartImageBase64 = $this->generarGraficoRadar($datos_encu, $encuesta->id);
             Log::info('Gráfico generado correctamente');
             try {

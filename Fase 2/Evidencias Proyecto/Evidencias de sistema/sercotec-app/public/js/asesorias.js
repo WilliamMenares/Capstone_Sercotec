@@ -26,6 +26,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             floatingFilter: true,
         },
         {
+            headerName: "Fecha Creacion",
+            field: "created_at",
+            filter: true,
+            floatingFilter: true,
+            valueFormatter: function(params) {
+                // Convertir la fecha ISO a un objeto Date
+                const date = new Date(params.value);
+        
+                // Formatear la fecha a DD/MM/YYYY
+                const day = String(date.getDate()).padStart(2, '0');  // Asegura que el día tenga dos dígitos
+                const month = String(date.getMonth() + 1).padStart(2, '0');  // Mes en base 0, por eso +1
+                const year = date.getFullYear();
+        
+                // Retornar la fecha en formato DD/MM/YYYY
+                return `${day}/${month}/${year}`;
+            }
+        },
+        {
             headerName: "Acciones",
             cellRenderer: (params) => `
             <button type="button" class="btn btn-primary pdf-download" data-id="${params.data.id}">PDF</button>

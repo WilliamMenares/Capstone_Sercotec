@@ -138,7 +138,8 @@
         .page-break {
             page-break-after: always;
         }
-        .info-ptjes{
+
+        .info-ptjes {
             margin-bottom: 20px;
         }
     </style>
@@ -187,14 +188,16 @@
     <div class="section">
         <h2 class="section-title">Información General</h2>
         <div class="info-ptjes">
-        <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
-            {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
-        <p><strong>Porcentaje Total Obtenido:</strong>
+            <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
+                {{ $datos_encu[$encuesta->id]['resultado'] }}
+            </p>
+            <p><strong>Porcentaje Total Obtenido:</strong>
 
-        {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'],2) }}%</p>
+                {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'], 2) }}%
+            </p>
         </div>
 
-       
+
 
 
         <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
@@ -226,38 +229,70 @@
     <!-- Ámbitos Section -->
     <div class="section">
         <h2 class="section-title">Plan de trabajo</h2>
-        @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
-            <div class="ambito">
-                <div class="ambito-header">
-                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
-                    <div class="ambito-score">
-                        Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }}
-                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+        @foreach ($datos_plan as $amb)
+                <div class="ambito">
+                    <div class="ambito-header">
+                        <div class="ambito-name">{{ $amb['nombre'] }}</div>
+                        <div class="ambito-score">
+                            Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }}
+                            ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                        </div>
                     </div>
+
+                    @php
+                    // Orden de preferencia de respuestas
+                    $ordenRespuestas = [
+                        'No Cumple' => 1,
+                        'Cumple Parcialmente' => 2,
+                        'Cumple' => 3
+                    ];
+
+                    // Encontrar la pregunta con la prioridad más alta y el estado más crítico
+                    $preguntaSeleccionada = null;
+                    $prioridadActual = 0;
+                    $valorRespuestaActual = PHP_INT_MAX;
+
+                    foreach ($amb['preguntas'] as $preg) {
+                        // Verificar si la respuesta está en nuestro orden de preferencia
+                        if (isset($ordenRespuestas[$preg['respuesta']])) {
+                            $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
+                            
+                            // Si encontramos una respuesta más crítica (valor menor) O
+                            // si es la misma criticidad pero mayor prioridad
+                            if ($valorRespuesta < $valorRespuestaActual || 
+                                ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)) {
+                                $preguntaSeleccionada = $preg;
+                                $prioridadActual = $preg['prioridad'];
+                                $valorRespuestaActual = $valorRespuesta;
+                            }
+                        }
+                    }
+                    @endphp
+
+                    @if ($preguntaSeleccionada)
+                        <div class="question">
+                            <h4 class="question-title">{{ $preguntaSeleccionada['nombre'] }}</h4>
+                            <p><strong>Respuesta:</strong> {{ $preguntaSeleccionada['respuesta'] }}</p>
+                            <p><strong>Prioridad Encontrada:</strong> {{ $preguntaSeleccionada['prioridad'] }}</p>
+
+                            @if (!empty($preguntaSeleccionada['feedback']))
+                                <div class="feedback">
+                                    <p><strong>Situación:</strong> {{ $preguntaSeleccionada['feedback']['situacion'] }}</p>
+                                    <p><strong>Acciones Recomendadas:</strong></p>
+                                    <ul>
+                                        @foreach (['accion1', 'accion2', 'accion3', 'accion4'] as $accion)
+                                            @if (!empty($preguntaSeleccionada['feedback'][$accion]))
+                                                <li>{{ $preguntaSeleccionada['feedback'][$accion] }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @else
+                                <p><em>Sin feedback disponible</em></p>
+                            @endif
+                        </div>
+                    @endif
                 </div>
-
-                @foreach ($amb['preguntas'] as $preg)
-                    <div class="question">
-                        <h4 class="question-title">{{ $preg['nombre'] }}</h4>
-                        <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
-
-                        @if (!empty($preg['feedback']))
-                            <div class="feedback">
-                                <p><strong>Situación:</strong> {{ $preg['feedback']['situacion'] }}</p>
-                                <p><strong>Acciones Recomendadas:</strong></p>
-                                <ul>
-                                    <li>{{ $preg['feedback']['accion1'] }}</li>
-                                    <li>{{ $preg['feedback']['accion2'] }}</li>
-                                    <li>{{ $preg['feedback']['accion3'] }}</li>
-                                    <li>{{ $preg['feedback']['accion4'] }}</li>
-                                </ul>
-                            </div>
-                        @else
-                            <p><em>Sin feedback disponible</em></p>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
         @endforeach
     </div>
 

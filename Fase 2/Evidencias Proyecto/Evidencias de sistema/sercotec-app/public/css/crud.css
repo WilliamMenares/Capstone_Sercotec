@@ -58,22 +58,26 @@
 }
 
 .tt-menu {
-    width: 100%;
-    background-color: #7e7e7e;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100% !important;
+    background-color: #7e7e7e !important;
+    border: 1px solid #ffffff !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
 }
+
 .tt-suggestion {
-    padding: 10px;
-    cursor: pointer;
+    padding: 10px !important;
+    cursor: pointer !important;
 }
+
 .tt-suggestion:hover {
-    background-color: #000000;
+    background-color: #000000 !important;
 }
+
 .tt-suggestion.tt-cursor {
-    background-color: #c5c5c5;
+    background-color: #c5c5c5 !important;
 }
+
 
 /* Nuevos estilos para la tabla móvil */
 .mobile-table {
