@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    max-height: 100vh; /* El alto máximo será el de la pantalla */
     overflow-y: auto;  /* Si el contenido excede, se habilitará el desplazamiento vertical */
 }
 .tablita{
