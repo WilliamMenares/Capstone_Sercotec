@@ -1,3 +1,4 @@
+@if (auth()->user()->rol == 0)
 @extends('layout.menu')
 
 @section('title', 'Ambitos y Preguntas')
@@ -603,3 +604,11 @@
         </div>
     </div>
 </div>
+
+
+@else
+    <script>
+        window.location.href = '/welcome'; // Redirige a la página /welcome
+    </script>
+
+@endif

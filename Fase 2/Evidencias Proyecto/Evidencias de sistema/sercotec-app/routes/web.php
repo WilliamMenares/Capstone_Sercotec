@@ -6,6 +6,7 @@ use App\Http\Controllers\DiagnosticoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FormulariosController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmpresaController;

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'created_at',
         'telefono',
         'rut',
+        'rol'
     ];
 
     /**
