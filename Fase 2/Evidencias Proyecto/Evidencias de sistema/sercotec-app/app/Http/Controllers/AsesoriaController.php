@@ -234,7 +234,7 @@ class AsesoriaController extends Controller
             $puntajeEncuesta = 0;
             $feedback = Feedback::all();
 
-
+            $ambitosConPorcentaje = [];
             // Procesar ámbitos
             foreach ($encuesta->formulario->ambito as $ambi) {
                 if (!$ambi->title) {
@@ -248,6 +248,9 @@ class AsesoriaController extends Controller
                     'obtenido' => 0,
                     'porcentaje' => 0,  // Agregamos el campo para el porcentaje de cumplimiento
                 ];
+
+                // Arreglo para almacenar los ámbitos con sus porcentajes
+                
 
                 $cantidadPreguntas = 0;
                 $puntajeObtenido = 0;
@@ -300,10 +303,24 @@ class AsesoriaController extends Controller
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {
                     $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
+                    $ambitosConPorcentaje[] = $datoAmbito;
                     $puntajeMaximoen += $cantidadPreguntas * 5;
                     $puntajeEncuesta += $puntajeObtenido;
-                    Log::info($puntajeEncuesta);
                 }
+            }
+            // Ordenar los ámbitos por porcentaje (ascendente)
+            usort($ambitosConPorcentaje, function ($a, $b) {
+                return $a['porcentaje'] <=> $b['porcentaje'];
+            });
+
+            // Tomar los dos primeros ámbitos con menor porcentaje
+            $ambitosConMenorPorcentaje = array_slice($ambitosConPorcentaje, 0, 2);
+
+            // Agregar los dos ámbitos con menor porcentaje a la lista datos_plan
+            $datos_plan = [];
+            foreach ($ambitosConMenorPorcentaje as $ambito) {
+                $datos_plan[] = $ambito;
+                Log::info($datos_plan);
             }
 
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
@@ -315,6 +332,7 @@ class AsesoriaController extends Controller
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
+                    'datos_plan' => $datos_plan,
                     'logoBase64' => $logoBase64,
                     'chartImageBase64' => $chartImageBase64
                 ])
