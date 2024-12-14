@@ -258,8 +258,9 @@
 
     <div class="section">
         <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        
-    </div>
+        <div style="width: 400px; height: 400px; margin: 0 auto;">
+            <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
+        </div>
     </div>
 
 </body>
