@@ -1,11 +1,32 @@
+var Fn = {
+    // Valida el rut con su cadena completa "XXXXXXXX-X"
+    validaRut : function (rutCompleto) {
+    rutCompleto = rutCompleto.replace("‐","-");
+    if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+    return false;
+    var tmp = rutCompleto.split('-');
+    var digv= tmp[1]; 
+    var rut = tmp[0];
+    if ( digv == 'K' ) digv = 'k' ;
+    
+    return (Fn.dv(rut) == digv );
+    },
+    dv : function(T){
+    var M=0,S=1;
+    for(;T;T=Math.floor(T/10))
+    S=(S+T%10*(9-M++%6))%11;
+    return S?S-1:'k';
+    }
+    }
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const inputsRut = document.querySelectorAll(".rut-vali");
     const inputsPhone = document.querySelectorAll(".phone-vali");
     const forms = document.querySelectorAll(".formcru");
 
     function validarRut(rut) {
-        const rutRegex = /^[0-9]{7,8}-[0-9Kk]{1}$/;
-        return rutRegex.test(rut);
+        return Fn.validaRut(rut);
     }
 
     function validarTelefono(telefono) {
@@ -124,6 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    
 });
 
 // alerta
@@ -164,7 +187,6 @@ window.addEventListener("load", function () {
     }
 });
 
-
 //crear tablas
 // Función para crear grid
 const createDataGrid = (gridDiv, data, columnDefs) => {
@@ -180,10 +202,10 @@ const createDataGrid = (gridDiv, data, columnDefs) => {
             params.api.sizeColumnsToFit();
         },
         // Mensaje cuando no hay datos
-        noRowsOverlayComponent: 'agNoRowsOverlay',
+        noRowsOverlayComponent: "agNoRowsOverlay",
         noRowsOverlayComponentParams: {
-            message: 'No hay datos disponibles'
-        }
+            message: "No hay datos disponibles",
+        },
     };
     return agGrid.createGrid(gridDiv, gridOptions);
 };
@@ -197,11 +219,11 @@ const fetchData = async (url) => {
             method: "GET",
             credentials: "same-origin",
         });
-        
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         return await response.json();
     } catch (error) {
         console.error(`Error fetching data from ${url}:`, error);
