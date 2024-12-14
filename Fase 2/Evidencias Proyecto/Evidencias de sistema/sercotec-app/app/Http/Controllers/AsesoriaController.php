@@ -306,10 +306,12 @@ class AsesoriaController extends Controller
                 }
             }
 
+
+            $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
+            $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
+
+
             
-
-
-
             $chartImageBase64 = $this->generarGraficoRadar($datos_encu, $encuesta->id);
             Log::info('Gráfico generado correctamente');
             try {
