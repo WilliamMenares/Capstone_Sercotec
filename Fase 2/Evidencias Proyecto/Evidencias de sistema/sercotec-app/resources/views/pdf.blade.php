@@ -254,8 +254,14 @@
 
     <div class="page-break"></div>
 
-    <!-- Aqui va el grafico de radar. -->
- 
+    <!-- Aqui va el grafico de radar -->
+
+    <div class="section">
+        <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
+        
+    </div>
+    </div>
+
 </body>
 
 </html>
