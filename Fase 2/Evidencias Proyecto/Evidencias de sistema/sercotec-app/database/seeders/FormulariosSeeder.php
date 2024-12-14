@@ -46,9 +46,6 @@ class FormulariosSeeder extends Seeder
         $RRHH = Ambitos::where('title', 'RRHH (IB)')->first();
 
 
-
-
-        // Crear las 6 preguntas para el ámbito Comercial
         Preguntas::insert([
             [
                 'title' => '¿La empresa tiene una estrategia comercial definida con objetivos claros a corto, mediano y largo plazo? (Esta pregunta busca saber si el negocio tiene un plan para vender sus productos o servicios. ¿Sabe la empresa qué quiere lograr en el futuro cercano (por ejemplo, en los próximos 6 meses), a mediano plazo (un año) y a largo plazo (más de un año)? Tener objetivos claros ayuda a dirigir las acciones del negocio para crecer y mejorar las ventas.)',
@@ -138,6 +135,66 @@ class FormulariosSeeder extends Seeder
             [
                 'title' => '¿Los procesos operativos están diseñados para maximizar la eficiencia y reducir desperdicios?',
                 'ambito_id' => $Operaciones->id,
+                'prioridad' => 6
+            ],
+            [
+                'title' => '¿Se establecen objetivos claros a corto, mediano y largo plazo e indicadores para medir su avance o cumplimiento?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 1
+            ],
+            [
+                'title' => '¿Se realiza un análisis de fortalezas, oportunidades, debilidades y amenazas (FODA) regularmente para ajustar la estrategia de la empresa?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 2
+            ],
+            [
+                'title' => '¿La empresa analiza regularmente las tendencias del mercado para anticiparse a futuros desafíos y oportunidades?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 6
+            ],
+            [
+                'title' => '¿La empresa utiliza sistemas tecnológicos para la gestión de la información?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 3
+            ],
+            [
+                'title' => '¿Se analizan los datos obtenidos para tomar decisiones informadas?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 4
+            ],
+            [
+                'title' => '¿Se implementan mejoras continuas basadas en el análisis de datos?',
+                'ambito_id' => $Planificacion->id,
+                'prioridad' => 5
+            ],
+            [
+                'title' => '¿Existe un proceso estructurado para la contratación y selección de personal?',
+                'ambito_id' => $RRHH->id,
+                'prioridad' => 1
+            ],
+            [
+                'title' => '¿Se gestiona adecuadamente la documentación esencial de Recursos Humanos, como perfiles de cargo, organigrama, contratos y registros laborales?',
+                'ambito_id' => $RRHH->id,
+                'prioridad' => 2
+            ],
+            [
+                'title' => '¿Se gestionan adecuadamente los beneficios y la compensación de los empleados?',
+                'ambito_id' => $RRHH->id,
+                'prioridad' => 4
+            ],
+            [
+                'title' => '¿Se implementan políticas de retención de talento y planes de carrera para los empleados?',
+                'ambito_id' => $RRHH->id,
+                'prioridad' => 5
+            ],
+            [
+                'title' => '¿Existe un sistema de evaluación de desempeño regular y bien definido?',
+                'ambito_id' => $RRHH->id,
+                'prioridad' => 3
+            ],
+            [
+                'title' => '¿Se promueve un ambiente laboral positivo y se gestionan los conflictos de manera efectiva?',
+                'ambito_id' => $RRHH->id,
                 'prioridad' => 6
             ],
         ]);

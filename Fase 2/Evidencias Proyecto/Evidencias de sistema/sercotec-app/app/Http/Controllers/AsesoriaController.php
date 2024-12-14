@@ -306,35 +306,10 @@ class AsesoriaController extends Controller
                 }
             }
 
-            // Ordenar los ámbitos en función del porcentaje de cumplimiento
-            usort($datos_encu[$encuesta->id]['ambitos'], function ($a, $b) {
-                return $b['porcentaje'] <=> $a['porcentaje'];  // Ordenamos de mayor a menor
-            });
+            
 
-            // Verificar la cantidad de ámbitos y seleccionamos los correctos
-            $topAmbitos = [];
-            $bottomAmbitos = [];
 
-            // Si hay al menos un ámbito, seleccionamos el mejor (primer ámbito)
-            if (count($datos_encu[$encuesta->id]['ambitos']) >= 1) {
-                $topAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][0];  // El mejor ámbito
-            }
 
-            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
-            if (count($datos_encu[$encuesta->id]['ambitos']) == 2) {
-                $bottomAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][1];  // Los dos peores
-            }
-
-            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
-            if (count($datos_encu[$encuesta->id]['ambitos']) >= 3) {
-                $bottomAmbitos = array_slice($datos_encu[$encuesta->id]['ambitos'], -2);  // Los dos peores
-            }
-
-            // Combinamos el mejor con los dos peores sin duplicarlos
-            $datos_encu[$encuesta->id]['ambitos'] = array_merge($topAmbitos, $bottomAmbitos);
-
-            $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
-            $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
             $chartImageBase64 = $this->generarGraficoRadar($datos_encu, $encuesta->id);
             Log::info('Gráfico generado correctamente');
             try {
