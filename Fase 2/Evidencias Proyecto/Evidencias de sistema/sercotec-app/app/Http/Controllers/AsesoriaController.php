@@ -75,8 +75,8 @@ class AsesoriaController extends Controller
     private function generarGraficoRadar($datos_encu, $encuesta_id)
     {
         // Configuración del gráfico
-        $width = 400;
-        $height = 400;
+        $width = 600;
+        $height = 600;
         $center_x = $width / 2;
         $center_y = $height / 2;
         $radio = min($width, $height) * 0.4;

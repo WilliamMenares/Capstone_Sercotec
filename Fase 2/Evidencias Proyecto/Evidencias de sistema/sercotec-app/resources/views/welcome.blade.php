@@ -63,7 +63,8 @@
 
                     <div class="mt-4">
                         <h3 class="text-lg font-medium text-gray-900">% Promedio General Diagnosticos</h3>
-                        <p class="text-3xl font-bold text-gray-900">{{ number_format(($promedioPuntajes * 100) / 5, 2) }}%</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format(($promedioPuntajes * 100) / 5, 2) }}%
+                        </p>
                     </div>
                 </a>
             </div>
@@ -159,57 +160,68 @@
 
 
     <!-- Segunda fila - 2 columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6 ">
-        <!-- Columna izquierda - Área para contenido futuro -->
-        <div class="bg-sky-100 rounded-lg p-6  shadow-sm min-h-[400px]">
-            <h2 class="text-xl font-semibold mb-4">Contenido Futuro</h2>
-            <p class="text-gray-500"></p>
-            @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-                <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors mb-2">
-                    <strong>Lista de % promedio de todos los ambitos</strong>
-
-                    @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
-                        @if (isset($ambi['ambito'], $ambi['porcentaje_general']))
-                            <p>{{ $ambi['ambito'] }}</p>
-                            <p>{{ number_format($ambi['porcentaje_general'], 2) }}%</p>
-                        @endif
-                    @empty
-                        <p>No hay ámbitos para mostrar</p>
-                    @endforelse
+    <div>
+        <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6">
+            <!-- Columna izquierda - Área para contenido futuro -->
+            <div class="bg-sky-100 rounded-lg p-6 shadow-sm min-h-[400px]">
+                <h2 class="text-xl font-semibold mb-2">Contenido Futuro</h2>
+                <p class="text-gray-500"></p>
+                
+                @if ($ambitosCollection->isNotEmpty() && $minAmbito)
+                    <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors mb-2">
+                        <strong>Lista de % promedio de todos los ámbitos</strong>
+                        
+                        @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
+                            @if (isset($ambi['ambito'], $ambi['porcentaje_general']))
+                                <p>{{ $ambi['ambito'] }}</p>
+                                <p>{{ number_format($ambi['porcentaje_general'], 2) }}%</p>
+                            @endif
+                        @empty
+                            <p>No hay ámbitos para mostrar</p>
+                        @endforelse
+                    </div>
                 @else
-                    <div class="alert alert-info">
+                    <div class="alert alert-info bg-red-300 border-gray-400">
                         No hay datos de ámbitos disponibles
                     </div>
-            @endif
-        </div>
-
-        @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-            <div class="p-3 bg-cyan-200 rounded-lg hover:bg-cyan-300 transition-colors mb-2">
-                <strong>Pregunta que "No Cumple" y el ambito al cual está enlazada</strong>
-                @if ($preguntaConMasRespuestasTipo1)
-                    <p>Pregunta con mas NO cunple: {{ $preguntaConMasRespuestasTipo1->title }}</p>
-                    <p>Ambito: {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
-                    <p>Respuestas: {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
-                @else
-                    <p>No hay preguntas que no cumplan</p>
+                @endif
+    
+                @if ($ambitosCollection->isNotEmpty() && $minAmbito)
+                    <div class="p-3 bg-cyan-200 rounded-lg hover:bg-cyan-300 transition-colors mb-2">
+                        <strong>Pregunta que "No Cumple" y el ámbito al cual está enlazada</strong>
+                        
+                        @if ($preguntaConMasRespuestasTipo1)
+                            <p>Pregunta con más "No cumple": {{ $preguntaConMasRespuestasTipo1->title }}</p>
+                            <p>Ámbito: {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
+                            <p>Respuestas: {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
+                        @else
+                            <div class="alert alert-info bg-red-300 border-gray-400">
+                                No hay preguntas que no cumplan
+                            </div>
+                        @endif
+                    </div>
                 @endif
             </div>
-        @endif
-
-    </div>
-
-    <!-- Columna derecha - Lista de empresas -->
-    <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
-        <div class="space-y-3">
-            @foreach ($ultimasEmpresas as $empresa)
-                <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors">
-                    <p class="font-medium text-gray-900">{{ $empresa->nombre }}</p>
-                    <p class="text-sm text-gray-500">{{ $empresa->created_at }}</p>
+    
+            <!-- Columna derecha - Lista de empresas -->
+            <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
+                <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
+                <div class="space-y-3">
+                    @if ($ultimasEmpresas->isEmpty())
+                        <div class="alert alert-info bg-red-300 border-gray-400">
+                            No hay empresas asesoradas
+                        </div>
+                    @else
+                        @foreach ($ultimasEmpresas as $empresa)
+                            <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors">
+                                <p class="font-medium text-gray-900">{{ $empresa->nombre }}</p>
+                                <p class="text-sm text-gray-500">{{ $empresa->created_at }}</p>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
-            @endforeach
+            </div>
         </div>
     </div>
-    </div>
-    </div>
+    
 @endsection

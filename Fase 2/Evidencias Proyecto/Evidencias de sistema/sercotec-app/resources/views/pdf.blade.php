@@ -225,7 +225,15 @@
 
     <div class="page-break"></div>
 
+<!-- Aqui va el grafico de radar -->
 
+<div class="section">
+    <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
+    <div style="width: 600px; height: 600px; margin: 0 auto;">
+        <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
+    </div>
+</div>
+<div class="page-break"></div>
     <!-- Ámbitos Section -->
     <div class="section">
         <h2 class="section-title">Plan de trabajo</h2>
@@ -296,16 +304,7 @@
         @endforeach
     </div>
 
-    <div class="page-break"></div>
 
-    <!-- Aqui va el grafico de radar -->
-
-    <div class="section">
-        <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        <div style="width: 400px; height: 400px; margin: 0 auto;">
-            <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
-        </div>
-    </div>
 
 </body>
 
