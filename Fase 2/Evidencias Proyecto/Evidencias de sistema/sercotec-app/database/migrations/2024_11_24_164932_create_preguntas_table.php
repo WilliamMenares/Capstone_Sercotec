@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('preguntas', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->foreignId('ambito_id')->constrained('ambitos'); // Relación con ambitos
             $table->integer('prioridad');
             $table->timestamps();

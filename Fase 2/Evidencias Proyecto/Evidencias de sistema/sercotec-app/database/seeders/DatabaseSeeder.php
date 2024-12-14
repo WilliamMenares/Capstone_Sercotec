@@ -15,18 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        // Llamar a otros seeders
+        $this->call([
+            UserSeeder::class,      // Llamar al seeder de usuarios
+            FormulariosSeeder::class,   // Llamar al seeder de productos
+            EmpresasSeeder::class
+        ]);
 
-        RespuestasTipo::create([
-            'titulo' => 'Cumple',
-            'puntaje' => 5,
-        ]);
-        RespuestasTipo::create([
-            'titulo' => 'Cumple Parcialmente',
-            'puntaje' => 3,
-        ]);
-        RespuestasTipo::create([
-            'titulo' => 'No Cumple',
-            'puntaje' => 1,
-        ]);
     }
 }
