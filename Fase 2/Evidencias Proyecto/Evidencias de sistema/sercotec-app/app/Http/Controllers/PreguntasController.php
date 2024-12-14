@@ -24,7 +24,7 @@ class PreguntasController extends Controller
             $request->validate([
                 'title' => 'required|string',
                 'id_ambito' => 'required|integer',
-                'puntaje' => 'required|integer',
+                'puntaje' => 'required|integer|min:1|max:6',
             ], [
                 'title.required' => 'La pregunta es obligatorio.',
                 'title.string' => 'La pregunta debe ser una cadena de texto.',
@@ -34,8 +34,10 @@ class PreguntasController extends Controller
 
                 'puntaje.required' => 'El puntaje es obligatorio.',
                 'puntaje.string' => 'El puntaje debe ser una cadena de texto.',
-
+                'puntaje.min' => 'El puntaje debe ser al menos 1.',
+                'puntaje.max' => 'El puntaje no puede ser mayor que 6.',
             ]);
+
 
             // Verificar si ya existe una pregunta con el mismo puntaje en el mismo ámbito
             $existePregunta = Preguntas::where('ambito_id', $request->id_ambito)
@@ -99,17 +101,15 @@ class PreguntasController extends Controller
             // Validar los datos del request
             $request->validate([
                 'nombrep' => 'required|string',
-                
-                'puntaje' => 'required|integer',
+                'puntaje' => 'required|integer|min:1|max:6',  // Validación entre 1 y 6
             ], [
-                'nombrep.required' => 'La pregunta es obligatorio.',
+                'nombrep.required' => 'La pregunta es obligatoria.',
                 'nombrep.string' => 'La pregunta debe ser una cadena de texto.',
 
-                
-
                 'puntaje.required' => 'El puntaje es obligatorio.',
-                'puntaje.string' => 'El puntaje debe ser una cadena de texto.',
-
+                'puntaje.integer' => 'El puntaje debe ser un número entero.',
+                'puntaje.min' => 'El puntaje debe ser al menos 1.',
+                'puntaje.max' => 'El puntaje no puede ser mayor que 6.',
             ]);
 
             // Verificar si ya existe otra pregunta con el mismo puntaje en el mismo ámbito

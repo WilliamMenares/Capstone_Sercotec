@@ -331,7 +331,7 @@
                             <div class="mb-3">
                                 <label for="puntaje" class="form-label">Prioridad:</label>
                                 <input type="number" class="form-control bg-dark text-light" name="puntaje"
-                                    value="{{ $pregu->prioridad }}" placeholder="Nombre" required>
+                                    value="{{ $pregu->prioridad }}" placeholder="Nombre" required  min="1" max="6">
                             </div>
 
                             <select class="form-select bg-dark text-light areatext1 select-situ"
@@ -508,8 +508,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="puntaje" class="form-label">Prioridad:</label>
-                        <input type="number" class="form-control bg-dark text-light" name="puntaje"
-                            placeholder="Nombre" required>
+                        <input type="number" class="form-control bg-dark text-light" name="puntaje" placeholder="Nombre" required
+                            min="1" max="6">
                     </div>
                     <select class="form-select bg-dark text-light areatext1 select-situ"
                         aria-label="Default select example">
