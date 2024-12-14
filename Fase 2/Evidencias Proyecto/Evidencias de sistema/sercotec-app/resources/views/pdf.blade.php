@@ -186,7 +186,7 @@
         <p><strong>Puntaje Total Obtenido:</strong> {{ $datos_encu[$encuesta->id]['obtenido'] }} de
             {{ $datos_encu[$encuesta->id]['resultado'] }}</p>
         <p><strong>Porcentaje Total Obtenido:</strong>
-            {{ ($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'] }}%</p>
+            {{ round(($datos_encu[$encuesta->id]['obtenido'] * 100) / $datos_encu[$encuesta->id]['resultado'],2) }}%</p>
 
         <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
