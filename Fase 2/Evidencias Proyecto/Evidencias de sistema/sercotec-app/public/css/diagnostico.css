@@ -1,13 +1,15 @@
-.encuesta{
+.encuesta {
     width: 100%;
     display: flex;
     flex-direction: row;
     max-height: 85vh;
 }
+
 .crud {
     overflow-y: hidden !important; 
 }
-#progreso-general{
+
+#progreso-general {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -17,16 +19,14 @@
     margin-top: 10px;
     padding-bottom: 10px;
     border-radius: 10px;
-    
 }
-.navegacion{
+
+.navegacion {
     display: flex;
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 10px 20px;
     box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
-    justify-content: end;
-    align-items: end;
+    justify-content: space-between;
+    align-items: center;
 }
 .avance{
     width: 100%;
@@ -178,4 +178,118 @@ display: none;              /* Oculta la barra en WebKit */
 
 .tt-suggestion.tt-cursor {
     background-color: #cecece !important;
+}
+
+
+/* Estilos para tablets */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .encuesta {
+        flex-direction: column;
+        max-height: none;
+    }
+
+    .buscador, .ambitos-container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .avance {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .progreso {
+        width: 45%;
+    }
+
+    .encabepre {
+        flex-direction: column;
+    }
+
+    .pre1, .pre2 {
+        width: 100%;
+    }
+
+    .pre-item {
+        flex-direction: column;
+    }
+
+    #progreso-general {
+        width: 90%; /* En tablets, se puede ajustar a un 90% */
+        max-width: 400px; /* Limita el ancho máximo */
+    }
+    
+}
+
+/* Estilos para móviles */
+@media (max-width: 767px) {
+    #progreso-general {
+        position: fixed; /* Lo mantiene fijo en la pantalla */
+        top: 120px; /* Lo coloca a 10px del borde superior */
+        left: 50%; /* Lo coloca en el centro horizontal */
+        transform: translateX(-50%); /* Ajusta para que esté perfectamente centrado */
+        width: 95%; /* Ajusta el ancho según el tamaño de la pantalla */
+        z-index: 9980; /* Asegura que esté por encima de otros elementos */
+        display: block; /* Asegura que esté visible siempre */
+        box-shadow: 4px 4px 8px rgba(0.2, 0.2, 0.2, 0.2); /* Sombra alrededor del contenedor */
+        border: 1px solid #3d5e74; /* Borde de 2px de grosor, color azul */
+    }
+    .encuesta {
+        flex-direction: column;
+        max-height: none;
+    }
+
+    .buscador, .ambitos-container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .contenebus {
+        width: 100%;
+    }
+
+    .avance {
+        padding: 10px;
+    }
+
+    .progreso {
+        width: 100%;
+    }
+
+    .encabepre {
+        flex-direction: column;
+    }
+
+    .pre1, .pre2 {
+        width: 100%;
+    }
+
+    .pre-item {
+        flex-direction: column;
+    }
+
+    .navegacion {
+        display: flex; /* Cambiado para que los botones se alineen en línea */
+        flex-direction: row; /* Se cambia a fila en lugar de columna */
+        gap: 5px; /* Espacio entre los botones */
+        width: 100%;
+        justify-content: space-between; /* Opcional, para distribuir los botones de manera equitativa */
+    }
+    #progreso-general {
+        width: 95%; /* En móviles, el progreso ocupará todo el ancho */
+        max-width: 95%; /* Asegura que el progreso no sea mayor que el ancho de la pantalla */
+    }
+
+    #progreso-general {
+        position: fixed; /* Lo mantiene fijo en la pantalla */
+        top: 120px; /* Lo coloca a 10px del borde superior */
+        left: 50%; /* Lo coloca en el centro horizontal */
+        transform: translateX(-50%); /* Ajusta para que esté perfectamente centrado */
+        width: 95%; /* Ajusta el ancho según el tamaño de la pantalla */
+        z-index: 9980; /* Asegura que esté por encima de otros elementos */
+        display: block; /* Asegura que esté visible siempre */
+        box-shadow: 4px 4px 8px rgba(0.2, 0.2, 0.2, 0.2); /* Sombra alrededor del contenedor */
+        border: 1px solid #3d5e74; /* Borde de 2px de grosor, color azul */
+    }
 }

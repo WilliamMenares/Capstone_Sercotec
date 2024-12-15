@@ -10,7 +10,7 @@
 
 <div class="crud">
     <div class="titulo">
-        <h1>Asesorias</h1>
+        <h1>Asesorías</h1>
     </div>
 
     <div id="myGrid" class="ag-theme-quartz tablita"></div>
@@ -20,7 +20,7 @@
             <h2>Lista de Asesorías</h2>
         </div>
         <div class="mobile-search">
-            <input type="text" id="searchInput" class="form-control bg-dark text-light"
+            <input type="text" id="searchInput" class="form-control"
                 placeholder="Buscar por id, responsable, empresa, contacto o email">
         </div>
         <div class="mobile-table-body" id="mobileTableBody">
