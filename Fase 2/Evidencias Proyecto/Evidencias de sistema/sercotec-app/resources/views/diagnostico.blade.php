@@ -116,15 +116,16 @@
                                 @csrf
                             </div>
                         @endforeach
-                        <div class="texto-centro">
-                            <h1>Selecciona un formulario</h1>
-                        </div>
-                        <div class="navegacion d-flex justify-content-between">
-                            <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
-                            <button type="submit" class="btn btn-success">Crear Asesoria</button>
-                            <button type="button" id="next-btn" class="btn btn-primary">Siguiente</button>
-                        </div>
+                        
                     @endforeach
+                    <div class="texto-centro">
+                        <h1>Selecciona un formulario</h1>
+                    </div>
+                    <div class="navegacion d-flex justify-content-between">
+                        <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
+                        <button type="submit" class="btn btn-success">Crear Asesoria</button>
+                        <button type="button" id="next-btn" class="btn btn-primary">Siguiente</button>
+                    </div>
                 </div>
 
             </div>
