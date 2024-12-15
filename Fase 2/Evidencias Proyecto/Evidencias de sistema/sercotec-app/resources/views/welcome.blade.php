@@ -19,7 +19,7 @@
                         </path>
                     </svg>
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Empresas</h3>
+                        <h3 class="text-lg font-medium text-gray-900">Cantidad de empresas</h3>
                         <p class="text-3xl font-bold text-gray-900">{{ $empresasCount }}</p>
                     </div>
                 </a>
@@ -32,7 +32,7 @@
                         </path>
                     </svg>
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Asesorías</h3>
+                        <h3 class="text-lg font-medium text-gray-900">Cantidad de asesorías</h3>
                         <p class="text-3xl font-bold text-gray-900">{{ $asesoriasCount }}</p>
                     </div>
                 </a>
@@ -46,7 +46,7 @@
                         </path>
                     </svg>
                     <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Asesores</h3>
+                        <h3 class="text-lg font-medium text-gray-900">Cantidad de asesores</h3>
                         <p class="text-3xl font-bold text-gray-900">{{ $usuariosCount }}</p>
                     </div>
                 </a>

@@ -224,6 +224,9 @@ display: none;              /* Oculta la barra en WebKit */
 
 /* Estilos para móviles */
 @media (max-width: 767px) {
+    .titulo-pregunta{
+        display: none !important;
+    }
     #progreso-general {
         position: fixed; /* Lo mantiene fijo en la pantalla */
         top: 120px; /* Lo coloca a 10px del borde superior */

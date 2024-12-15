@@ -9,7 +9,7 @@
 @section('content')
     <div class="crud">
         <div class="titulo">
-            <h1>Crear Diagnostico</h1>
+            <h1>Responder formulario de diagnóstico</h1>
         </div>
         <div id="progreso-general" style="display:none">
             <label for="" class="text-dark">Progreso General</label>
@@ -69,7 +69,7 @@
             <div class="ambitos-container">
 
                 <div class="encabepre">
-                    <h1 class="pre1" style="font-weight: bold">Preguntas</h1>
+                    <h1 class="pre1 titulo-pregunta" style="font-weight: bold">Preguntas</h1>
                     <div class="pre2">
                         <p class="r1">Cumple</p>
                         <p class="r2">Cumple Parcialmente</p>

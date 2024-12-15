@@ -10,14 +10,14 @@
 
 <div class="crud">
     <div class="titulo">
-        <h1>Asesorías</h1>
+        <h1>Diagnósticos</h1>
     </div>
 
     <div id="myGrid" class="ag-theme-quartz tablita"></div>
 
     <div id="mobileGrid" class="mobile-table">
         <div class="mobile-table-header">
-            <h2>Lista de Asesorías</h2>
+            <h2>Lista de Diagnósticos</h2>
         </div>
         <div class="mobile-search">
             <input type="text" id="searchInput" class="form-control"
