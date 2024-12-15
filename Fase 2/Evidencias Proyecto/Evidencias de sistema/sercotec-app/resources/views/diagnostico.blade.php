@@ -113,11 +113,6 @@
                                         @endforeach
                                     </div>
                                 </div>
-
-
-
-
-
                                 @csrf
                             </div>
                         @endforeach
