@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ambitos;
 use App\Models\Formularios;
 use Illuminate\Http\Request;
 
@@ -17,26 +18,36 @@ class FormulariosController extends Controller
     // Guardar un nuevo formulario en la base de datos
     public function store(Request $request)
     {
-
-
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'responsable' => 'required|string|max:255',
             'ambitos' => 'required|array|min:1',
             'ambitos.*' => 'exists:ambitos,id'
         ], [
-            'nombre.required' => 'El pregunta es obligatorio.',
-            'nombre.string' => 'El pregunta debe ser una cadena de texto.',
-            'nombre.max' => 'El nombre tiene que tener maximo 255 caracteres',
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre tiene que tener máximo 255 caracteres.',
 
             'responsable.required' => 'El responsable es obligatorio.',
             'responsable.string' => 'El responsable debe ser una cadena de texto.',
-            'responsable.max' => 'El responsable tiene que tener maximo 255 caracteres',
+            'responsable.max' => 'El responsable tiene que tener máximo 255 caracteres.',
 
-            'ambitos.required' => 'El ambito es obligatorio.',
-            'ambitos.array' => 'El ambito debe ser una lista.',
-
+            'ambitos.required' => 'El ámbito es obligatorio.',
+            'ambitos.array' => 'El ámbito debe ser una lista.',
+            'ambitos.*.exists' => 'El ámbito seleccionado no es válido.'
         ]);
+
+        // Validar que cada ámbito tenga preguntas asociadas
+        $ambitosSinPreguntas = Ambitos::whereIn('id', $validated['ambitos'])
+            ->doesntHave('pregunta')
+            ->pluck('title');
+
+        if ($ambitosSinPreguntas->isNotEmpty()) {
+            return back()->withErrors([
+                'ambitos' => 'Algunos ámbitos seleccionados no tienen preguntas asociadas: '
+                    . $ambitosSinPreguntas->implode(', ')
+            ])->withInput();
+        }
 
         try {
             // Crear el formulario
@@ -56,6 +67,7 @@ class FormulariosController extends Controller
                 ->withInput();
         }
     }
+
 
 
     // Actualizar un formulario existente

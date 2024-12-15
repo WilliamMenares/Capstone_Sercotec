@@ -97,13 +97,13 @@
 
                                             <div class="pre2">
                                                 <div class="r1"><input type="radio"
-                                                        name="respuesta[{{ $pregunta->id }}]" value="3">
+                                                        name="respuesta[{{ $pregunta->id }}]" value="1">
                                                 </div>
                                                 <div class="r2"><input type="radio"
                                                         name="respuesta[{{ $pregunta->id }}]" value="2">
                                                 </div>
                                                 <div class="r3"><input type="radio"
-                                                        name="respuesta[{{ $pregunta->id }}]" value="1">
+                                                        name="respuesta[{{ $pregunta->id }}]" value="3">
                                                 </div>
                                             </div>
                                             <hr class="mt-2">

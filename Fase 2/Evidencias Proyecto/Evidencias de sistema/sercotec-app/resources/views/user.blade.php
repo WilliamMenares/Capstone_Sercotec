@@ -131,6 +131,13 @@
                                     placeholder="12345678-9" value="{{$user->rut}}" autocomplete="off" required>
                             </div>
                             <div class="mb-3">
+                                <label for="privi" class="form-label text-light">Privilegios:</label>
+                                <select id="privi" class="form-select bg-dark text-light" name="rol" required>
+                                    <option value="1" @selected($user->rol == 1)>Asesor</option>
+                                    <option value="0" @selected($user->rol == 0)>Administrador</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input type="password" class="form-control bg-dark text-light" name="password"
                                     autocomplete="new-password">
@@ -180,10 +187,18 @@
                             <input type="text" class="form-control bg-dark text-light phone-vali" name="telefono"
                                 id="telefono" placeholder="+56912345678" required>
                         </div>
+
                         <div class="mb-3">
                             <label for="rut" class="form-label">Rut</label>
                             <input type="text" class="form-control bg-dark text-light rut-vali" name="rut" id="rut"
                                 placeholder="12345678-9" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="privi" class="form-label text-light">Privilegios:</label>
+                            <select id="privi" class="form-select bg-dark text-light" name="rol" required>
+                                <option value="1">Asesor</option>
+                                <option value="0">Administrador</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>

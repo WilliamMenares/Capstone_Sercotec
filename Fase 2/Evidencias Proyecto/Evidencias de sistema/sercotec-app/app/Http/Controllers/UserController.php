@@ -34,6 +34,7 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'telefono' => 'required|string|min:12|max:12',
             'rut' => 'required|string|max:10|unique:users',
+            'rol' => 'required|integer',
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto.',
@@ -63,6 +64,7 @@ class UserController extends Controller
             'email' => $request->email,
             'telefono' => $request->telefono,
             'rut' => $request->rut,
+            'rol' => $request->rol,
             'password' => Hash::make($request->password),
         ]);
 
@@ -83,6 +85,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'telefono' => 'required|string|min:12|max:12',
             'rut' => 'required|string|max:10|unique:users,rut,' . $id,
+            'rol' => 'required|integer',
             'password' => ['nullable', 'confirmed', 'min:8', Password::defaults()]
         ], [
             'name.required' => 'El nombre es obligatorio.',
@@ -112,6 +115,7 @@ class UserController extends Controller
         $empleado->email = $request->email;
         $empleado->telefono = $request->telefono;
         $empleado->rut = $request->rut;
+        $empleado->rol = $request->rol;
 
         if ($request->filled('password')) {
             $empleado->password = Hash::make($request->password);

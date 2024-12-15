@@ -21,11 +21,27 @@ class AsesoriaController extends Controller
 
     public function getase()
     {
-        $encuestas = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->get();
+        // Obtén el usuario autenticado
+        $user = auth()->user();
+
+        // Verifica si el usuario tiene el rol 0 (puede ver todas las encuestas)
+        if ($user->rol == 0) {
+            // Usuario con rol 0: obtén todas las encuestas
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->get();
+        } else {
+            // Usuarios con otro rol: solo encuestas relacionadas al usuario
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         return response()->json($encuestas);
     }
@@ -74,6 +90,15 @@ class AsesoriaController extends Controller
 
     private function generarGraficoRadar($datos_encu, $encuesta_id)
     {
+        // Validar que existan datos y haya al menos 3 ámbitos
+        if (
+            !isset($datos_encu[$encuesta_id]['ambitos']) ||
+            !is_array($datos_encu[$encuesta_id]['ambitos']) ||
+            count($datos_encu[$encuesta_id]['ambitos']) < 3
+        ) {
+            return 'ERROR_INSUFICIENTES_DATOS';
+        }
+
         // Configuración del gráfico
         $width = 600;
         $height = 600;
@@ -250,7 +275,7 @@ class AsesoriaController extends Controller
                 ];
 
                 // Arreglo para almacenar los ámbitos con sus porcentajes
-                
+
 
                 $cantidadPreguntas = 0;
                 $puntajeObtenido = 0;
@@ -298,7 +323,14 @@ class AsesoriaController extends Controller
 
                 $datoAmbito['resultado'] = $cantidadPreguntas * 5;
                 $datoAmbito['obtenido'] = $puntajeObtenido;
-                $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
+                if ($datoAmbito['resultado'] != 0) {
+                    $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
+                } else {
+                    // Asignar valor predeterminado, por ejemplo, 0 o manejar el error según sea necesario
+                    $datoAmbito['porcentaje'] = 0;  // O cualquier otro valor que desees asignar
+                    // O puedes manejarlo con un mensaje de error si prefieres
+                    // echo "Error: No se puede dividir por cero.";
+                }
 
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {

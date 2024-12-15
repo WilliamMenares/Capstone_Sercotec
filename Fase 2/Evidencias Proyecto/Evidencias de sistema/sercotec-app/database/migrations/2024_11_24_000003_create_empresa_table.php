@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->unique(); // Agregamos la columna para el código de la empresa
+            $table->string('codigo'); // Agregamos la columna para el código de la empresa
             $table->string('rut')->unique();    // Agregamos la columna para el RUT de la empresa
             $table->string('nombre');           // Nombre de la empresa
             $table->string('email')->nullable(); // Correo de la empresa, puede ser nulo

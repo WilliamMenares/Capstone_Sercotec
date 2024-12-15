@@ -4,7 +4,9 @@
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
 
-
+<script>
+    const authenticatedUser = @json(auth()->user()->name);
+</script>
 
 @section('content')
 

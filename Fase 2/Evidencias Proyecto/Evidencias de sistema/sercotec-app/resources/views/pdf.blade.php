@@ -322,15 +322,21 @@
 
     <div class="page-break"></div>
 
-    <!-- Aqui va el grafico de radar -->
-
-    <div class="section">
-        <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-        <div style="width: 600px; height: 600px; margin: 0 auto;">
-            <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
+    <!-- Aquí va el gráfico de radar -->
+    @if ($chartImageBase64 !== 'ERROR_INSUFICIENTES_DATOS')
+        <div class="section">
+            <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
+            <div style="width: 600px; height: 600px; margin: 0 auto;">
+                <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
+            </div>
         </div>
-    </div>
-    <div class="page-break"></div>
+
+        <div class="page-break"></div>
+    @endif
+
+
+
+
     <!-- Ámbitos Section -->
     <div class="section">
         <h2 class="section-title">Plan de trabajo</h2>
@@ -344,63 +350,63 @@
                     </div>
                 </div>
 
-                @php
-                    // Orden de preferencia de respuestas
-                    $ordenRespuestas = [
-                        'No Cumple' => 1,
-                        'Cumple Parcialmente' => 2,
-                        'Cumple' => 3,
-                    ];
+                    @php
+                        // Orden de preferencia de respuestas
+                        $ordenRespuestas = [
+                            'No Cumple' => 1,
+                            'Cumple Parcialmente' => 2,
+                            'Cumple' => 3
+                        ];
 
-                    // Encontrar la pregunta con la prioridad más alta y el estado más crítico
-                    $preguntaSeleccionada = null;
-                    $prioridadActual = 0;
-                    $valorRespuestaActual = PHP_INT_MAX;
+                        // Encontrar la pregunta con la prioridad más alta y el estado más crítico
+                        $preguntaSeleccionada = null;
+                        $prioridadActual = 0;
+                        $valorRespuestaActual = PHP_INT_MAX;
 
-                    foreach ($amb['preguntas'] as $preg) {
-                        // Verificar si la respuesta está en nuestro orden de preferencia
-                        if (isset($ordenRespuestas[$preg['respuesta']])) {
-                            $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
+                        foreach ($amb['preguntas'] as $preg) {
+                            // Verificar si la respuesta está en nuestro orden de preferencia
+                            if (isset($ordenRespuestas[$preg['respuesta']])) {
+                                $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
 
-                            // Si encontramos una respuesta más crítica (valor menor) O
-                            // si es la misma criticidad pero mayor prioridad
-                            if (
-                                $valorRespuesta < $valorRespuestaActual ||
-                                ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)
-                            ) {
-                                $preguntaSeleccionada = $preg;
-                                $prioridadActual = $preg['prioridad'];
-                                $valorRespuestaActual = $valorRespuesta;
+                                // Si encontramos una respuesta más crítica (valor menor) O
+                                // si es la misma criticidad pero mayor prioridad
+                                if (
+                                    $valorRespuesta < $valorRespuestaActual ||
+                                    ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)
+                                ) {
+                                    $preguntaSeleccionada = $preg;
+                                    $prioridadActual = $preg['prioridad'];
+                                    $valorRespuestaActual = $valorRespuesta;
+                                }
                             }
                         }
-                    }
-                @endphp
+                    @endphp
 
-                @if ($preguntaSeleccionada)
-                    <div class="question">
-                        <h4 class="question-title">{{ $preguntaSeleccionada['nombre'] }}</h4>
-                        <p><strong>Respuesta:</strong> {{ $preguntaSeleccionada['respuesta'] }}</p>
-                        <p><strong>Prioridad Encontrada:</strong> {{ $preguntaSeleccionada['prioridad'] }}</p>
+                    @if ($preguntaSeleccionada)
+                        <div class="question">
+                            <h4 class="question-title">{{ $preguntaSeleccionada['nombre'] }}</h4>
+                            <p><strong>Respuesta:</strong> {{ $preguntaSeleccionada['respuesta'] }}</p>
+                            <p><strong>Prioridad Encontrada:</strong> {{ $preguntaSeleccionada['prioridad'] }}</p>
 
-                        @if (!empty($preguntaSeleccionada['feedback']))
-                            <div class="feedback">
-                                <p><strong>Situación:</strong> {{ $preguntaSeleccionada['feedback']['situacion'] }}</p>
-                                <p><strong>Acciones Recomendadas:</strong></p>
-                                <ul>
-                                    @foreach (['accion1', 'accion2', 'accion3', 'accion4'] as $accion)
-                                        @if (!empty($preguntaSeleccionada['feedback'][$accion]))
-                                            <li>{{ $preguntaSeleccionada['feedback'][$accion] }}</li>
-                                        @endif
-                                    @endforeach
-                                    
-                                </ul>
-                            </div>
-                        @else
-                            <p><em>Sin feedback disponible</em></p>
-                        @endif
-                    </div>
-                    @if ($loop->iteration % 1 == 0)
+                            @if (!empty($preguntaSeleccionada['feedback']))
+                                <div class="feedback">
+                                    <p><strong>Situación:</strong> {{ $preguntaSeleccionada['feedback']['situacion'] }}</p>
+                                    <p><strong>Acciones Recomendadas:</strong></p>
+                                    <ul>
+                                        @foreach (['accion1', 'accion2', 'accion3', 'accion4'] as $accion)
+                                            @if (!empty($preguntaSeleccionada['feedback'][$accion]))
+                                                <li>{{ $preguntaSeleccionada['feedback'][$accion] }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @else
+                                <p><em>Sin feedback disponible</em></p>
+                            @endif
+                        </div>
+                        @if ($loop->iteration % 1 == 0)
                                     <div class="page-break"></div>
+
                     @endif
                 @endif
                 
