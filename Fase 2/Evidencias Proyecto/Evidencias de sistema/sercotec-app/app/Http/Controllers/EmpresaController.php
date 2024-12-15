@@ -27,10 +27,10 @@ class EmpresaController extends Controller
         try {
             // Validar los datos de entrada
             $validatedData = $request->validate([
-                'codigo' => 'required|string|max:50|unique:empresas,codigo',
+                'codigo' => 'required|string|max:50',
                 'rut' => 'required|string|max:12|unique:empresas,rut',
                 'nombre' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:empresas,email',
+                'email' => 'required|email|max:255',
                 'contacto' => 'required|string|max:50',
             ], [
                 'codigo.required' => 'El código es obligatorio.',
