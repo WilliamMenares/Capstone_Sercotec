@@ -368,8 +368,13 @@ class AsesoriaController extends Controller
                     'logoBase64' => $logoBase64,
                     'chartImageBase64' => $chartImageBase64
                 ])
-                    ->setPaper('a4', 'portrait');
-                Log::info('Vista PDF cargada correctamente');
+                    ->setPaper('a4', 'portrait')
+                    ->setOptions([
+                        'margin_top' => 70,
+                        'margin_bottom' => 70,
+                        'margin_left' => 20,
+                        'margin_right' => 20,
+                    ]);
 
                 // Configurar headers para la descarga
                 return response($pdf->output())
