@@ -9,22 +9,7 @@
     <div class="p-6">
         <!-- Primera fila - 3 tarjetas + 2 tarjetas divididas -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 ">
-            <div class="grid grid-rows-1 gap-3">
-                <a href="{{ route('asesorias.index') }}"
-                    class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
-                    <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-                        </path>
-                    </svg>
-                    <div class="mt-4">
-                        <h3 class="text-lg font-medium text-gray-900">Asesorías</h3>
-                        <p class="text-3xl font-bold text-gray-900">{{ $asesoriasCount }}</p>
-                    </div>
-                </a>
-            </div>
-            <div class="grid grid-rows-1 gap-3">
+            <div class="grid grid-rows-2 gap-3">
                 <a href="{{ route('empresa.index') }}"
                     class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
                     <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -36,6 +21,19 @@
                     <div class="mt-4">
                         <h3 class="text-lg font-medium text-gray-900">Empresas</h3>
                         <p class="text-3xl font-bold text-gray-900">{{ $empresasCount }}</p>
+                    </div>
+                </a>
+                <a href="{{ route('asesorias.index') }}"
+                    class="dashboard-card block rounded-lg bg-sky-100 p-6 hover:bg-sky-200">
+                    <svg class="w-8 h-8 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                        </path>
+                    </svg>
+                    <div class="mt-4">
+                        <h3 class="text-lg font-medium text-gray-900">Asesorías</h3>
+                        <p class="text-3xl font-bold text-gray-900">{{ $asesoriasCount }}</p>
                     </div>
                 </a>
             </div>
@@ -153,43 +151,11 @@
                     </div>
                 </a>
             </div>
-        </div>
-    </div>
-
-
-
-
-    <!-- Segunda fila - 2 columnas -->
-    <div>
-        <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6">
-            <!-- Columna izquierda - Área para contenido futuro -->
-            <div class="bg-sky-100 rounded-lg p-6 shadow-sm min-h-[400px]">
-                <h2 class="text-xl font-semibold mb-2">Contenido Futuro</h2>
-                <p class="text-gray-500"></p>
-                
+            <div class="dashboard-card block rounded-lg bg-sky-100 p-6 shadow-sm min-h-[400px]">
                 @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-                    <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors mb-2">
-                        <strong>Lista de % promedio de todos los ámbitos</strong>
-                        
-                        @forelse ($ambitosCollection->sortBy('porcentaje_general') as $ambi)
-                            @if (isset($ambi['ambito'], $ambi['porcentaje_general']))
-                                <p>{{ $ambi['ambito'] }}</p>
-                                <p>{{ number_format($ambi['porcentaje_general'], 2) }}%</p>
-                            @endif
-                        @empty
-                            <p>No hay ámbitos para mostrar</p>
-                        @endforelse
-                    </div>
-                @else
-                    <div class="alert alert-info bg-red-300 border-gray-400">
-                        No hay datos de ámbitos disponibles
-                    </div>
-                @endif
-    
-                @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-                    <div class="p-3 bg-cyan-200 rounded-lg hover:bg-cyan-300 transition-colors mb-2">
+                    <div class="p-3 bg-sky-200 rounded-lg mb-2">
                         <strong>Pregunta que "No Cumple" y el ámbito al cual está enlazada</strong>
-                        
+
                         @if ($preguntaConMasRespuestasTipo1)
                             <p>Pregunta con más "No cumple": {{ $preguntaConMasRespuestasTipo1->title }}</p>
                             <p>Ámbito: {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
@@ -202,26 +168,93 @@
                     </div>
                 @endif
             </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Segunda fila - 2 columnas -->
+
+    <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-6 px-6">
+        <!-- Columna izquierda - Área para contenido futuro -->
+        <div class="bg-sky-100 rounded-lg p-6 shadow-sm min-h-[400px]">
+            <h2 class="text-xl font-semibold mb-2">Gráfico de % promedio de todos los ámbitos</h2>
+            <p class="text-gray-500"></p>
     
-            <!-- Columna derecha - Lista de empresas -->
-            <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
-                <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
-                <div class="space-y-3">
-                    @if ($ultimasEmpresas->isEmpty())
-                        <div class="alert alert-info bg-red-300 border-gray-400">
-                            No hay empresas asesoradas
+            <!-- Gráfico -->
+            <div class="p-3 bg-sky-200 rounded-lg shadow-sm h-[300px]">  <!-- Limitar la altura aquí -->
+                <canvas id="ambitosChart" class="h-full"></canvas>
+            </div>
+        </div>
+    
+        <!-- Columna derecha - Lista de empresas -->
+        <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
+            <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
+            <div class="space-y-3">
+                @if ($ultimasEmpresas->isEmpty())
+                    <div class="alert alert-info bg-red-300 border-gray-400">
+                        No hay empresas asesoradas
+                    </div>
+                @else
+                    @foreach ($ultimasEmpresas as $empresa)
+                        <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors">
+                            <p class="font-medium text-gray-900">{{ $empresa->nombre }}</p>
+                            <p class="text-sm text-gray-500">{{ $empresa->created_at }}</p>
                         </div>
-                    @else
-                        @foreach ($ultimasEmpresas as $empresa)
-                            <div class="p-3 bg-sky-200 rounded-lg hover:bg-sky-300 transition-colors">
-                                <p class="font-medium text-gray-900">{{ $empresa->nombre }}</p>
-                                <p class="text-sm text-gray-500">{{ $empresa->created_at }}</p>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
+    
+    <!-- Incluir el script de Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const labels = @json($ambitosCollection->pluck('ambito'));
+            const data = @json($ambitosCollection->pluck('porcentaje_general'));
+    
+            const ctx = document.getElementById('ambitosChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '% Promedio',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,  // Permite que el gráfico se ajuste a la altura disponible
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            min: 0,           // Mínimo 0%
+                            max: 100,         // Máximo 100%
+                            suggestedMin: 0,  // Sugerir mínimo
+                            suggestedMax: 100, // Sugerir máximo
+                            ticks: {
+                                stepSize: 10,   // Intervalos de 10%
+                                callback: function(value) {
+                                    return value + '%';  // Agrega el símbolo de porcentaje
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    
     
 @endsection
