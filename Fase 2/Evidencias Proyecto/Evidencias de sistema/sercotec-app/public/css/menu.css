@@ -107,7 +107,7 @@ ol ,ul{
         top: 0;
         height: 100vh;
         transition: left 0.3s ease-in-out;
-        z-index: 1000;
+        z-index: 9999;
     }
 
     .menu-open .box-left {
@@ -158,8 +158,9 @@ ol ,ul{
     right: 0;
     height: 120px;
     background-color: #E0F2FE;
-    z-index: 999;
+    z-index: 9999;
     padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     align-items: center;
     justify-content: space-between;
     transition: background-color 0.3s ease-in-out; /* Añade una transición suave */
@@ -181,7 +182,7 @@ ol ,ul{
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 998;
+    z-index: 9995;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -193,7 +194,7 @@ ol ,ul{
 /* Ajusta el z-index del menú para que esté por encima del overlay */
 @media screen and (max-width: 928px) {
     .box-left {
-        z-index: 1000;
+        z-index: 9999;
     }
 
     .mobile-header {

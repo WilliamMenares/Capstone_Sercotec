@@ -152,20 +152,26 @@
                 </a>
             </div>
             <div class="dashboard-card block rounded-lg bg-sky-100 p-6 shadow-sm min-h-[400px]">
+                <h3 class="text-lg font-medium text-gray-900 mb-1">Pregunta que "No Cumple" y el ámbito al cual está enlazada</h3>
                 @if ($ambitosCollection->isNotEmpty() && $minAmbito)
-                    <div class="p-3 bg-sky-200 rounded-lg mb-2">
-                        <strong>Pregunta que "No Cumple" y el ámbito al cual está enlazada</strong>
-
+                    <div class="p-3 bg-sky-200 rounded-lg mt-5">
                         @if ($preguntaConMasRespuestasTipo1)
-                            <p>Pregunta con más "No cumple": {{ $preguntaConMasRespuestasTipo1->title }}</p>
-                            <p>Ámbito: {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
-                            <p>Respuestas: {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
+                            <strong>
+                                <p>Pregunta con más "No cumple":</strong> {{ $preguntaConMasRespuestasTipo1->title }}</p>
+                            
+                            <strong>
+                                <p>Ámbito:</strong> {{ $preguntaConMasRespuestasTipo1->ambito->title }}</p>
+                            
+                            <strong>
+                                <p>Respuestas: </strong> {{ $preguntaConMasRespuestasTipo1->respuesta->count() }}</p>
+                           
                         @else
                             <div class="alert alert-info bg-red-300 border-gray-400">
                                 No hay preguntas que no cumplan
                             </div>
                         @endif
                     </div>
+                </div>
                 @endif
             </div>
         </div>
@@ -181,13 +187,13 @@
         <div class="bg-sky-100 rounded-lg p-6 shadow-sm min-h-[400px]">
             <h2 class="text-xl font-semibold mb-2">Gráfico de % promedio de todos los ámbitos</h2>
             <p class="text-gray-500"></p>
-    
+
             <!-- Gráfico -->
-            <div class="p-3 bg-sky-200 rounded-lg shadow-sm h-[300px]">  <!-- Limitar la altura aquí -->
+            <div class="p-3 bg-sky-200 rounded-lg shadow-sm h-[300px]"> <!-- Limitar la altura aquí -->
                 <canvas id="ambitosChart" class="h-full"></canvas>
             </div>
         </div>
-    
+
         <!-- Columna derecha - Lista de empresas -->
         <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
             <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
@@ -207,14 +213,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Incluir el script de Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const labels = @json($ambitosCollection->pluck('ambito'));
             const data = @json($ambitosCollection->pluck('porcentaje_general'));
-    
+
             const ctx = document.getElementById('ambitosChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
@@ -230,7 +236,7 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,  // Permite que el gráfico se ajuste a la altura disponible
+                    maintainAspectRatio: false, // Permite que el gráfico se ajuste a la altura disponible
                     plugins: {
                         legend: {
                             display: false
@@ -239,14 +245,14 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            min: 0,           // Mínimo 0%
-                            max: 100,         // Máximo 100%
-                            suggestedMin: 0,  // Sugerir mínimo
+                            min: 0, // Mínimo 0%
+                            max: 100, // Máximo 100%
+                            suggestedMin: 0, // Sugerir mínimo
                             suggestedMax: 100, // Sugerir máximo
                             ticks: {
-                                stepSize: 10,   // Intervalos de 10%
+                                stepSize: 10, // Intervalos de 10%
                                 callback: function(value) {
-                                    return value + '%';  // Agrega el símbolo de porcentaje
+                                    return value + '%'; // Agrega el símbolo de porcentaje
                                 }
                             }
                         }
@@ -255,6 +261,6 @@
             });
         });
     </script>
-    
-    
+
+
 @endsection

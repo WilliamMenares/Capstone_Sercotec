@@ -24,7 +24,7 @@
                 <h2>Lista de Asesores</h2>
             </div>
             <div class="mobile-search">
-                <input type="text" id="searchInput" class="form-control bg-dark text-light"
+                <input type="text" id="searchInput" class="form-control text-gray-500"
                     placeholder="Buscar por id, rut, nombre, email o telefono">
             </div>
             <div class="mobile-table-body" id="mobileTableBody">

@@ -1,0 +1,37 @@
+.botones-empresa{
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
+}
+#import-form{
+    display: flex;
+    padding-left: 50px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@media screen and (max-width: 968px){
+    .botones-empresa{
+        width: 90%;
+        align-items: center;
+        flex-direction: column;
+    }
+    #import-form{
+        display: flex;
+        padding-left: 0;
+        flex-direction: column;
+        width: 100%;
+    }
+    .boton-importar{
+        margin-top: 5px;
+    }
+    #excel-file{
+        width: 100%;
+    }
+    .contenido{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}

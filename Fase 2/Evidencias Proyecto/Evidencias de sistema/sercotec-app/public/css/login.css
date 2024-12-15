@@ -50,3 +50,9 @@ body{
     text-decoration: none;
     color: black;
 }
+@media (max-width: 768px) {
+    .login {
+        max-width: 90%;
+        padding: 15px;
+    }
+}

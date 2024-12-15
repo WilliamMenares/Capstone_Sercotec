@@ -27,7 +27,6 @@
     justify-content: end;
 }
 .titulo{
-    margin-top: 20px;
     color: white;
     font-size: 40px;
 }
@@ -87,14 +86,14 @@
 }
 
 .mobile-table-header {
-    background-color: #343a40;
-    color: white;
+    background-color: #E0F2FE;
+    color: #63869e;
     padding: 10px;
     text-align: center;
 }
 
 .mobile-table-body {
-    background-color: #2c3034;
+    background-color: #E0F2FE;
 }
 
 .mobile-table-row {
@@ -104,7 +103,7 @@
 
 .mobile-table-cell {
     padding: 5px 0;
-    color: #ffffff;
+    color: #63869e;
 }
 
 .mobile-table-actions {
@@ -156,16 +155,15 @@
 /* Añadir esto a tu archivo CSS existente */
 .mobile-search {
     padding: 10px;
-    background-color: #343a40;
+    background-color:  #87a3b6;
 }
 
 .mobile-search input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #454d55;
+    border: 1px solid #343a40;
     border-radius: 4px;
-    background-color: #2c3034;
-    color: #ffffff;
+    color: #63869e;
 }
 
 .mobile-search input::placeholder {
@@ -181,20 +179,21 @@
 }
 
 .pagination .page-item .page-link {
-    background-color: #343a40;
+    background-color: #E0F2FE;
     border-color: #454d55;
-    color: #ffffff;
+    color: #868686;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #57829e;
+    border-color: #57829e;
+    color: #cccccc;
 }
 
 .pagination .page-item.disabled .page-link {
-    background-color: #2c3034;
+    background-color: #E0F2FE;
     border-color: #454d55;
-    color: #6c757d;
+    color: #515e68;
 }
 
 .hidden {
@@ -202,7 +201,7 @@
 }
 
 .prueba{
-    color: white !important;
+    color: #63869e;
     display: flex;
     flex-direction: column;
 }
