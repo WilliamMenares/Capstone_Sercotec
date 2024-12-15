@@ -21,11 +21,27 @@ class AsesoriaController extends Controller
 
     public function getase()
     {
-        $encuestas = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->get();
+        // Obtén el usuario autenticado
+        $user = auth()->user();
+
+        // Verifica si el usuario tiene el rol 0 (puede ver todas las encuestas)
+        if ($user->rol == 0) {
+            // Usuario con rol 0: obtén todas las encuestas
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->get();
+        } else {
+            // Usuarios con otro rol: solo encuestas relacionadas al usuario
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         return response()->json($encuestas);
     }
