@@ -42,7 +42,7 @@
     box-sizing: border-box;
 }
 
-.swal-overlay {
+.swal2-html-container {
     z-index: 9999 !important; /* Puedes poner el valor que desees */
   }
 
