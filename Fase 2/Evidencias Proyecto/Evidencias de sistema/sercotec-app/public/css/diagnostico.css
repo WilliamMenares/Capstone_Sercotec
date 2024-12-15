@@ -79,6 +79,9 @@ display: none;              /* Oculta la barra en WebKit */
     margin-left: 10px;
     width: 60%;
     height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .buscador{
     width: 40%;
