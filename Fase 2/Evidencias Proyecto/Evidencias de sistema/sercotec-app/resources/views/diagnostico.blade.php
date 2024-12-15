@@ -121,7 +121,7 @@
                 </div>
                 <div class="navegacion d-flex justify-content-between">
                     <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
-                    <button type="submit" class="btn btn-success">Crear Asesoria</button>
+                    <button type="submit" class="btn btn-success">Enviar</button>
                     <button type="button" id="next-btn" class="btn btn-primary">Siguiente</button>
                 </div>
             </div>
