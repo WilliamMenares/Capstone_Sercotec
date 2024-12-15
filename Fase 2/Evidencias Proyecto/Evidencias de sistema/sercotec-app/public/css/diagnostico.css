@@ -72,6 +72,11 @@ display: none;              /* Oculta la barra en WebKit */
     
 
 }
+.texto-centro{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .ambitos-container{
     background-color: #E0F2FE;
     margin-top: 20px;

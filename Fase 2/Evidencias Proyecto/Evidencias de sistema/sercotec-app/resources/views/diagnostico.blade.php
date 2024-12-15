@@ -116,6 +116,9 @@
                                 @csrf
                             </div>
                         @endforeach
+                        <div class="texto-centro">
+                            <h1>Selecciona un formulario</h1>
+                        </div>
                         <div class="navegacion d-flex justify-content-between">
                             <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
                             <button type="submit" class="btn btn-success">Crear Asesoria</button>
@@ -128,7 +131,27 @@
 
         </form>
 
+
+
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const formularioSelect = document.getElementById('formulario');
+                const textoCentro = document.querySelector('.texto-centro');
+
+                formularioSelect.addEventListener('change', function() {
+                    if (formularioSelect.value !== "") {
+                        // Oculta el div si se selecciona una opción válida
+                        textoCentro.style.display = 'none';
+                    } else {
+                        // Muestra el div si vuelve a la opción por defecto (vacía)
+                        textoCentro.style.display = 'flex';
+                    }
+                });
+            });
+
+
+
+
             document.getElementById('form-diagn').addEventListener('submit', function(event) {
                 const selectedFormulario = document.querySelector('#formulario')
                     .value; // Obtener el formulario seleccionado
