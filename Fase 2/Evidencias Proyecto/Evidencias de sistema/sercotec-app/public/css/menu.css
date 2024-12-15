@@ -43,7 +43,7 @@
 }
 
 .swal2-html-container {
-    z-index: 9999 !important; /* Puedes poner el valor que desees */
+    z-index: 99999 !important; /* Puedes poner el valor que desees */
   }
 
 .menu{
