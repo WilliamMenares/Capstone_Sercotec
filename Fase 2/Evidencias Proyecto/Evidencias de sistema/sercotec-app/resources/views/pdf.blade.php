@@ -225,15 +225,20 @@
 
     <div class="page-break"></div>
 
-<!-- Aqui va el grafico de radar -->
+    <!-- Aquí va el gráfico de radar -->
+    @if ($chartImageBase64 !== 'ERROR_INSUFICIENTES_DATOS')
+        <div class="section">
+            <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
+            <div style="width: 600px; height: 600px; margin: 0 auto;">
+                <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
+            </div>
+        </div>
 
-<div class="section">
-    <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
-    <div style="width: 600px; height: 600px; margin: 0 auto;">
-        <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
-    </div>
-</div>
-<div class="page-break"></div>
+        <div class="page-break"></div>
+    @endif
+
+
+
     <!-- Ámbitos Section -->
     <div class="section">
         <h2 class="section-title">Plan de trabajo</h2>
@@ -248,33 +253,35 @@
                     </div>
 
                     @php
-                    // Orden de preferencia de respuestas
-                    $ordenRespuestas = [
-                        'No Cumple' => 1,
-                        'Cumple Parcialmente' => 2,
-                        'Cumple' => 3
-                    ];
+                        // Orden de preferencia de respuestas
+                        $ordenRespuestas = [
+                            'No Cumple' => 1,
+                            'Cumple Parcialmente' => 2,
+                            'Cumple' => 3
+                        ];
 
-                    // Encontrar la pregunta con la prioridad más alta y el estado más crítico
-                    $preguntaSeleccionada = null;
-                    $prioridadActual = 0;
-                    $valorRespuestaActual = PHP_INT_MAX;
+                        // Encontrar la pregunta con la prioridad más alta y el estado más crítico
+                        $preguntaSeleccionada = null;
+                        $prioridadActual = 0;
+                        $valorRespuestaActual = PHP_INT_MAX;
 
-                    foreach ($amb['preguntas'] as $preg) {
-                        // Verificar si la respuesta está en nuestro orden de preferencia
-                        if (isset($ordenRespuestas[$preg['respuesta']])) {
-                            $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
-                            
-                            // Si encontramos una respuesta más crítica (valor menor) O
-                            // si es la misma criticidad pero mayor prioridad
-                            if ($valorRespuesta < $valorRespuestaActual || 
-                                ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)) {
-                                $preguntaSeleccionada = $preg;
-                                $prioridadActual = $preg['prioridad'];
-                                $valorRespuestaActual = $valorRespuesta;
+                        foreach ($amb['preguntas'] as $preg) {
+                            // Verificar si la respuesta está en nuestro orden de preferencia
+                            if (isset($ordenRespuestas[$preg['respuesta']])) {
+                                $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
+
+                                // Si encontramos una respuesta más crítica (valor menor) O
+                                // si es la misma criticidad pero mayor prioridad
+                                if (
+                                    $valorRespuesta < $valorRespuestaActual ||
+                                    ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)
+                                ) {
+                                    $preguntaSeleccionada = $preg;
+                                    $prioridadActual = $preg['prioridad'];
+                                    $valorRespuestaActual = $valorRespuesta;
+                                }
                             }
                         }
-                    }
                     @endphp
 
                     @if ($preguntaSeleccionada)

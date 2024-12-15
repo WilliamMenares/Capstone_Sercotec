@@ -74,6 +74,15 @@ class AsesoriaController extends Controller
 
     private function generarGraficoRadar($datos_encu, $encuesta_id)
     {
+        // Validar que existan datos y haya al menos 3 ámbitos
+        if (
+            !isset($datos_encu[$encuesta_id]['ambitos']) ||
+            !is_array($datos_encu[$encuesta_id]['ambitos']) ||
+            count($datos_encu[$encuesta_id]['ambitos']) < 3
+        ) {
+            return 'ERROR_INSUFICIENTES_DATOS';
+        }
+
         // Configuración del gráfico
         $width = 600;
         $height = 600;
