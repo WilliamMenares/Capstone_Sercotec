@@ -42,7 +42,9 @@
     box-sizing: border-box;
 }
 
-
+.swal-overlay {
+    z-index: 9999 !important; /* Puedes poner el valor que desees */
+  }
 
 .menu{
     display: flex;
@@ -107,7 +109,7 @@ ol ,ul{
         top: 0;
         height: 100vh;
         transition: left 0.3s ease-in-out;
-        z-index: 9999;
+        z-index: 9998;
     }
 
     .menu-open .box-left {
@@ -158,7 +160,7 @@ ol ,ul{
     right: 0;
     height: 120px;
     background-color: #E0F2FE;
-    z-index: 9999;
+    z-index: 9998;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     align-items: center;
@@ -194,7 +196,7 @@ ol ,ul{
 /* Ajusta el z-index del menú para que esté por encima del overlay */
 @media screen and (max-width: 928px) {
     .box-left {
-        z-index: 9999;
+        z-index: 9998;
     }
 
     .mobile-header {

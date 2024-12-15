@@ -20,6 +20,9 @@
     padding-bottom: 10px;
     border-radius: 10px;
 }
+.pre2 input[type="radio"] {
+    transform: scale(1.5); /* Aumenta el tamaño del radio button */
+}
 
 .navegacion {
     display: flex;
