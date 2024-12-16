@@ -92,15 +92,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const createRow = (data) => {
         const row = document.createElement("div");
         row.classList.add("mobile-table-row");
-        row.dataset.id = data.id;
+
         row.dataset.responsable = data.user.name;
         row.dataset.empresa = data.empresa.nombre;
         row.dataset.contacto = data.empresa.contacto;
         row.dataset.email = data.empresa.email;
 
         row.innerHTML = `
-            <div class="mobile-table-cell"><strong>Id:</strong> ${data.id}</div>
-            <div class="mobile-table-cell"><strong>Responsable:</strong> ${data.responsable}</div>
+            <div class="mobile-table-cell"><strong>Responsable:</strong> ${data.user.name}</div>
             <div class="mobile-table-cell"><strong>Empresa:</strong> ${data.empresa.nombre}</div>
             <div class="mobile-table-cell"><strong>Contacto Empresa:</strong> ${data.empresa.contacto}</div>
             <div class="mobile-table-cell"><strong>Email Empresa:</strong> ${data.empresa.email}</div>

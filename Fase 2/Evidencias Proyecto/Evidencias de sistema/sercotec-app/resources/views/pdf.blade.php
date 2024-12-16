@@ -142,97 +142,10 @@
         .info-ptjes {
             margin-bottom: 20px;
         }
-
-        @media print {
-            body {
-                margin: 20mm;
-                /* Ajuste de márgenes generales */
-            }
-
-            .section {
-                page-break-inside: avoid;
-                /* Evitar que las secciones se rompan entre páginas */
-                margin-bottom: 20mm;
-                /* Espacio entre secciones */
-            }
-
-            .ambito {
-                page-break-inside: avoid;
-                /* Evitar que los ámbitos se rompan entre páginas */
-                margin-bottom: 10mm;
-                /* Espacio entre ámbitos */
-            }
-
-            .question {
-                page-break-inside: avoid;
-                /* Evitar que las preguntas se rompan entre páginas */
-                margin-bottom: 5mm;
-                /* Espacio entre preguntas */
-            }
-
-            .page-break {
-                display: none;
-                /* Ocultar los saltos de página explícitos */
-            }
-        }
-
-        .header, .footer {
-            position: fixed;
-            left: 0;
-            right: 0;
-            font-size: 10px;
-            color: #777;
-            text-align: center;
-        }
-        .header {
-            top: -60px;
-            height: 50px;
-            line-height: 35px;
-            border-bottom: 1px solid #CCCCCC;
-        }
-        .footer {
-            bottom: -60px;
-            height: 50px;
-            line-height: 35px;
-            border-top: 1px solid #CCCCCC;
-        }
-        .header .logo, .footer .logo {
-            height: 30px;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        .page-number:before {
-            content: counter(page);
-        }
-        /* Ocultar encabezado y pie de página en la portada */
-        .cover-page .header, .cover-page .footer {
-            display: none;
-        }
-        /* Ajustar márgenes para el contenido */
-        body {
-            margin-top: 70px;
-            margin-bottom: 70px;
-        }
-        .cover-page {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
     </style>
 </head>
 
 <body>
-
-    <!-- Encabezado -->
-    <div class="header">
-        <img src="{{ $logoBase64 }}" alt="Logo" class="logo">
-        Informe de Diagnóstico - {{ $encuesta->empresa->nombre }}
-    </div>
-
-    <!-- Pie de página -->
-    <div class="footer">
-        <img src="{{ $logoBase64 }}" alt="Logo" class="logo">
-        Página <span class="page-number"></span>
-    </div>
     <!-- Cover Page -->
     <div class="cover-page">
         <img src="{{ $logoBase64 }}" alt="Logo" class="logo-portada">
@@ -289,34 +202,24 @@
 
         <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
         @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
-    <div class="ambito">
-        <div class="ambito-header">
-            <div class="ambito-name">{{ $amb['nombre'] }}</div>
-            <div class="ambito-score">
-                Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
-                ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+            <div class="ambito">
+                <div class="ambito-header">
+                    <div class="ambito-name">{{ $amb['nombre'] }}
+                    </div>
+                    <div class="ambito-score">
+                        Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
+                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                    </div>
+                </div>
+
+                @foreach ($amb['preguntas'] as $preg)
+                    <div class="question">
+                        <h4 class="question-title">{{ $preg['nombre'] }}</h4>
+                        <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
+                    </div>
+                @endforeach
             </div>
-        </div>
-
-        @php
-            $preguntas = strlen(json_encode($amb['preguntas'])) > 250 
-                ? array_slice($amb['preguntas'], 0, 2) 
-                : $amb['preguntas'];
-        @endphp
-
-        @foreach ($preguntas as $preg)
-            <div class="question">
-                <h4 class="question-title">{{ $preg['nombre'] }}</h4>
-                <p><strong>Respuesta:</strong> {{ $preg['respuesta'] }}</p>
-            </div>
-
-            @if ($loop->iteration % 4 == 0)
-                <div class="page-break"></div>
-            @endif
         @endforeach
-    </div>
-@endforeach
-
     </div>
 
 
@@ -336,19 +239,18 @@
 
 
 
-
     <!-- Ámbitos Section -->
     <div class="section">
         <h2 class="section-title">Plan de trabajo</h2>
         @foreach ($datos_plan as $amb)
-            <div class="ambito">
-                <div class="ambito-header">
-                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
-                    <div class="ambito-score">
-                        Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }}
-                        ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                <div class="ambito">
+                    <div class="ambito-header">
+                        <div class="ambito-name">{{ $amb['nombre'] }}</div>
+                        <div class="ambito-score">
+                            Puntaje: {{ $amb['obtenido'] }} / {{ $amb['resultado'] }}
+                            ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)
+                        </div>
                     </div>
-                </div>
 
                     @php
                         // Orden de preferencia de respuestas
@@ -404,16 +306,12 @@
                                 <p><em>Sin feedback disponible</em></p>
                             @endif
                         </div>
-                        @if ($loop->iteration % 1 == 0)
-                                    <div class="page-break"></div>
-
                     @endif
-                @endif
-                
-            </div>
-            
+                </div>
         @endforeach
     </div>
+
+
 
 </body>
 

@@ -32,9 +32,6 @@
                     <div class="mobile-table-row" data-id="{{$user->id}}" data-name="{{$user->name}}"
                         data-email="{{$user->email}}" data-telefono="{{$user->telefono}}" data-rut="{{$user->rut}}">
                         <div class="mobile-table-cell">
-                            <strong>Id:</strong> {{$user->id}}
-                        </div>
-                        <div class="mobile-table-cell">
                             <strong>RUT:</strong> {{$user->rut}}
                         </div>
                         <div class="mobile-table-cell">
