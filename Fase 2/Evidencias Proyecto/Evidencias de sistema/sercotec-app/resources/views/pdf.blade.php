@@ -228,7 +228,7 @@
     <!-- Aquí va el gráfico de radar -->
     @if ($chartImageBase64 !== 'ERROR_INSUFICIENTES_DATOS')
         <div class="section">
-            <h2 class="section-title">Análisis Gráfico de Ámbitos</h2>
+            <h2 class="section-title">Análisis de Ámbitos</h2>
             <div style="width: 600px; height: 600px; margin: 0 auto;">
                 <img src="data:image/png;base64,{{ $chartImageBase64 }}" alt="Gráfico de Radar de Ámbitos">
             </div>
