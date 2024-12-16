@@ -236,7 +236,7 @@ display: none;              /* Oculta la barra en WebKit */
         left: 50%; /* Lo coloca en el centro horizontal */
         transform: translateX(-50%); /* Ajusta para que esté perfectamente centrado */
         width: 95%; /* Ajusta el ancho según el tamaño de la pantalla */
-        z-index: 9980; /* Asegura que esté por encima de otros elementos */
+        z-index: 980; /* Asegura que esté por encima de otros elementos */
         display: block; /* Asegura que esté visible siempre */
         box-shadow: 4px 4px 8px rgba(0.2, 0.2, 0.2, 0.2); /* Sombra alrededor del contenedor */
         border: 1px solid #3d5e74; /* Borde de 2px de grosor, color azul */
@@ -293,7 +293,7 @@ display: none;              /* Oculta la barra en WebKit */
         left: 50%; /* Lo coloca en el centro horizontal */
         transform: translateX(-50%); /* Ajusta para que esté perfectamente centrado */
         width: 95%; /* Ajusta el ancho según el tamaño de la pantalla */
-        z-index: 9980; /* Asegura que esté por encima de otros elementos */
+        z-index: 980; /* Asegura que esté por encima de otros elementos */
         display: block; /* Asegura que esté visible siempre */
         box-shadow: 4px 4px 8px rgba(0.2, 0.2, 0.2, 0.2); /* Sombra alrededor del contenedor */
         border: 1px solid #3d5e74; /* Borde de 2px de grosor, color azul */

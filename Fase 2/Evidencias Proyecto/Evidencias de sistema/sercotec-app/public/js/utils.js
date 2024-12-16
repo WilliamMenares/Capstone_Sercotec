@@ -141,6 +141,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     title: "Oops...",
                     text: "Por favor, verifica que el RUT y el teléfono estén correctamente ingresados",
                     color: "#ffffff",
+                    customClass: {
+                        popup: 'custom-swal-popup',  // Clase personalizada para la ventana
+                        overlay: 'custom-swal-overlay' // Clase personalizada para la superposición
+                    }
+                
                 });
             }
         });
