@@ -65,8 +65,8 @@
                             <div class="field-value">{{ $pregunta->title }}</div>
                         </div>
                         <div class="field-group">
-                            <label>Puntaje:</label>
-                            <div class="field-value">{{ $pregunta->puntaje }}</div>
+                            <label>Prioridad:</label>
+                            <div class="field-value">{{ $pregunta->prioridad }}</div>
                         </div>
                         <div class="field-group">
                             <label>Ambito:</label>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="field-group">
                             <label>Responsable:</label>
-                            <div class="field-value">{{ $formulario->responsable }}</div>
+                            <div class="field-value">{{ $formulario->user->name }}</div>
                         </div>
                         <div class="button-group">
                             <button class="btn-edit" data-bs-toggle="modal"
