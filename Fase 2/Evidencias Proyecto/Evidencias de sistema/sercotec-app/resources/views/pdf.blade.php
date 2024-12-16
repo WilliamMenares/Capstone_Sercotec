@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Informe de Asesoría - {{ $encuesta->empresa->nombre }}</title>
+    <title>Informe de Diagnóstico - {{ $encuesta->empresa->nombre }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
