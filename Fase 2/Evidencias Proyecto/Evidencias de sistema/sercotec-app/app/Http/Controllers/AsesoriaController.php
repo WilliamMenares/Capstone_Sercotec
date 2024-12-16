@@ -21,11 +21,27 @@ class AsesoriaController extends Controller
 
     public function getase()
     {
-        $encuestas = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->get();
+        // Obtén el usuario autenticado
+        $user = auth()->user();
+
+        // Verifica si el usuario tiene el rol 0 (puede ver todas las encuestas)
+        if ($user->rol == 0) {
+            // Usuario con rol 0: obtén todas las encuestas
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->get();
+        } else {
+            // Usuarios con otro rol: solo encuestas relacionadas al usuario
+            $encuestas = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])
+                ->where('user_id', $user->id)
+                ->get();
+        }
 
         return response()->json($encuestas);
     }
@@ -48,8 +64,6 @@ class AsesoriaController extends Controller
 
         // Redirige con mensaje de éxito
         return redirect()->route('asesorias.index')->with('success', 'Asesoria eliminada con éxito.');
-
-
     }
 
 
@@ -57,7 +71,7 @@ class AsesoriaController extends Controller
     private function prepararLogoBase64()
     {
         $logoPath = public_path('img/Logo_Sercotec.png');
-        
+
         // Verificar si el archivo existe
         if (!file_exists($logoPath)) {
             Log::error('Archivo de logo no encontrado: ' . $logoPath);
@@ -73,34 +87,139 @@ class AsesoriaController extends Controller
         }
     }
 
-    public function generarPDF($id)
-{
-    try {
-        // Validar ID
-        if (!is_numeric($id) || $id <= 0) {
-            throw new \InvalidArgumentException('ID de encuesta inválido');
+
+    private function generarGraficoRadar($datos_encu, $encuesta_id)
+    {
+        // Validar que existan datos y haya al menos 3 ámbitos
+        if (
+            !isset($datos_encu[$encuesta_id]['ambitos']) ||
+            !is_array($datos_encu[$encuesta_id]['ambitos']) ||
+            count($datos_encu[$encuesta_id]['ambitos']) < 3
+        ) {
+            return 'ERROR_INSUFICIENTES_DATOS';
         }
 
-        // Preparar el logo antes de generar el PDF
-        $logoBase64 = $this->prepararLogoBase64();
+        // Configuración del gráfico
+        $width = 600;
+        $height = 600;
+        $center_x = $width / 2;
+        $center_y = $height / 2;
+        $radio = min($width, $height) * 0.4;
 
-    } catch (\Exception $e) {
-        Log::error('Error al preparar el logo: ' . $e->getMessage());
-        return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
+        // Crear la imagen
+        $image = imagecreatetruecolor($width, $height);
+
+        // Definir colores
+        $white = imagecolorallocate($image, 255, 255, 255);
+        $gray = imagecolorallocate($image, 200, 200, 200);
+        $blue = imagecolorallocate($image, 54, 162, 235);
+        $blueAlpha = imagecolorallocatealpha($image, 54, 162, 235, 80);
+        $black = imagecolorallocate($image, 0, 0, 0);
+
+        // Hacer el fondo blanco
+        imagefill($image, 0, 0, $white);
+
+        // Dibujar círculos concéntricos y etiquetas de porcentaje
+        for ($i = 1; $i <= 10; $i++) {
+            $radius = $radio * $i / 10;
+            imagearc($image, $center_x, $center_y, $radius * 2, $radius * 2, 0, 360, $gray);
+            // Añadir etiqueta de porcentaje
+            $percent = $i * 10;
+            imagestring($image, 2, $center_x - 10, $center_y - $radius, $percent . '%', $gray);
+        }
+
+        // Preparar datos
+        $datos = [];
+        $etiquetas = [];
+        foreach ($datos_encu[$encuesta_id]['ambitos'] as $amb) {
+            $porcentaje = round(($amb['obtenido'] * 100) / $amb['resultado'], 2);
+            $datos[] = $porcentaje;
+            $etiquetas[] = $amb['nombre'];
+        }
+
+        $num_points = count($datos);
+        $angle_step = 360 / $num_points;
+
+        // Dibujar líneas radiales y etiquetas
+        for ($i = 0; $i < $num_points; $i++) {
+            $angle = deg2rad($i * $angle_step - 90);
+            imageline(
+                $image,
+                $center_x,
+                $center_y,
+                $center_x + $radio * cos($angle),
+                $center_y + $radio * sin($angle),
+                $gray
+            );
+
+            // Añadir etiquetas de ámbitos
+            $label_x = $center_x + ($radio + 20) * cos($angle);
+            $label_y = $center_y + ($radio + 20) * sin($angle);
+            imagestring($image, 3, $label_x - 20, $label_y - 10, $etiquetas[$i], $black);
+        }
+
+        // Dibujar polígono de datos
+        $points = [];
+        for ($i = 0; $i < $num_points; $i++) {
+            $angle = deg2rad($i * $angle_step - 90);
+            $distance = $radio * $datos[$i] / 100;
+            $points[] = $center_x + $distance * cos($angle);
+            $points[] = $center_y + $distance * sin($angle);
+        }
+
+        // Dibujar área rellena
+        imagefilledpolygon($image, $points, $num_points, $blueAlpha);
+
+        // Dibujar líneas del polígono
+        for ($i = 0; $i < $num_points; $i++) {
+            $next = ($i + 1) % $num_points;
+            imageline(
+                $image,
+                $points[$i * 2],
+                $points[$i * 2 + 1],
+                $points[$next * 2],
+                $points[$next * 2 + 1],
+                $blue
+            );
+        }
+
+        // Convertir la imagen a base64
+        ob_start();
+        imagepng($image);
+        $imageData = ob_get_clean();
+        imagedestroy($image);
+
+        return base64_encode($imageData);
     }
 
-    try {
-        // Obtener la encuesta con relaciones
-        $encuesta = Encuesta::with([
-            'formulario.ambito.pregunta.respuesta.respuestasTipo',
-            'empresa',
-            'user'
-        ])->find($id);
+    public function generarPDF($id)
+    {
+        try {
+            // Validar ID
+            if (!is_numeric($id) || $id <= 0) {
+                throw new \InvalidArgumentException('ID de encuesta inválido');
+            }
 
-        // Validar que la encuesta existe
-        if (!$encuesta) {
-            throw new \RuntimeException('Encuesta no encontrada');
+            // Preparar el logo antes de generar el PDF
+            $logoBase64 = $this->prepararLogoBase64();
+        } catch (\Exception $e) {
+            Log::error('Error al preparar el logo: ' . $e->getMessage());
+            return redirect()->back()->withErrors('Error al preparar el logo para el PDF.');
         }
+
+        try {
+            Log::info('Iniciando generación de PDF para la encuesta ID: ' . $id);
+            // Obtener la encuesta con relaciones
+            $encuesta = Encuesta::with([
+                'formulario.ambito.pregunta.respuesta.respuestasTipo',
+                'empresa',
+                'user'
+            ])->find($id);
+
+            // Validar que la encuesta existe
+            if (!$encuesta) {
+                throw new \RuntimeException('Encuesta no encontrada');
+            }
 
 
             // Validar relaciones necesarias
@@ -140,6 +259,7 @@ class AsesoriaController extends Controller
             $puntajeEncuesta = 0;
             $feedback = Feedback::all();
 
+            $ambitosConPorcentaje = [];
             // Procesar ámbitos
             foreach ($encuesta->formulario->ambito as $ambi) {
                 if (!$ambi->title) {
@@ -154,6 +274,9 @@ class AsesoriaController extends Controller
                     'porcentaje' => 0,  // Agregamos el campo para el porcentaje de cumplimiento
                 ];
 
+                // Arreglo para almacenar los ámbitos con sus porcentajes
+
+
                 $cantidadPreguntas = 0;
                 $puntajeObtenido = 0;
 
@@ -165,6 +288,7 @@ class AsesoriaController extends Controller
                     $cantidadPreguntas++;
                     $preguntaData = [
                         'nombre' => $pregu->title,
+                        'prioridad' => $pregu->prioridad,
                         'respuesta' => 'Sin respuesta',
                         'feedback' => [], // Inicializamos feedback como un array vacío
                     ];
@@ -199,68 +323,68 @@ class AsesoriaController extends Controller
 
                 $datoAmbito['resultado'] = $cantidadPreguntas * 5;
                 $datoAmbito['obtenido'] = $puntajeObtenido;
-                $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
-
-                
+                if ($datoAmbito['resultado'] != 0) {
+                    $datoAmbito['porcentaje'] = ($datoAmbito['obtenido'] * 100) / $datoAmbito['resultado'];  // Calculamos el porcentaje
+                } else {
+                    // Asignar valor predeterminado, por ejemplo, 0 o manejar el error según sea necesario
+                    $datoAmbito['porcentaje'] = 0;  // O cualquier otro valor que desees asignar
+                    // O puedes manejarlo con un mensaje de error si prefieres
+                    // echo "Error: No se puede dividir por cero.";
+                }
 
                 // Solo agregar si el puntaje obtenido es mayor a 0
                 if ($puntajeObtenido > 0) {
                     $datos_encu[$encuesta->id]['ambitos'][] = $datoAmbito;
+                    $ambitosConPorcentaje[] = $datoAmbito;
                     $puntajeMaximoen += $cantidadPreguntas * 5;
                     $puntajeEncuesta += $puntajeObtenido;
-                    Log::info($puntajeEncuesta);
                 }
             }
-
-            // Ordenar los ámbitos en función del porcentaje de cumplimiento
-            usort($datos_encu[$encuesta->id]['ambitos'], function ($a, $b) {
-                return $b['porcentaje'] <=> $a['porcentaje'];  // Ordenamos de mayor a menor
+            // Ordenar los ámbitos por porcentaje (ascendente)
+            usort($ambitosConPorcentaje, function ($a, $b) {
+                return $a['porcentaje'] <=> $b['porcentaje'];
             });
 
-            // Verificar la cantidad de ámbitos y seleccionamos los correctos
-            $topAmbitos = [];
-            $bottomAmbitos = [];
+            // Tomar los dos primeros ámbitos con menor porcentaje
+            $ambitosConMenorPorcentaje = array_slice($ambitosConPorcentaje, 0, 2);
 
-            // Si hay al menos un ámbito, seleccionamos el mejor (primer ámbito)
-            if (count($datos_encu[$encuesta->id]['ambitos']) >= 1) {
-                $topAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][0];  // El mejor ámbito
+            // Agregar los dos ámbitos con menor porcentaje a la lista datos_plan
+            $datos_plan = [];
+            foreach ($ambitosConMenorPorcentaje as $ambito) {
+                $datos_plan[] = $ambito;
+                Log::info($datos_plan);
             }
-
-            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
-            if (count($datos_encu[$encuesta->id]['ambitos']) == 2) {
-                $bottomAmbitos[] = $datos_encu[$encuesta->id]['ambitos'][1];  // Los dos peores
-            }
-
-            // Si hay al menos tres ámbitos, seleccionamos los dos peores (últimos dos ámbitos)
-            if (count($datos_encu[$encuesta->id]['ambitos']) >= 3) {
-                $bottomAmbitos = array_slice($datos_encu[$encuesta->id]['ambitos'], -2);  // Los dos peores
-            }
-
-            // Combinamos el mejor con los dos peores sin duplicarlos
-            $datos_encu[$encuesta->id]['ambitos'] = array_merge($topAmbitos, $bottomAmbitos);
 
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
-            // Generar el PDF con la vista actualizada
+            $chartImageBase64 = $this->generarGraficoRadar($datos_encu, $encuesta->id);
+            Log::info('Gráfico generado correctamente');
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
                     'datos_encu' => $datos_encu,
-                    'logoBase64' => $logoBase64  // Agregar el logo base64
-                ])->setPaper('a4', 'portrait');
+                    'datos_plan' => $datos_plan,
+                    'logoBase64' => $logoBase64,
+                    'chartImageBase64' => $chartImageBase64
+                ])
+                    ->setPaper('a4', 'portrait')
+                    ->setOptions([
+                        'margin_top' => 70,
+                        'margin_bottom' => 70,
+                        'margin_left' => 20,
+                        'margin_right' => 20,
+                    ]);
 
                 // Configurar headers para la descarga
                 return response($pdf->output())
                     ->header('Content-Type', 'application/pdf')
                     ->header('Content-Disposition', 'attachment; filename="asesoria_' . $id . '.pdf"')
                     ->header('Cache-Control', 'no-cache, no-store, must-revalidate');
-
             } catch (\Exception $e) {
                 Log::error('Error en la generación del PDF: ' . $e->getMessage());
                 throw new \RuntimeException('Error al generar el archivo PDF: ' . $e->getMessage());
             }
-
         } catch (\Exception $e) {
             Log::error('Error en generarPDF: ' . $e->getMessage());
 
@@ -273,34 +397,5 @@ class AsesoriaController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-    }
-    private function generarGraficoCircular($porcentaje, $ambitoId)
-    {
-        // Crear una imagen de 200x200 píxeles
-        $imagen = imagecreate(200, 200);
-
-        // Definir colores
-        $blanco = imagecolorallocate($imagen, 255, 255, 255);
-        $azul = imagecolorallocate($imagen, 0, 0, 255);
-        $rojo = imagecolorallocate($imagen, 255, 0, 0);
-        $negro = imagecolorallocate($imagen, 0, 0, 0);
-
-        // Rellenar el fondo
-        imagefill($imagen, 0, 0, $blanco);
-
-        // Dibujar el gráfico circular
-        imagefilledarc($imagen, 100, 100, 180, 180, 0, $porcentaje * 3.6, $azul, IMG_ARC_PIE);
-        imagefilledarc($imagen, 100, 100, 180, 180, $porcentaje * 3.6, 360, $rojo, IMG_ARC_PIE);
-
-        // Agregar texto
-        imagestring($imagen, 5, 70, 90, round($porcentaje) . "%", $negro);
-
-        // Guardar la imagen
-        $fileName = 'chart_' . $ambitoId . '.png';
-        $filePath = public_path('charts/' . $fileName);
-        imagepng($imagen, $filePath);
-        imagedestroy($imagen);
-
-        return $fileName;
     }
 }

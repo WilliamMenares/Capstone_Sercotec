@@ -14,11 +14,11 @@ return new class extends Migration
             $table->id(); // Clave primaria de la tabla
             $table->foreignId('pregunta_id')->constrained('preguntas'); // Clave foránea de Preguntas
             $table->foreignId('respuestas_tipo_id')->constrained('respuestas_tipo'); // Clave foránea de RespuestasTipo
-            $table->string('situacion');
-            $table->string('accion1');
-            $table->string('accion2');
-            $table->string('accion3');
-            $table->string('accion4');
+            $table->string('situacion')->nullable();
+            $table->string('accion1')->nullable();
+            $table->string('accion2')->nullable();
+            $table->string('accion3')->nullable();
+            $table->string('accion4')->nullable();
             $table->timestamps(); // Tiempos de creación y actualización
         });
     }

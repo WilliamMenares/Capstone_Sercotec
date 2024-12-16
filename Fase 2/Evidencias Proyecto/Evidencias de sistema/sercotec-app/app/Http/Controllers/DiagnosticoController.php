@@ -8,6 +8,7 @@ use App\Models\Preguntas;
 use App\Models\Respuestas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class DiagnosticoController extends Controller
 {

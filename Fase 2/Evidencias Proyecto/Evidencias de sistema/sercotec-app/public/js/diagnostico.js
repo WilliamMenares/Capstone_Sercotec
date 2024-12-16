@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const setupTypeahead = (data) => {
         const EmpresaTypeHead = new Bloodhound({
             datumTokenizer: function (datum) {
-                return Bloodhound.tokenizers.whitespace(datum.codigo);
+                // Tokenizamos tanto el código como el nombre, para que se pueda filtrar por cualquiera de los dos campos
+                return Bloodhound.tokenizers.whitespace(
+                    datum.codigo + " " + datum.nombre
+                );
             },
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             local: data || [], // Aseguramos que siempre haya un array
@@ -167,29 +170,29 @@ document.addEventListener("DOMContentLoaded", function () {
     function resetAllProgressBars() {
         // Obtener todas las barras de progreso
         const progressBars = document.querySelectorAll(".progress-bar");
-    
+
         // Iterar sobre cada barra de progreso y resetearla
-        progressBars.forEach(progressBar => {
+        progressBars.forEach((progressBar) => {
             progressBar.style.width = "0%";
             progressBar.setAttribute("aria-valuenow", 0);
             progressBar.textContent = "0%";
         });
-    
+
         // Resetear el progreso general
-        const generalProgressBars = document.querySelectorAll('.progreso');
-        generalProgressBars.forEach(progressBar => {
-            const progressBarElement = progressBar.querySelector(".progress-bar");
+        const generalProgressBars = document.querySelectorAll(".progreso");
+        generalProgressBars.forEach((progressBar) => {
+            const progressBarElement =
+                progressBar.querySelector(".progress-bar");
             if (progressBarElement) {
                 progressBarElement.style.width = "0%";
                 progressBarElement.setAttribute("aria-valuenow", 0);
                 progressBarElement.textContent = "0%";
             }
         });
-    
+
         // Si tienes una función para actualizar el progreso general, puedes llamarla aquí
         resetGeneralProgressBar();
     }
-    
 
     // Existing change event for formulario select
     formularioSelect.addEventListener("change", function () {

@@ -48,11 +48,11 @@
 }
 
 .table-card {
-    background: #2C3034;
+    background: #E0F2FE;
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    color: white; /* Añadido para mejor contraste */
+    color: #567386; /* Añadido para mejor contraste */
     margin-bottom: 10px;
 }
 
@@ -67,7 +67,6 @@
 }
 
 .search-input {
-    background-color: #2C3034;
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -81,7 +80,7 @@
 }
 
 .table-row {
-    border: 1px solid #ddd;
+    border: 1px solid #929ea7;
     border-radius: 0.5rem;
     padding: 1rem;
 }

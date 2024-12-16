@@ -23,6 +23,7 @@ class User extends Authenticatable
         'created_at',
         'telefono',
         'rut',
+        'rol'
     ];
 
     /**
@@ -52,6 +53,10 @@ class User extends Authenticatable
     public function formularios()
     {
         return $this->hasMany(Formularios::class); // Un usuario puede tener varios formularios
+    }
+    public function encuestas()
+    {
+        return $this->hasMany(Encuesta::class); // Un usuario puede tener varios formularios
     }
 
 }

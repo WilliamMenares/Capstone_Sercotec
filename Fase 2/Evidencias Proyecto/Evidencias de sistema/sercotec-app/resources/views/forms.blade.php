@@ -1,3 +1,4 @@
+@if (auth()->user()->rol == 0)
 @extends('layout.menu')
 
 @section('title', 'Ambitos y Preguntas')
@@ -64,8 +65,8 @@
                             <div class="field-value">{{ $pregunta->title }}</div>
                         </div>
                         <div class="field-group">
-                            <label>Puntaje:</label>
-                            <div class="field-value">{{ $pregunta->puntaje }}</div>
+                            <label>Prioridad:</label>
+                            <div class="field-value">{{ $pregunta->prioridad }}</div>
                         </div>
                         <div class="field-group">
                             <label>Ambito:</label>
@@ -109,7 +110,7 @@
                         </div>
                         <div class="field-group">
                             <label>Responsable:</label>
-                            <div class="field-value">{{ $formulario->responsable }}</div>
+                            <div class="field-value">{{ $formulario->user->name }}</div>
                         </div>
                         <div class="button-group">
                             <button class="btn-edit" data-bs-toggle="modal"
@@ -328,9 +329,9 @@
                                     value="{{ $pregu->title }}" placeholder="Nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="puntaje" class="form-label">Puntaje:</label>
+                                <label for="puntaje" class="form-label">Prioridad:</label>
                                 <input type="number" class="form-control bg-dark text-light" name="puntaje"
-                                    value="{{ $pregu->prioridad }}" placeholder="Nombre" required>
+                                    value="{{ $pregu->prioridad }}" placeholder="Nombre" required  min="1" max="6">
                             </div>
 
                             <select class="form-select bg-dark text-light areatext1 select-situ"
@@ -370,13 +371,7 @@
                                 </div>
                             @endforeach
 
-                            <div class="mb-3">
-                                <label for="ambito" class="form-label">Ambito:</label>
-                                <input type="text" class="form-control bg-dark text-light search-ambito"
-                                    name="ambito" value="{{ $pregu->ambito->title }}" placeholder="Ambito" required>
-                                <input type="hidden" class="input-id-ambito" name="id_ambito"
-                                    value="{{ $pregu->ambito->id }}">
-                            </div>
+                            
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -439,11 +434,10 @@
                                 <label for="responsable" class="form-label">Responsable:</label>
                                 <input type="text" class="form-control bg-dark text-light"
                                     value="{{ $formu->user->name }}" placeholder="Responsable" required readonly>
-                                <input type="hidden" name="responsable" value="{{ $formu->user->id }}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="ambitos" class="form-label">Ámbitos:</label>
-                                <select name="ambitos[]" class="select-ambito sl_ambito" multiple required>
+                                <select  class="select-ambito sl_ambito" multiple disabled required>
                                     @foreach ($ambitos as $ambito)
                                         <option value="{{ $ambito->id }}"
                                             @if (in_array($ambito->id, $formu->ambito->pluck('id')->toArray())) selected @endif>
@@ -513,9 +507,9 @@
                             placeholder="Nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label for="puntaje" class="form-label">Puntaje:</label>
-                        <input type="number" class="form-control bg-dark text-light" name="puntaje"
-                            placeholder="Nombre" required>
+                        <label for="puntaje" class="form-label">Prioridad:</label>
+                        <input type="number" class="form-control bg-dark text-light" name="puntaje" placeholder="Nombre" required
+                            min="1" max="6">
                     </div>
                     <select class="form-select bg-dark text-light areatext1 select-situ"
                         aria-label="Default select example">
@@ -610,3 +604,11 @@
         </div>
     </div>
 </div>
+
+
+@else
+    <script>
+        window.location.href = '/welcome'; // Redirige a la página /welcome
+    </script>
+
+@endif

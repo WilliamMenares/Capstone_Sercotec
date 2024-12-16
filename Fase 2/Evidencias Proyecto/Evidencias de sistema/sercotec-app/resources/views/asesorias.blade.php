@@ -4,23 +4,25 @@
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
 
-
+<script>
+    const authenticatedUser = @json(auth()->user()->name);
+</script>
 
 @section('content')
 
 <div class="crud">
     <div class="titulo">
-        <h1>Asesorias</h1>
+        <h1>Diagnósticos</h1>
     </div>
 
     <div id="myGrid" class="ag-theme-quartz tablita"></div>
 
     <div id="mobileGrid" class="mobile-table">
         <div class="mobile-table-header">
-            <h2>Lista de Asesorías</h2>
+            <h2>Lista de Diagnósticos</h2>
         </div>
         <div class="mobile-search">
-            <input type="text" id="searchInput" class="form-control bg-dark text-light"
+            <input type="text" id="searchInput" class="form-control"
                 placeholder="Buscar por id, responsable, empresa, contacto o email">
         </div>
         <div class="mobile-table-body" id="mobileTableBody">
