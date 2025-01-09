@@ -17,7 +17,7 @@ jobs:
         server: ${{ secrets.SFTP_SERVER }}
         username: ${{ secrets.SFTP_USER }}
         password: ${{ secrets.SFTP_PASSWORD }}
-        server-dir: public_html/
+        server-dir: intranet.pymesmelipilla.cl/
         local-dir: Fase 2/Evidencias Proyecto/Evidencias de sistema/sercotec-app/
         exclude: |
           **/.env*
