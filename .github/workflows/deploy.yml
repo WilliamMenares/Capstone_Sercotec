@@ -14,7 +14,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ${{ secrets.SFTP_SERVER }}
+        server: ftp.pymesmelipilla.cl
         username: ${{ secrets.SFTP_USER }}
         password: ${{ secrets.SFTP_PASSWORD }}
         server-dir: intranet.pymesmelipilla.cl/
