@@ -268,7 +268,7 @@
 
                         // Encontrar la pregunta con la prioridad más alta y el estado más crítico
                         $preguntaSeleccionada = null;
-                        $prioridadActual = 0;
+                        $prioridadActual = PHP_INT_MAX; // Empezamos con la prioridad más baja (valor más alto)
                         $valorRespuestaActual = PHP_INT_MAX;
 
                         foreach ($amb['preguntas'] as $preg) {
@@ -277,10 +277,10 @@
                                 $valorRespuesta = $ordenRespuestas[$preg['respuesta']];
 
                                 // Si encontramos una respuesta más crítica (valor menor) O
-                                // si es la misma criticidad pero mayor prioridad
+                                // si es la misma criticidad pero menor prioridad
                                 if (
                                     $valorRespuesta < $valorRespuestaActual ||
-                                    ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] > $prioridadActual)
+                                    ($valorRespuesta == $valorRespuestaActual && $preg['prioridad'] < $prioridadActual)
                                 ) {
                                     $preguntaSeleccionada = $preg;
                                     $prioridadActual = $preg['prioridad'];
@@ -289,6 +289,7 @@
                             }
                         }
                     @endphp
+
 
                     @if ($preguntaSeleccionada)
                         <div class="question">

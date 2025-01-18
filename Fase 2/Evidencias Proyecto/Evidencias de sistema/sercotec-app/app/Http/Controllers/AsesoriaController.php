@@ -341,6 +341,8 @@ class AsesoriaController extends Controller
                     $puntajeEncuesta += $puntajeObtenido;
                 }
             }
+
+
             // Ordenar los ámbitos por porcentaje (ascendente)
             usort($ambitosConPorcentaje, function ($a, $b) {
                 return $a['porcentaje'] <=> $b['porcentaje'];
@@ -353,14 +355,12 @@ class AsesoriaController extends Controller
             $datos_plan = [];
             foreach ($ambitosConMenorPorcentaje as $ambito) {
                 $datos_plan[] = $ambito;
-                Log::info($datos_plan);
             }
 
             $datos_encu[$encuesta->id]['resultado'] = $puntajeMaximoen;
             $datos_encu[$encuesta->id]['obtenido'] = $puntajeEncuesta;
 
             $chartImageBase64 = $this->generarGraficoRadar($datos_encu, $encuesta->id);
-            Log::info('Gráfico generado correctamente');
             try {
                 $pdf = PDF::loadView('pdf', [
                     'encuesta' => $encuesta,
