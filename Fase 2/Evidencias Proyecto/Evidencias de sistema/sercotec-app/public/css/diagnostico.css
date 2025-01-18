@@ -307,6 +307,6 @@ display: none;              /* Oculta la barra en WebKit */
 
 .separator {
     border: none;
-    border-top: 2px dashed #ccc; /* Línea punteada */
+    border-top: 2px dashed #000000; /* Línea punteada */
     margin: 10px 0;
 }
