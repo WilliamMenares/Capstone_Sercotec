@@ -200,12 +200,18 @@
 
 
 
-        <!-- for que recorre los ambitos con sus preguntas y con su respuesta. -->
-        @foreach ($datos_encu[$encuesta->id]['ambitos'] as $amb)
+        @php
+            // Obtenemos los ámbitos y los ordenamos por 'orden'
+            $ambitosOrdenados = $datos_encu[$encuesta->id]['ambitos'];
+            usort($ambitosOrdenados, function ($a, $b) {
+                return $a['orden'] <=> $b['orden']; // Orden ascendente
+            });
+        @endphp
+
+        @foreach ($ambitosOrdenados as $amb)
             <div class="ambito">
                 <div class="ambito-header">
-                    <div class="ambito-name">{{ $amb['nombre'] }}
-                    </div>
+                    <div class="ambito-name">{{ $amb['nombre'] }}</div>
                     <div class="ambito-score">
                         Puntaje: {{ $amb['obtenido'] }} de {{ $amb['resultado'] }}
                         ({{ round(($amb['obtenido'] * 100) / $amb['resultado'], 2) }}%)

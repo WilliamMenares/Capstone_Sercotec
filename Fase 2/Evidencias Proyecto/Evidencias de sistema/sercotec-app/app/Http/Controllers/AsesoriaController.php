@@ -268,6 +268,7 @@ class AsesoriaController extends Controller
 
                 $datoAmbito = [
                     'nombre' => $ambi->title,
+                    'orden' => $ambi->orden,
                     'preguntas' => [],
                     'resultado' => 0,
                     'obtenido' => 0,
