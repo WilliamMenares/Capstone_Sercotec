@@ -32,7 +32,7 @@
                     </path>
                 </svg>
                 <div class="mt-4">
-                    <h3 class="text-lg font-medium text-gray-900">Cantidad de asesorías</h3>
+                    <h3 class="text-lg font-medium text-gray-900">Cantidad de Diagnosticos</h3>
                     <p class="text-3xl font-bold text-gray-900">{{ $asesoriasCount }}</p>
                 </div>
             </a>
@@ -206,11 +206,11 @@
 
     <!-- Columna derecha - Lista de empresas -->
     <div class="bg-sky-100 rounded-lg p-6 shadow-sm">
-        <h2 class="text-xl font-semibold mb-2">Últimas empresas Asesoradas</h2>
+        <h2 class="text-xl font-semibold mb-2">Últimas empresas Diagnosticadas</h2>
         <div class="space-y-3">
             @if ($ultimasEmpresas->isEmpty())
                 <div class="alert alert-info bg-red-300 border-gray-400">
-                    No hay empresas asesoradas
+                    No hay empresas Diagnosticadas
                 </div>
             @else
                 @foreach ($ultimasEmpresas as $empresa)

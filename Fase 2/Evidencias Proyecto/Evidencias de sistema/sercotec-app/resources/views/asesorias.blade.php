@@ -1,6 +1,6 @@
 @extends('layout.menu')
 
-@section('title', 'Asesorias')
+@section('title', 'Diagnosticos')
 
 <link rel="stylesheet" href="{{ asset('css/crud.css') }}">
 
