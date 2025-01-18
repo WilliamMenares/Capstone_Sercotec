@@ -31,7 +31,8 @@ class AmbitoController extends Controller
     {
         try {
             $request->validate([
-                'title' => 'required|string|max:255'
+                'title' => 'required|string|max:255',
+                'orden' => 'required|integer'
             ], [
                 'title.required' => 'El ambito es obligatorio.',
                 'title.string' => 'El ambito debe ser una cadena de texto.',
@@ -42,6 +43,7 @@ class AmbitoController extends Controller
 
             Ambitos::create([
                 'title' => $request->title,
+                'orden' => $request->orden
             ]);
 
             return redirect()->route('forms.index')->with(
@@ -59,7 +61,8 @@ class AmbitoController extends Controller
         $ambito = Ambitos::findOrFail($id);
 
         $request->validate([
-            'title' => 'required|string|max:255'
+            'title' => 'required|string|max:255',
+            'orden' => 'required|integer'
         ], [
             'title.required' => 'El ambito es obligatorio.',
             'title.string' => 'El ambito debe ser una cadena de texto.',
@@ -67,6 +70,8 @@ class AmbitoController extends Controller
 
         
         ]);
+
+        $ambito->orden = $request->orden;
 
         $ambito->title = $request->title;
 

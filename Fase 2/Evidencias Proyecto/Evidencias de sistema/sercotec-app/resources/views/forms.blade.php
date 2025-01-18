@@ -268,6 +268,11 @@
                                 <input type="text" class="form-control bg-dark text-light" name="title"
                                     value="{{ $ambi->title }}" placeholder="Nombre" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Orden Ambito:</label>
+                                <input type="number"  class="form-control bg-dark text-light" name="orden"
+                                    value="{{ $ambi->orden }}" placeholder="Nombre" required>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
@@ -478,7 +483,11 @@
                         <input type="text" class="form-control bg-dark text-light" name="title"
                             placeholder="Nombre" required>
                     </div>
-
+                    <div class="mb-3">
+                                <label for="title" class="form-label">Orden Ambito:</label>
+                                <input type="number"  class="form-control bg-dark text-light" name="orden"
+                                     placeholder="Nombre" required>
+                            </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>

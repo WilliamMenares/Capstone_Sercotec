@@ -11,7 +11,7 @@ class Ambitos extends Model
 
     protected $table = 'ambitos';
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title','orden'];
 
     public function formulario()
     {
