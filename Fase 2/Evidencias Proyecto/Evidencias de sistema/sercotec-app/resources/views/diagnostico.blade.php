@@ -90,20 +90,24 @@
                             <div>
                                 @foreach ($preguntas->where('ambito_id', $ambito->id) as $pregunta)
 
-                                    <div class="pre-item">
-                                        <div class="pre1 mb-1">
-                                            {{ $pregunta->title }}
+                                    <div class="preguntillas">
+                                        <div class="pre-item">
+                                            <div class="pre1 mb-1">
+                                                {{ $pregunta->title }}
+                                            </div>
+
+                                            <div class="pre2">
+                                                <div class="r1"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="1">
+                                                </div>
+                                                <div class="r2"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="2">
+                                                </div>
+                                                <div class="r3"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="3">
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="pre2">
-                                            <div class="r1"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="1">
-                                            </div>
-                                            <div class="r2"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="2">
-                                            </div>
-                                            <div class="r3"><input type="radio" name="respuesta[{{ $pregunta->id }}]" value="3">
-                                            </div>
-                                        </div>
-                                        <hr class="mt-2">
+                                        <hr class="separator mt-2">
+
                                     </div>
 
                                 @endforeach

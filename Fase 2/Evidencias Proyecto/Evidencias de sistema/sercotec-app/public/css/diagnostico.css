@@ -299,3 +299,14 @@ display: none;              /* Oculta la barra en WebKit */
         border: 1px solid #3d5e74; /* Borde de 2px de grosor, color azul */
     }
 }
+
+.preguntillas{
+    display: flex;
+    flex-direction: column;
+}
+
+.separator {
+    border: none;
+    border-top: 2px dashed #ccc; /* Línea punteada */
+    margin: 10px 0;
+}
