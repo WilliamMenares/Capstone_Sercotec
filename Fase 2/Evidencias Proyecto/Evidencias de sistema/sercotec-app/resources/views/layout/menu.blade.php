@@ -81,10 +81,11 @@
                         <a class="nav-link" aria-current="page" href="/welcome"><i class="bi bi-house-door-fill"></i>
                             Inicio</a>
                     </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link" href="/empresa"><i class="bi bi-building-fill"></i>Empresas</a>
+                    </li>
                     @if (auth()->user()->rol == 0)
-                        <li class="nav-item mb-3">
-                            <a class="nav-link" href="/empresa"><i class="bi bi-building-fill"></i>Empresas</a>
-                        </li>
+
 
                         <li class="nav-item mb-3">
                             <a class="nav-link" href="/user"><i class="bi bi-person-fill"></i> Asesores</a>

@@ -343,13 +343,19 @@ class AsesoriaController extends Controller
             }
 
 
-            // Ordenar los ámbitos por porcentaje (ascendente)
+            // Ordenar los ámbitos por porcentaje (ascendente) y en caso de empate, por orden (también ascendente)
             usort($ambitosConPorcentaje, function ($a, $b) {
+                // Primero, comparar por porcentaje
+                if ($a['porcentaje'] === $b['porcentaje']) {
+                    // Si los porcentajes son iguales, comparar por orden
+                    return $a['orden'] <=> $b['orden'];
+                }
                 return $a['porcentaje'] <=> $b['porcentaje'];
             });
 
             // Tomar los dos primeros ámbitos con menor porcentaje
             $ambitosConMenorPorcentaje = array_slice($ambitosConPorcentaje, 0, 2);
+
 
             // Agregar los dos ámbitos con menor porcentaje a la lista datos_plan
             $datos_plan = [];

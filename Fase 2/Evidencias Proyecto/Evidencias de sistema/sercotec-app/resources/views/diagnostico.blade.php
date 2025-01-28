@@ -76,10 +76,13 @@
                     <p class="r3">No Cumple</p>
                 </div>
             </div>
+            <script>
+                let cantidadAmbito = null;
+            </script>
 
             @foreach ($formularios as $formulario)
-                @foreach ($formulario->ambito->sortBy('orden') as $index => $ambito)
-                    <div class="ambito text-dark" data-formulario="{{ $formulario->id }}" data-index="{{ $index }}"
+                @foreach ($formulario->ambito->sortBy('orden')->values() as $key => $ambito) 
+                    <div class="ambito text-dark" data-formulario="{{ $formulario->id }}" data-index="{{ $key }}"
                         style="display: none;">
                         <div class="preguntas">
                             <div class="pre-enca">
@@ -121,15 +124,18 @@
                 <h1>Selecciona un formulario</h1>
             </div>
             <div class="navegacion d-flex justify-content-between">
-                <button type="button" id="prev-btn" class="btn btn-primary">Anterior</button>
+                <button type="button" id="prev-btn" disabled class="btn btn-primary">Anterior</button>
                 <button type="submit" class="btn btn-success">Enviar</button>
-                <button type="button" id="next-btn" class="btn btn-primary">Siguiente</button>
+                <button type="button" id="next-btn" disabled class="btn btn-primary">Siguiente</button>
             </div>
+
         </div>
 
 </div>
 
 </form>
+
+
 
 
 
@@ -146,6 +152,10 @@
                 // Muestra el div si vuelve a la opción por defecto (vacía)
                 textoCentro.style.display = 'flex';
             }
+        });
+
+        document.querySelectorAll('.ambito').forEach((el) => {
+            console.log(el.getAttribute('data-formulario'), el.getAttribute('data-index'));
         });
     });
 

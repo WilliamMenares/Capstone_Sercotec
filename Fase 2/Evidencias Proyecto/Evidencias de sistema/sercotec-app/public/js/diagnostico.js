@@ -68,14 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const formularioSelect = document.getElementById("formulario");
-    const ambitos = document.querySelectorAll(".ambito");
-    const avances = document.querySelectorAll(".progreso");
-    const general = document.getElementById("progreso-general");
-    resetGeneralProgressBar();
-    resetAllProgressBars();
-    let currentAmbitoIndex = -1;
+    document.addEventListener("DOMContentLoaded", function () {
+        const formularioSelect = document.getElementById("formulario");
+        const ambitos = document.querySelectorAll(".ambito");
+        const avances = document.querySelectorAll(".progreso");
+        const general = document.getElementById("progreso-general");
+        resetGeneralProgressBar();
+        resetAllProgressBars();
+        let currentAmbitoIndex = 0;
 
     function updateGeneralProgressBar(formularioId) {
         const allAmbitos = Array.from(
@@ -194,11 +194,24 @@ document.addEventListener("DOMContentLoaded", function () {
         resetGeneralProgressBar();
     }
 
+    var filteredAmbitosCount = 0;
+
+    let contador = 0;
+
+    const increaseBtn = document.getElementById("next-btn");
+    const decreaseBtn = document.getElementById("prev-btn");
+
     // Existing change event for formulario select
     formularioSelect.addEventListener("change", function () {
+
+        increaseBtn.disabled = false;
+
+        contador = 0;
+
         if (this.value) {
             general.style.display = "flex";
         } else {
+            increaseBtn.disabled = true;
             general.style.display = "none";
         }
 
@@ -224,6 +237,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 ambito.getAttribute("data-formulario") === selectedFormulario
         );
 
+        filteredAmbitosCount = filteredAmbitos.length;
+
         if (filteredAmbitos.length > 0) {
             filteredAmbitos[currentAmbitoIndex].style.display = "block";
         }
@@ -236,43 +251,74 @@ document.addEventListener("DOMContentLoaded", function () {
         filteredAvances.forEach((avance) => (avance.style.display = "flex"));
     });
 
-    // Add event listener for radio button changes
+    // Botón para aumentar
+    increaseBtn.addEventListener("click", () => {
+        contador++;
+        if (contador+1 === filteredAmbitosCount) {
+            increaseBtn.disabled = true;
+            
+        }
+
+        decreaseBtn.disabled = false;
+        // Agregar clase al botón de incrementar
+        // increaseBtn.classList.add("active");
+
+        // Remover clase después de 1 segundo (opcional)
+        // setTimeout(() => {
+        //     increaseBtn.classList.remove("active");
+        // }, 1000);
+    });
+
+    // Botón para disminuir
+    decreaseBtn.addEventListener("click", () => {
+        contador--;
+        increaseBtn.disabled = false;
+        if (contador === 0) {
+            decreaseBtn.disabled = true;
+            
+        }
+    });
+
+
+
+
+
+
+
     document.addEventListener("change", function (event) {
         if (event.target.type === "radio") {
             const selectedFormulario = formularioSelect.value;
             if (selectedFormulario) {
-                updateProgressBar(selectedFormulario, currentAmbitoIndex);
+                updateProgressBar(selectedFormulario, currentAmbitoIndex); 
+                console.log(currentAmbitoIndex); // Llamar con el índice correcto
             }
         }
     });
 
-    // Existing navigation button logic
+    // Lógica para los botones de navegación
     document.addEventListener("click", function (event) {
         if (event.target.id === "next-btn" || event.target.id === "prev-btn") {
             const selectedFormulario = formularioSelect.value;
             if (!selectedFormulario) return;
 
             const filteredAmbitos = Array.from(ambitos).filter(
-                (ambito) =>
-                    ambito.getAttribute("data-formulario") ===
-                    selectedFormulario
+                (ambito) => ambito.getAttribute("data-formulario") === selectedFormulario
             );
 
+            // Ocultar el ámbito actual
             filteredAmbitos[currentAmbitoIndex].style.display = "none";
 
-            if (
-                event.target.id === "next-btn" &&
-                currentAmbitoIndex < filteredAmbitos.length - 1
-            ) {
+            if (event.target.id === "next-btn" && currentAmbitoIndex < filteredAmbitos.length - 1) {
                 currentAmbitoIndex++;
-            } else if (
-                event.target.id === "prev-btn" &&
-                currentAmbitoIndex > 0
-            ) {
+                console.log(currentAmbitoIndex);
+            } else if (event.target.id === "prev-btn" && currentAmbitoIndex > 0) {
                 currentAmbitoIndex--;
+                console.log(currentAmbitoIndex);
             }
 
+            // Mostrar el siguiente o anterior ámbito
             filteredAmbitos[currentAmbitoIndex].style.display = "block";
+            updateProgressBar(selectedFormulario, currentAmbitoIndex);  // Actualizar barra de progreso
         }
     });
 });
