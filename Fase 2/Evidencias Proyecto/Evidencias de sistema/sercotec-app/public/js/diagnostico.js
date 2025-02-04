@@ -35,6 +35,51 @@ document.addEventListener("DOMContentLoaded", () => {
             )
             .on("typeahead:select", function (event, suggestion) {
                 $(".input-id-empresa").val(suggestion.id);
+
+                $.ajax({
+                    url: "/diagnostico/verificar",
+                    method: "POST",
+                    data: {
+                        empresa_id: suggestion.id,
+                        _token: $('meta[name="csrf-token"]').attr("content"),
+                    },
+                    success: function (response) {
+                        if (response.status === "error") {
+                            Swal.fire({
+                                icon: "warning",
+                                showCancelButton: true,
+                                cancelButtonText: "No",
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Si, continuar!",
+                                title: "Atención",
+                                text:
+                                    response.message +
+                                    "\n\nÚltimo diagnóstico: " +
+                                    response.ultima_encuesta,
+                            }).then((result) => {
+                                if (
+                                    result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                    location.reload(); // Recargar la página si se presiona "No"
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Éxito",
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Hubo un problema con la verificación.",
+                        });
+                    },
+                });
             });
     };
 
@@ -68,14 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const formularioSelect = document.getElementById("formulario");
-        const ambitos = document.querySelectorAll(".ambito");
-        const avances = document.querySelectorAll(".progreso");
-        const general = document.getElementById("progreso-general");
-        resetGeneralProgressBar();
-        resetAllProgressBars();
-        let currentAmbitoIndex = 0;
+document.addEventListener("DOMContentLoaded", function () {
+    const formularioSelect = document.getElementById("formulario");
+    const ambitos = document.querySelectorAll(".ambito");
+    const avances = document.querySelectorAll(".progreso");
+    const general = document.getElementById("progreso-general");
+    resetGeneralProgressBar();
+    resetAllProgressBars();
+    let currentAmbitoIndex = 0;
 
     function updateGeneralProgressBar(formularioId) {
         const allAmbitos = Array.from(
@@ -203,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Existing change event for formulario select
     formularioSelect.addEventListener("change", function () {
-
         increaseBtn.disabled = false;
 
         contador = 0;
@@ -254,9 +298,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Botón para aumentar
     increaseBtn.addEventListener("click", () => {
         contador++;
-        if (contador+1 === filteredAmbitosCount) {
+        if (contador + 1 === filteredAmbitosCount) {
             increaseBtn.disabled = true;
-            
         }
 
         decreaseBtn.disabled = false;
@@ -275,21 +318,14 @@ document.addEventListener("DOMContentLoaded", () => {
         increaseBtn.disabled = false;
         if (contador === 0) {
             decreaseBtn.disabled = true;
-            
         }
     });
-
-
-
-
-
-
 
     document.addEventListener("change", function (event) {
         if (event.target.type === "radio") {
             const selectedFormulario = formularioSelect.value;
             if (selectedFormulario) {
-                updateProgressBar(selectedFormulario, currentAmbitoIndex); 
+                updateProgressBar(selectedFormulario, currentAmbitoIndex);
                 console.log(currentAmbitoIndex); // Llamar con el índice correcto
             }
         }
@@ -302,23 +338,31 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!selectedFormulario) return;
 
             const filteredAmbitos = Array.from(ambitos).filter(
-                (ambito) => ambito.getAttribute("data-formulario") === selectedFormulario
+                (ambito) =>
+                    ambito.getAttribute("data-formulario") ===
+                    selectedFormulario
             );
 
             // Ocultar el ámbito actual
             filteredAmbitos[currentAmbitoIndex].style.display = "none";
 
-            if (event.target.id === "next-btn" && currentAmbitoIndex < filteredAmbitos.length - 1) {
+            if (
+                event.target.id === "next-btn" &&
+                currentAmbitoIndex < filteredAmbitos.length - 1
+            ) {
                 currentAmbitoIndex++;
                 console.log(currentAmbitoIndex);
-            } else if (event.target.id === "prev-btn" && currentAmbitoIndex > 0) {
+            } else if (
+                event.target.id === "prev-btn" &&
+                currentAmbitoIndex > 0
+            ) {
                 currentAmbitoIndex--;
                 console.log(currentAmbitoIndex);
             }
 
             // Mostrar el siguiente o anterior ámbito
             filteredAmbitos[currentAmbitoIndex].style.display = "block";
-            updateProgressBar(selectedFormulario, currentAmbitoIndex);  // Actualizar barra de progreso
+            updateProgressBar(selectedFormulario, currentAmbitoIndex); // Actualizar barra de progreso
         }
     });
 });

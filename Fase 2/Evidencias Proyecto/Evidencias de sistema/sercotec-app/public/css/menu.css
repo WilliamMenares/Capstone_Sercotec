@@ -86,7 +86,7 @@ ol ,ul{
     color: #FFFFFF; /* Vuelve blanco al pasar el mouse */
 }
 .nav-link:hover {
-    color: white !important; /* Cambiar a un color amarillo al pasar el mouse */
+    color: rgb(255, 0, 0) !important; /* Cambiar a un color amarillo al pasar el mouse */
 }
 
 

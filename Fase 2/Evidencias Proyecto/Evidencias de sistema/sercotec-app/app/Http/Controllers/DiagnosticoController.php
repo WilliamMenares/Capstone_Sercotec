@@ -8,7 +8,7 @@ use App\Models\Preguntas;
 use App\Models\Respuestas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DiagnosticoController extends Controller
 {
@@ -43,22 +43,6 @@ class DiagnosticoController extends Controller
                 'respuesta.*.in' => 'Cada respuesta debe ser uno de los siguientes valores: 1, 2 o 3.',
             ]);
 
-            // Verificar si ya existe una encuesta para la misma empresa y si ha pasado un año
-            $lastEncuesta = Encuesta::where('empresa_id', $request->id_empresa)
-                ->orderBy('created_at', 'desc')
-                ->first();
-
-            if ($lastEncuesta) {
-                // Compara la fecha de creación de la última encuesta con la fecha actual
-                $lastCreatedAt = $lastEncuesta->created_at;
-                $oneYearAgo = now()->subYear(); // Obtener la fecha de hace un año
-
-                if ($lastCreatedAt > $oneYearAgo) {
-                    // Si la última encuesta es más reciente que un año, muestra el error
-                    return redirect()->back()->with('error', 'No se puede crear una nueva encuesta para esta empresa. Debe pasar al menos un año.');
-                }
-            }
-
             // Crear la Encuesta y obtener el ID de la encuesta recién creada
             $encuesta = Encuesta::create([
                 'user_id' => $request->responsable,
@@ -87,6 +71,41 @@ class DiagnosticoController extends Controller
             return redirect()->back()->with('error', 'Error al registrar Diagnostico: ' . $e->getMessage());
         }
     }
+
+
+    public function verificar(Request $request)
+    {
+        $empresaId = $request->input('empresa_id');
+
+        // Buscar la última encuesta de la empresa
+        $lastEncuesta = Encuesta::where('empresa_id', $empresaId)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($lastEncuesta) {
+            $lastCreatedAt = Carbon::parse($lastEncuesta->created_at); // Asegurar instancia de Carbon
+            $oneYearAgo = Carbon::now()->subYear();
+            $diasPasados = round($lastCreatedAt->diffInDays(Carbon::now()));
+
+
+            // Si la última encuesta fue hace menos de un año
+            if ($lastCreatedAt->greaterThan($oneYearAgo)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => "Esta empresa ya ha sido diagnosticada este año, hace $diasPasados días. ¿Desea continuar con el diagnóstico?",
+                    'ultima_encuesta' => $lastCreatedAt->toDateString(),
+                    'rango_un_ano' => $oneYearAgo->toDateString(),
+                    'dias_transcurridos' => $diasPasados
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Puede crear una nueva encuesta.',
+        ]);
+    }
+
 
 }
 

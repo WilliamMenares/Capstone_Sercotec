@@ -86,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
     //ruta para mostrar Asesorias
     Route::get('/diagnostico', [DiagnosticoController::class, 'index'])->name('diagnostico.index');
     Route::post('/diagnostico', [DiagnosticoController::class, 'store'])->name('diagnostico.store');
+    Route::post('/diagnostico/verificar', [DiagnosticoController::class, 'verificar'])->name('diagnostico.verificar');
+
 
     //Ruta para diagnostico
     Route::get('/asesorias', [AsesoriaController::class, 'index'])->name('asesorias.index');
@@ -94,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
     //ruta para pdf
     Route::get('/asesorias/pdf/{id}', [AsesoriaController::class, 'generarPDF'])
     ->name('asesorias.pdf');
+
+    
 
 });
 
